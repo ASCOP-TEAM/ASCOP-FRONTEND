@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { Container } from 'react-bootstrap';
 
 type Props = {
   theme: {
@@ -9,10 +8,7 @@ type Props = {
   };
 };
 
-export const MYContainer = styled(Container)<Props>`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+export const Container = styled.div<Props>`
   position: relative;
   min-height: 100vh;
 
