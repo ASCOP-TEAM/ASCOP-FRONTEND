@@ -4,7 +4,7 @@ import { ThemeProvider } from 'styled-components';
 
 import { GlobalStyle, ResetStyles, theme } from '@styles';
 
-import { Container, Footer, Header, Main } from '@layout';
+import { Container, Footer, Header } from '@layout';
 import { Menu } from '@components';
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
@@ -16,9 +16,7 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
         <Header>
           <Menu />
         </Header>
-        <Main>
-          <Component {...pageProps} />
-        </Main>
+        <Component {...pageProps} />
         <Footer.Root>
           <Footer.Content />
         </Footer.Root>

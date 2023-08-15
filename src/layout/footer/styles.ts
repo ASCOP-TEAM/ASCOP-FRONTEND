@@ -9,7 +9,7 @@ export const StyledFooter = styled.footer`
   padding-left: 1rem;
   padding-right: 1rem;
   width: 100%;
-  background-color: #7e03ff /* ${(props) => props.theme.colors.background} */;
+  background-color: black /* ${(props) => props.theme.colors.background} */;
   color: ${(props) => props.theme.colors.text};
 
   .block-container {
