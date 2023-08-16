@@ -20,6 +20,28 @@ export const GlobalStyle = createGlobalStyle`
 }
 
 body {
+
+ 
+&::-webkit-scrollbar {
+  width: 10px;
+  border-radius: 10px;
+  background: #ffffff00; 
+}
+
+
+&::-webkit-scrollbar-track {
+  background: #ffffff00; 
+}
+
+&::-webkit-scrollbar-thumb {
+  background: #5555; 
+  border-radius: 40px;
+}
+
+
+&::-webkit-scrollbar-thumb:hover {
+  background: #888; 
+}
   font:
     16px/16px 'Segoe UI',
     'Roboto',
