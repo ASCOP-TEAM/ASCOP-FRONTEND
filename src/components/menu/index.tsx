@@ -1,12 +1,9 @@
-import React from "react";
+import React from 'react';
 import { ActiveLink } from '@components';
 import { StyledNav } from './style';
-import { MenuMobile } from "./menuMobile";
-
+import { MenuMobile } from './menuMobile';
 
 export function Menu() {
-
-
   const routers = [
     {
       id: 1,
@@ -15,7 +12,7 @@ export function Menu() {
     },
     {
       id: 2,
-      path: '/Loja',
+      path: '/loja/',
       name: 'LOJA',
     },
     {
@@ -46,26 +43,26 @@ export function Menu() {
     setMenuOpen(!isMenuOpen);
   };
 
-
   return (
     <StyledNav>
       <div className="navbar__left label">
-        <div className='text-wrapper'>ASCOP</div>
+        <div className="text-wrapper">ASCOP</div>
       </div>
 
       <div className="navbar__right ">
         <div className="d-none d-md-block">
-          <ul >
+          <ul>
             {routers.map((route) => (
               <li key={route.id}>
                 <ActiveLink href={route.path}>{route.name}</ActiveLink>
-              </li>))}
+              </li>
+            ))}
           </ul>
         </div>
 
         <div className="d-md-none">
           <MenuMobile.Whapper isOpen={isMenuOpen} onClick={handleMenuToggle} />
-          <MenuMobile.Links {... { routers, isMenuOpen }} />
+          <MenuMobile.Links {...{ routers, isMenuOpen }} />
         </div>
       </div>
     </StyledNav>
