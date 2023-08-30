@@ -21,6 +21,126 @@ export const GlobalStyle = createGlobalStyle`
 
 body {
 
+  h1, h2, h3, h4, h5, h6 {
+  font-family: "Inter-Bold", Helvetica;
+  color: ${({ theme }) => theme.colors.primary};
+}
+
+h1 {
+  font-size: 3rem;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+h4 {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+h5 {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+h6 {
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+/* Tamanhos de fonte responsivos */
+@media screen and (max-width: 768px) {
+  h1 {
+    font-size: 2.5rem; /* Reduz o tamanho em telas menores */
+  }
+  h2 {
+    font-size: 2rem;
+  }
+  h3 {
+    font-size: 1.4rem; /* Ajuste os tamanhos conforme necessário */
+  }
+  h4 {
+    font-size: 1.2rem;
+  }
+  h5 {
+    font-size: 1rem;
+  }
+  h6 {
+    font-size: 0.8rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  h1 {
+    font-size: 2rem; /* Reduz ainda mais o tamanho em telas pequenas */
+  }
+  h2 {
+    font-size: 1.8rem;
+  }
+  h3 {
+    font-size: 1.2rem;
+  }
+  h4 {
+    font-size: 1rem;
+  }
+  h5 {
+    font-size: 0.9rem;
+  }
+  h6 {
+    font-size: 0.7rem;
+  }
+}
+
+
+p,
+a,
+button,
+input,
+textarea,
+select,
+label,
+span {
+  font-family: "Inter-Medium", Helvetica;
+  font-size: 1rem;
+  font-weight: 400;
+  color: ${({ theme }) => theme.colors.primary};
+}
+
+/* Tamanhos de fonte responsivos */
+@media screen and (max-width: 768px) {
+  p,
+  a,
+  button,
+  input,
+  textarea,
+  select,
+  label,
+  span {
+    font-size: 0.9rem; /* Reduza o tamanho em telas menores conforme necessário */
+  }
+}
+
+@media screen and (max-width: 480px) {
+  p,
+  a,
+  button,
+  input,
+  textarea,
+  select,
+  label,
+  span {
+    font-size: 0.8rem; /* Reduza ainda mais o tamanho em telas pequenas conforme necessário */
+  }
+}
+
  
 &::-webkit-scrollbar {
   width: 10px;

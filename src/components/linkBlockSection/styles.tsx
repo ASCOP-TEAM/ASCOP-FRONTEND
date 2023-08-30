@@ -44,10 +44,14 @@ export const ContainerLinks = styled.li`
 `;
 
 export const ContainerIcon = styled.div`
+  svg {
+    color: #ffffffad;
+  }
   border: 3px solid white;
   padding: 15px;
   border-radius: 50%;
 `;
+
 export const ContainerContact = styled.div`
   display: flex;
   gap: 1rem;

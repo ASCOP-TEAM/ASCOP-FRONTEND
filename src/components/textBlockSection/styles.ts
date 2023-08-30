@@ -30,10 +30,14 @@ export const Paragrap = styled.div`
   }
 `;
 
-export const Social = styled.div`
+type Theme = {
+  color: string;
+};
+
+export const Social = styled.div<{ socialTheme: Theme }>`
   .label {
     .text-wrapper {
-      color: #ffffff;
+      color: ${(props) => props.socialTheme.color};
       font-family: 'Inter-Bold', Helvetica;
       font-size: 24px;
       white-space: nowrap;
@@ -50,7 +54,7 @@ export const Social = styled.div`
       list-style: none;
       span {
         font-size: 1rem;
-        color: #ffffff;
+        color: ${(props) => props.socialTheme.color};
         &:nth-child(4n + 1) {
           font-size: 1.4rem !important;
         }

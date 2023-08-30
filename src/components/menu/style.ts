@@ -1,12 +1,18 @@
 import styled from 'styled-components';
 
-export const StyledNav = styled.nav`
+export const Container = styled.nav<{
+  bgColor?: string;
+  txColor?: string;
+  scrolled: boolean;
+}>`
   display: flex;
   height: var(--navbar-height);
   justify-content: space-between;
   padding-left: 2rem;
   padding-right: 2rem;
   width: 100%;
+  background: ${(props) => (props.scrolled ? props.bgColor : 'transparent')};
+  transition: background-color 0.3s ease-in-out;
 
   .navbar__left {
     display: flex;
@@ -15,7 +21,7 @@ export const StyledNav = styled.nav`
     border: 0px none;
 
     .text-wrapper {
-      color: #ffffff;
+      color: ${(props) => (!props.txColor ? 'white' : props.txColor)};
       font-family: 'Inter-Bold', Helvetica;
       font-size: 30px;
       font-weight: 700;
@@ -39,7 +45,7 @@ export const StyledNav = styled.nav`
         margin: 0 0.3rem 0 0.3rem;
 
         a {
-          color: ${(props) => props.theme.colors.link};
+          color: ${(props) => (!props.txColor ? 'white' : props.txColor)};
           font-family: 'Inter-Bold', Helvetica;
           font-size: 14px;
           font-weight: 700;

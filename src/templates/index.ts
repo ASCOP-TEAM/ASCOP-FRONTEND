@@ -1,0 +1,1 @@
+export { ContactMailOptions } from './contato';

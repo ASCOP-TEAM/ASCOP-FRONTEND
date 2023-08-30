@@ -1,24 +1,18 @@
-import { useRouter } from 'next/router'
-import React from 'react'
-
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import React from 'react';
 
 type ActiveLinkProps = {
-    children: React.ReactNode
-    href: string
-}
+  children: React.ReactNode;
+  href: string;
+};
 
 export function ActiveLink({ children, href }: ActiveLinkProps) {
-    const router = useRouter()
+  const router = useRouter();
 
-
-    const handleClick = (e: React.FormEvent<EventTarget>): void => {
-        e.preventDefault()
-        router.push(href)
-    }
-
-    return (
-        <a href={href} onClick={handleClick}>
-            {children}
-        </a>
-    )
+  return (
+    <Link href={href} passHref>
+      <a className={router.asPath === href ? 'active' : ''}>{children}</a>
+    </Link>
+  );
 }

@@ -11,9 +11,10 @@ import {
 interface HamburgerMenuProps {
   isOpen: boolean;
   onClick: () => void;
+  txColor?: string;
 }
 
-export function MenuWrapper({ isOpen, onClick }: HamburgerMenuProps) {
+export function MenuWrapper({ isOpen, onClick, txColor }: HamburgerMenuProps) {
   return (
     <HamburgerMenuWrapper onClick={onClick}>
       <InputCheckbox
@@ -24,9 +25,9 @@ export function MenuWrapper({ isOpen, onClick }: HamburgerMenuProps) {
         }}
       />
       <LabelToggle>
-        <BarTop isOpen={isOpen} />
-        <BarMiddle isOpen={isOpen} />
-        <BarBottom isOpen={isOpen} />
+        <BarTop isOpen={isOpen} txColor={txColor} />
+        <BarMiddle isOpen={isOpen} txColor={txColor} />
+        <BarBottom isOpen={isOpen} txColor={txColor} />
       </LabelToggle>
     </HamburgerMenuWrapper>
   );
