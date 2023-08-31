@@ -1,8 +1,43 @@
-import { Sizes, Categoria } from '@interfaces';
+import { Sizes, Categoria, Meta } from '@interfaces';
 
 export interface Product {
+  data: ProductData[];
+  meta: Meta;
+}
+
+export interface ProductData {
   id: number;
   attributes: ProductAttributes;
+}
+
+interface ThumbnailData {
+  data: Format & {
+    alternativeText: string | null;
+    caption: string | null;
+    previewUrl: string | null;
+    provider: string;
+  };
+}
+
+interface CategoryData {
+  data: Categoria;
+}
+
+type GaleryData = ThumbnailData;
+
+export interface ProductAttributes {
+  title: string;
+  description: string;
+  price: number;
+  highlight: boolean;
+  slug: string;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+  thumbnail: ThumbnailData;
+  gallery: GaleryData;
+  categoria: CategoryData;
+  sizes: Sizes[];
 }
 
 interface Format {
@@ -24,34 +59,4 @@ interface Format {
     createdAt: string;
     updatedAt: string;
   };
-}
-
-interface ThumbnailData {
-  data: Format & {
-    alternativeText: string | null;
-    caption: string | null;
-    previewUrl: string | null;
-    provider: string;
-  };
-}
-
-interface CategoryData {
-  data: Categoria;
-}
-
-type GaleryData = ThumbnailData;
-
-interface ProductAttributes {
-  title: string;
-  description: string;
-  price: number;
-  highlight: boolean;
-  slug: string;
-  createdAt: string;
-  updatedAt: string;
-  publishedAt: string;
-  thumbnail: ThumbnailData;
-  gallery: GaleryData;
-  categoria: CategoryData;
-  sizes: Sizes[];
 }

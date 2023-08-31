@@ -1,8 +1,8 @@
-import { Product } from '@interfaces';
+import { ProductData } from '@interfaces';
 import React, { createContext, useState, useEffect, ReactNode } from 'react';
 
 export interface CartItem {
-  item: Product;
+  item: ProductData;
   price: number; // You can replace this with the actual type of your item price
   quantity: number; // You can replace this with the actual type of your item quantity
   size: string | null;
