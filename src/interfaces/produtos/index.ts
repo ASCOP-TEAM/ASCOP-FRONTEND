@@ -1,4 +1,4 @@
-import { Sizes, Categoria, Meta } from '@interfaces';
+import { Sizes, CategoryData as DataCategoty, Meta } from '@interfaces';
 
 export interface Product {
   data: ProductData[];
@@ -20,7 +20,7 @@ interface ThumbnailData {
 }
 
 interface CategoryData {
-  data: Categoria;
+  data: DataCategoty;
 }
 
 type GaleryData = ThumbnailData;

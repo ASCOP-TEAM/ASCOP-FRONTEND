@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
-import { Container, Form } from 'react-bootstrap';
+import { Container, Form, Row } from 'react-bootstrap';
 import { useRouter } from 'next/router';
 import { ShoppingCart } from 'lucide-react';
 import type {
@@ -10,75 +10,56 @@ import type {
   NextPage,
 } from 'next';
 
+import { Category, Product, ProductData } from '@interfaces';
 import {
-  Categoria,
-  Product,
-  ProductAttributes,
-  ProductData,
-} from '@interfaces';
-import { TopBlockSection } from '@components';
+  BarCategorys,
+  CardLoja,
+  ProductFilter,
+  TopBlockSection,
+} from '@components';
 import { BASEURL, HttpCall } from '@utils';
 import Layout from '@layout';
 import { CartContext } from '@contexts';
-import { CartShop, Section } from './styles';
+import { Cart, CartShop, Section } from './styles';
 
 interface LojaProps {
   produtos: Product;
+  categorias: Category;
 }
 
-const Loja: NextPage<LojaProps> = ({ produtos }) => {
+const Loja: NextPage<LojaProps> = ({ produtos, categorias }) => {
   /* const [produtos, setProdutos] = React.useState<Product[]>([]); */
-  /*   const [category, setCategory] = React.useState<number>(0); */
+  const [category, setCategory] = React.useState<number>(0);
   const [upperValue, setUpperValue] = React.useState<number>(100);
   /*   const [shopCart, setShopCart] = React.useState<CartItem[]>([]); */
+
+  const [FilteredProducts, setFilteredProducts] = React.useState<ProductData[]>(
+    produtos.data,
+  );
   const router = useRouter();
   const context = useContext(CartContext);
-
-  /* feach nos produtos com filtragem */
-  async function filterProduct(categoryid: number): Promise<Product[]> {
-    try {
-      const response = await fetch(`${BASEURL}/produtos?populate=*`);
-      const json = await response.json();
-      const products = json.data ? json.data : [];
-
-      if (categoryid != 0) {
-        console.log('aqui', products);
-
-        const filteredProducts = products.data?.filter(
-          (product: Product) =>
-            product.attributes.categoria.data.id === categoryid,
-        );
-
-        console.log('items da categoria >', filteredProducts.length);
-
-        return filteredProducts;
-      }
-
-      return products.data;
-    } catch (error) {
-      console.error('Error filtering product:', error);
-      throw error;
-    }
-  }
 
   // adicionar ao carrinho
 
   const handleAddToCart = (produtoData: ProductData) => {
-    context?.addToCart({
-      item: produtoData,
-      price: produtoData.attributes.price,
-      quantity: 1,
-      size: null,
-    });
+    const isProductInCart = context?.cartItems.find(
+      (item) => item.item.id === produtoData.id,
+    );
+
+    if (isProductInCart) {
+      context?.removeFromCart(isProductInCart);
+    } else {
+      // Se o produto não estiver no carrinho, adicione-o
+      context?.addToCart({
+        item: produtoData,
+        price: produtoData.attributes.price,
+        quantity: 1,
+        size: null,
+      });
+    }
   };
 
   /* rage de preços */
-  const handleUpperChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event) {
-      const value = Math.min(100, Math.max(1, +event.target.value));
-      setUpperValue(value);
-    }
-  };
 
   /*  open cart */
   const [isCartOpen, setCartOpen] = React.useState(false);
@@ -99,6 +80,46 @@ const Loja: NextPage<LojaProps> = ({ produtos }) => {
     fetchData();
   }, [category]); */
 
+  function filterProductsByPriceAndCategory(
+    products: Product,
+    upperValue: number,
+    categoryId: number,
+  ) {
+    return products.data.filter((produto) => {
+      const isCategoryMatch =
+        categoryId === 0 ||
+        (produto.attributes.categoria.data != null &&
+          produto.attributes.categoria.data.id === categoryId);
+
+      const isPriceMatch =
+        produto.attributes.price < 50 ||
+        (produto.attributes.price >= 50 &&
+          produto.attributes.price <= upperValue);
+
+      return isCategoryMatch && isPriceMatch;
+    });
+  }
+
+  const handleFilterChange = (upperValue: number) => {
+    setUpperValue(upperValue);
+    const filteredProducts = filterProductsByPriceAndCategory(
+      produtos,
+      upperValue,
+      category,
+    );
+    setFilteredProducts(filteredProducts);
+  };
+
+  function filterProductByCategory(categoryId: number) {
+    setCategory(categoryId);
+    const filteredByCategoryAndPrice = filterProductsByPriceAndCategory(
+      produtos,
+      upperValue,
+      categoryId,
+    );
+    setFilteredProducts(filteredByCategoryAndPrice);
+  }
+
   return (
     <>
       <Head>
@@ -107,7 +128,7 @@ const Loja: NextPage<LojaProps> = ({ produtos }) => {
       </Head>
       {/*  top info */}
 
-      <Layout txColor={'black'}>
+      <Layout bgColor="white" txColor={'black'}>
         <TopBlockSection.Root backgroud="./backgroud.jpg">
           <TopBlockSection.Title title="Bem-vindo à Loja Solidária da ASCOP" />
           <TopBlockSection.Paragrap
@@ -121,220 +142,105 @@ const Loja: NextPage<LojaProps> = ({ produtos }) => {
         </TopBlockSection.Root>
 
         <Container>
-          {produtos && (
-            <div className="main-card">
-              {produtos.data
-                .filter(
-                  (produto) =>
-                    produto.attributes.price < 50 ||
-                    (produto.attributes.price >= 50 &&
-                      produto.attributes.price <= upperValue),
-                )
-                .map((produto) => (
-                  <div className="card" key={produto.id}>
-                    <div className="cart">
-                      <button onClick={() => handleAddToCart(produto)}>
-                        <ShoppingCart />
-                      </button>
-                    </div>
-                    <div className="thumbnail">
-                      <Image
-                        width={100}
-                        height={100}
-                        src={produto.attributes.thumbnail.data.attributes.url}
-                        alt="produto ASCOP"
-                      />
-                    </div>
-                    <div className="title">{produto.attributes.title}</div>
-                    <div className="descripition">
-                      <p className="my-2">R${produto.attributes.price}</p>
-                      <p>{produto.attributes.description}</p>
-                    </div>
-                    <div className="submit">
-                      <button
-                        onClick={() =>
-                          router.push(
-                            `/loja/product/${
-                              produto.id
-                            }?product=${encodeURIComponent(
-                              JSON.stringify(produto),
-                            )}`,
-                          )
-                        }
-                      >
-                        COMPRAR
-                      </button>
-                    </div>
-                  </div>
-                ))}
-            </div>
-          )}
+          <div className="categorias">
+            <Row className="align-items-center">
+              <BarCategorys
+                categorias={categorias}
+                setCatgory={filterProductByCategory}
+              />
 
-          {!produtos && <p>dados não caregados</p>}
-        </Container>
-
-        {/*       <Container>
-          <Section>
-            <div className="categorias">
-              <HttpCall<{ data: Categoria[] }> url={`${BASEURL}/categorias`}>
-                {(response, error: Error | null) => {
-                  return (
-                    <div>
-                      {response && (
-                        <div className="catgorys">
-                          <ul>
-                            <li onClick={() => setCategory(0)}>
-                              <span>Outros</span>
-                            </li>
-                            {response.data.map((categoria: Categoria) => (
-                              <>
-                                <li
-                                  key={categoria.id}
-                                  onClick={() => setCategory(categoria.id)}
-                                >
-                                  <span>{categoria.attributes.name}</span>
-                                </li>
-                              </>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
-                      {error && (
-                        <p>Error fetching categorys: {error.message}</p>
-                      )}
-                    </div>
-                  );
-                }}
-              </HttpCall>
-
-              <div className="filter">
-                <div>R$50 -</div>
-                <div>R${upperValue}</div>
-                <Form.Range
-                  min={1}
-                  max={100}
-                  value={upperValue}
-                  onChange={handleUpperChange}
-                />
-              </div>
-
-              <div className="cart" onClick={handleCartToggle}>
+              <Cart onClick={handleCartToggle} xs={'auto'}>
                 <span className="accout">{context?.cartItems.length}</span>
                 <div className="icon-cart">
                   <ShoppingCart />
                 </div>
+              </Cart>
+            </Row>
+
+            <ProductFilter
+              produtos={produtos}
+              onFilterChange={handleFilterChange}
+            />
+          </div>
+
+          {produtos && (
+            <div className="main-card">
+              <Row>
+                {FilteredProducts.map((produto) => (
+                  <CardLoja
+                    key={produto.id}
+                    produto={produto}
+                    onAddToCart={() => handleAddToCart(produto)}
+                  />
+                ))}
+              </Row>
+            </div>
+          )}
+
+          {!FilteredProducts.length && <p>dados não caregados</p>}
+
+          <CartShop isOpen={isCartOpen}>
+            <div className="close">
+              <div>
+                <h4>Carrinho:</h4>
+              </div>
+              <button onClick={handleCartToggle}>fechar</button>
+            </div>
+            <ul>
+              {context?.cartItems.map((product) => (
+                <li key={product.item.id}>
+                  <div>
+                    <div>
+                      <Image
+                        width={50}
+                        height={50}
+                        src={
+                          product.item.attributes.thumbnail.data.attributes.url
+                        }
+                        alt="produto ASCOP"
+                      />
+                    </div>
+                    <h3>{product.item.attributes.title}</h3>
+                    <p>
+                      tamanho:{' '}
+                      {product.size != null
+                        ? product.size
+                        : product.item.attributes.sizes.length > 1
+                        ? 'N/I'
+                        : 'UNICO'}
+                    </p>
+                    <p>{product.item.attributes.price}</p>
+                  </div>
+                  <div>
+                    <button onClick={() => handleAddToCart(product.item)}>
+                      +
+                    </button>
+                    {product.quantity}
+                    <button onClick={() => context.removeFromCart(product)}>
+                      -
+                    </button>
+                  </div>
+                </li>
+              ))}
+            </ul>
+
+            <div className="valototal">
+              <div>
+                <h3>Valor total:</h3>
+              </div>
+              <h2>R$ {context?.getCartTotal()}</h2>
+              <div>
+                <button onClick={() => router.push('/loja/cliente/carrinho')}>
+                  Finalizar Compra
+                </button>
               </div>
             </div>
+          </CartShop>
+        </Container>
 
-            {produtos && (
-              <div className="main-card">
-                {produtos
-                  .filter(
-                    (produto) =>
-                      produto.attributes.price < 50 ||
-                      (produto.attributes.price >= 50 &&
-                        produto.attributes.price <= upperValue),
-                  )
-                  .map((produto: Product) => (
-                    <div className="card" key={produto.id}>
-                      <div className="cart">
-                        <button onClick={() => handleAddToCart(produto)}>
-                          <ShoppingCart />
-                        </button>
-                      </div>
-                      <div className="thumbnail">
-                        <Image
-                          width={100}
-                          height={100}
-                          src={produto.attributes.thumbnail.data.attributes.url}
-                          alt="produto ASCOP"
-                        />
-                      </div>
-                      <div className="title">{produto.attributes.title}</div>
-                      <div className="descripition">
-                        <p className="my-2">R${produto.attributes.price}</p>
-                        <p>{produto.attributes.description}</p>
-                      </div>
-                      <div className="submit">
-                        <button
-                          onClick={() =>
-                            router.push(
-                              `/loja/product/${
-                                produto.id
-                              }?product=${encodeURIComponent(
-                                JSON.stringify(produto),
-                              )}`,
-                            )
-                          }
-                        >
-                          COMPRAR
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-              </div>
-            )}
+        {/*
 
-            {!produtos?.length && <p>dados não caregados</p>}
-
-            <CartShop isOpen={isCartOpen}>
-              <div className="close">
-                <div>
-                  <h4>Carrinho:</h4>
-                </div>
-                <button onClick={handleCartToggle}>fechar</button>
-              </div>
-              <ul>
-                {context?.cartItems.map((product) => (
-                  <li key={product.item.id}>
-                    <div>
-                      <div>
-                        <Image
-                          width={50}
-                          height={50}
-                          src={
-                            product.item.attributes.thumbnail.data.attributes
-                              .url
-                          }
-                          alt="produto ASCOP"
-                        />
-                      </div>
-                      <h3>{product.item.attributes.title}</h3>
-                      <p>
-                        tamanho:{' '}
-                        {product.size != null
-                          ? product.size
-                          : product.item.attributes.sizes.length > 1
-                          ? 'N/I'
-                          : 'UNICO'}
-                      </p>
-                      <p>{product.item.attributes.price}</p>
-                    </div>
-                    <div>
-                      <button onClick={() => handleAddToCart(product.item)}>
-                        +
-                      </button>
-                      {product.quantity}
-                      <button onClick={() => context.removeFromCart(product)}>
-                        -
-                      </button>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-
-              <div className="valototal">
-                <div>
-                  <h3>Valor total:</h3>
-                </div>
-                <h2>R$ {context?.getCartTotal()}</h2>
-                <div>
-                  <button onClick={() => router.push('/loja/cliente/carrinho')}>
-                    Finalizar Compra
-                  </button>
-                </div>
-              </div>
-            </CartShop>
+           
           </Section>
         </Container> */}
       </Layout>
@@ -344,17 +250,27 @@ const Loja: NextPage<LojaProps> = ({ produtos }) => {
 
 export const getServerSideProps: GetServerSideProps<LojaProps> = async () => {
   try {
-    const res = await fetch(`http://127.0.0.1:1337/api/produtos?populate=*`, {
-      method: 'GET',
-    });
+    const [resProducts, resCategorys] = await Promise.all([
+      fetch(`http://127.0.0.1:1337/api/produtos?populate=*`, {
+        method: 'GET',
+      }),
+      fetch(`http://127.0.0.1:1337/api/categorias`, {
+        method: 'GET',
+      }),
+    ]);
 
-    const repo = await res.json();
+    const [repoProducts, repoCategorys] = await Promise.all([
+      resProducts.json(),
+      resCategorys.json(),
+    ]);
 
-    const produtos = repo ? repo : [];
+    const produtos = repoProducts ? repoProducts : [];
+    const categorias = repoCategorys ? repoCategorys : [];
 
     return {
       props: {
         produtos,
+        categorias,
       },
     };
   } catch (error) {
@@ -362,6 +278,7 @@ export const getServerSideProps: GetServerSideProps<LojaProps> = async () => {
     return {
       props: {
         produtos: [],
+        categorias: [],
       },
     };
   }

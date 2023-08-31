@@ -1,76 +1,8 @@
+import { Col } from 'react-bootstrap';
 import styled from 'styled-components';
 
 export const Section = styled.section`
   position: relative;
-
-  /* categorias  👇*/
-  .categorias {
-    display: flex;
-    flex-direction: row;
-    height: 100%;
-    justify-content: space-between;
-    align-items: center;
-
-    .catgorys {
-      margin-top: 1rem;
-      margin-bottom: 1rem;
-      ul {
-        display: flex;
-        flex-direction: row;
-        gap: 1rem;
-        padding: 0;
-        margin: 0;
-        list-style: none;
-        li {
-          background: black;
-          padding: 10px 20px 10px 20px;
-          border-radius: 50px;
-          border: 1px solid white;
-
-          span {
-            cursor: pointer;
-            font-size: 15px;
-            color: white !important;
-            font-weight: 500;
-          }
-        }
-      }
-    }
-
-    .filter {
-      display: flex;
-      flex-direction: row;
-      color: black;
-      gap: 1rem;
-
-      input {
-        max-width: 200px;
-      }
-    }
-
-    .cart {
-      cursor: pointer;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      .accout {
-        position: absolute;
-        left: 0;
-        top: 0;
-        background: red;
-        color: white;
-        padding: 1px 5px 1px 5px;
-        margin: 0;
-        border-radius: 50%;
-      }
-      .icon-cart {
-        background: black;
-        padding: 10px;
-        border-radius: 100px;
-      }
-    }
-  }
 
   /* produtos 👇 */
   .main-card {
@@ -207,5 +139,31 @@ export const CartShop = styled.div<{ isOpen: boolean }>`
         font-weight: 400;
       }
     }
+  }
+`;
+
+export const Cart = styled(Col)`
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .icon-cart {
+    background: black;
+    padding: 10px;
+    border-radius: 100px;
+    color: white;
+  }
+
+  .accout {
+    position: absolute;
+    left: 5px;
+    top: 0;
+    background: red;
+    color: white;
+    padding: 1px 5px 1px 5px;
+    margin: 0;
+    border-radius: 50%;
   }
 `;

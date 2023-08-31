@@ -1,10 +1,19 @@
-export interface Categoria {
+import { Meta } from '../meta';
+
+export interface Category {
+  data: CategoryData[];
+  meta: Meta;
+}
+
+export interface CategoryData {
   id: number;
-  attributes: {
-    name: string;
-    slug: string;
-    createdAt: string;
-    updatedAt: string;
-    publishedAt: string;
-  };
+  attributes: CategoryAttributes;
+}
+
+interface CategoryAttributes {
+  name: string;
+  slug: string;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
 }
