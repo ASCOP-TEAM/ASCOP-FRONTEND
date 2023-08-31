@@ -16,18 +16,19 @@ import {
   CardLoja,
   ProductFilter,
   TopBlockSection,
+  CartShop,
 } from '@components';
 import { BASEURL, HttpCall } from '@utils';
 import Layout from '@layout';
 import { CartContext } from '@contexts';
-import { Cart, CartShop, Section } from './styles';
+import { Cart, /* CartShop,  */ Section } from './styles';
 
 interface LojaProps {
   produtos: Product;
   categorias: Category;
 }
 
-const Loja: NextPage<LojaProps> = ({ produtos, categorias }) => {
+const Loja: NextPage<LojaProps> = ({ produtos, categorias, ...rest }) => {
   /* const [produtos, setProdutos] = React.useState<Product[]>([]); */
   const [category, setCategory] = React.useState<number>(0);
   const [upperValue, setUpperValue] = React.useState<number>(100);
@@ -62,11 +63,11 @@ const Loja: NextPage<LojaProps> = ({ produtos, categorias }) => {
   /* rage de preços */
 
   /*  open cart */
-  const [isCartOpen, setCartOpen] = React.useState(false);
+  /*   const [isCartOpen, setCartOpen] = React.useState(false);
 
   const handleCartToggle = () => {
     setCartOpen(!isCartOpen);
-  };
+  }; */
 
   /*   React.useEffect(() => {
     async function fetchData() {
@@ -142,107 +143,40 @@ const Loja: NextPage<LojaProps> = ({ produtos, categorias }) => {
         </TopBlockSection.Root>
 
         <Container>
-          <div className="categorias">
-            <Row className="align-items-center">
-              <BarCategorys
-                categorias={categorias}
-                setCatgory={filterProductByCategory}
-              />
+          <section>
+            <div className="categorias">
+              <Row className="align-items-center">
+                <BarCategorys
+                  {...{ categorias }}
+                  setCatgory={filterProductByCategory}
+                />
 
-              <Cart onClick={handleCartToggle} xs={'auto'}>
-                <span className="accout">{context?.cartItems.length}</span>
-                <div className="icon-cart">
-                  <ShoppingCart />
-                </div>
-              </Cart>
-            </Row>
-
-            <ProductFilter
-              produtos={produtos}
-              onFilterChange={handleFilterChange}
-            />
-          </div>
-
-          {produtos && (
-            <div className="main-card">
-              <Row>
-                {FilteredProducts.map((produto) => (
-                  <CardLoja
-                    key={produto.id}
-                    produto={produto}
-                    onAddToCart={() => handleAddToCart(produto)}
-                  />
-                ))}
+                <CartShop />
               </Row>
-            </div>
-          )}
 
-          {!FilteredProducts.length && <p>dados não caregados</p>}
-
-          <CartShop isOpen={isCartOpen}>
-            <div className="close">
-              <div>
-                <h4>Carrinho:</h4>
-              </div>
-              <button onClick={handleCartToggle}>fechar</button>
+              <ProductFilter
+                {...{ produtos }}
+                onFilterChange={handleFilterChange}
+              />
             </div>
-            <ul>
-              {context?.cartItems.map((product) => (
-                <li key={product.item.id}>
-                  <div>
-                    <div>
-                      <Image
-                        width={50}
-                        height={50}
-                        src={
-                          product.item.attributes.thumbnail.data.attributes.url
-                        }
-                        alt="produto ASCOP"
-                      />
-                    </div>
-                    <h3>{product.item.attributes.title}</h3>
-                    <p>
-                      tamanho:{' '}
-                      {product.size != null
-                        ? product.size
-                        : product.item.attributes.sizes.length > 1
-                        ? 'N/I'
-                        : 'UNICO'}
-                    </p>
-                    <p>{product.item.attributes.price}</p>
-                  </div>
-                  <div>
-                    <button onClick={() => handleAddToCart(product.item)}>
-                      +
-                    </button>
-                    {product.quantity}
-                    <button onClick={() => context.removeFromCart(product)}>
-                      -
-                    </button>
-                  </div>
-                </li>
-              ))}
-            </ul>
 
-            <div className="valototal">
-              <div>
-                <h3>Valor total:</h3>
+            {produtos && (
+              <div className="main-card">
+                <Row>
+                  {FilteredProducts.map((produto) => (
+                    <CardLoja
+                      key={produto.id}
+                      produto={produto}
+                      onAddToCart={() => handleAddToCart(produto)}
+                    />
+                  ))}
+                </Row>
               </div>
-              <h2>R$ {context?.getCartTotal()}</h2>
-              <div>
-                <button onClick={() => router.push('/loja/cliente/carrinho')}>
-                  Finalizar Compra
-                </button>
-              </div>
-            </div>
-          </CartShop>
+            )}
+
+            {!FilteredProducts.length && <p>dados não caregados</p>}
+          </section>
         </Container>
-
-        {/*
-
-           
-          </Section>
-        </Container> */}
       </Layout>
     </>
   );
