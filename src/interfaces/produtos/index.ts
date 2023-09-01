@@ -10,20 +10,9 @@ export interface ProductData {
   attributes: ProductAttributes;
 }
 
-interface ThumbnailData {
-  data: Format & {
-    alternativeText: string | null;
-    caption: string | null;
-    previewUrl: string | null;
-    provider: string;
-  };
-}
-
 interface CategoryData {
   data: DataCategoty;
 }
-
-type GaleryData = ThumbnailData;
 
 export interface ProductAttributes {
   title: string;
@@ -40,23 +29,38 @@ export interface ProductAttributes {
   sizes: Sizes[];
 }
 
-interface Format {
+interface ThumbnailData {
+  data: ThumbnailAttributes;
+}
+
+interface ThumbnailAttributes {
   id: number;
-  attributes: {
-    name: string;
-    hash: string;
-    ext: string;
-    mime: string;
-    path: string | null;
-    width: number;
-    height: number;
-    size: number;
-    url: string;
-    provider_metadata: {
-      public_id: string;
-      resource_type: string;
-    };
-    createdAt: string;
-    updatedAt: string;
+  attributes: GenericValuesImages;
+}
+
+interface GaleryData {
+  data: GaleryAttributes[];
+}
+
+interface GaleryAttributes {
+  id: number;
+  attributes: GenericValuesImages;
+}
+
+interface GenericValuesImages {
+  name: string;
+  hash: string;
+  ext: string;
+  mime: string;
+  path: string | null;
+  width: number;
+  height: number;
+  size: number;
+  url: string;
+  provider_metadata: {
+    public_id: string;
+    resource_type: string;
   };
+  createdAt: string;
+  updatedAt: string;
 }

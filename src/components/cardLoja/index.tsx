@@ -4,10 +4,11 @@ import { Row } from 'react-bootstrap';
 import { Plus } from 'lucide-react';
 
 import { ProductData } from '@interfaces';
-import { ActiveLink, Button } from '@components';
+import { Button } from '@components';
 import { Container } from './styles';
 import { CartContext } from '@contexts';
 import CustomCheckbox from '../customCheckbox';
+import { useRouter } from 'next/router';
 
 interface CardLojaProps {
   produto: ProductData;
@@ -15,31 +16,37 @@ interface CardLojaProps {
 }
 
 const CardLoja: React.FC<CardLojaProps> = ({ produto, onAddToCart }) => {
-  const context = useContext(CartContext); // Use o contexto do carrinho
+  const router = useRouter();
+  const context = useContext(CartContext);
 
   const isProductInCart = context?.cartItems.some(
     (item) => item.item.id === produto.id,
   );
+
+  const handleBuyClick = () => {
+    const param = encodeURIComponent(JSON.stringify(produto));
+    router.push(`/loja/product/${produto.id}?produto=${param}`);
+  };
 
   return (
     <Container>
       <Row>
         <div className="cart">
           <button onClick={onAddToCart}>
-            {/*    <Heart className={isProductInCart ? 'isAdd' : ''} /> */}
-
             <CustomCheckbox
               checked={isProductInCart ? isProductInCart : false}
             />
           </button>
         </div>
         <div className="thumbnail">
-          <Image
-            width={100}
-            height={100}
-            src={produto.attributes.thumbnail.data.attributes.url}
-            alt="produto ASCOP"
-          />
+          {
+            <Image
+              width={100}
+              height={100}
+              src={produto.attributes.thumbnail.data.attributes.url}
+              alt={'foto:' + produto.attributes.title}
+            />
+          }
         </div>
         <div className="title">
           <h4> {produto.attributes.title}</h4>
@@ -65,13 +72,13 @@ const CardLoja: React.FC<CardLojaProps> = ({ produto, onAddToCart }) => {
           <h5>R${produto.attributes.price}</h5>
         </div>
         <div className="submit">
-          <Button theme={false} text="COMPRAR" className="w-100">
-            <ActiveLink
-              href={`/loja/product/${produto.id}`}
-              query={`product=${encodeURIComponent(JSON.stringify(produto))}`}
-            >
-              COMPRAR
-            </ActiveLink>
+          <Button
+            theme={false}
+            text="COMPRAR"
+            className="w-100"
+            onClick={handleBuyClick}
+          >
+            COMPRAR
           </Button>
         </div>
       </Row>

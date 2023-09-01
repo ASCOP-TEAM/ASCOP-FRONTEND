@@ -16,10 +16,16 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   theme: boolean;
   text: string;
   isLoading?: boolean;
+  icon?: React.ElementType;
 }
 
-export const Button: React.FC<ButtonProps> = (props) => {
-  const { theme, text, isLoading, ...buttonProps } = props;
+export const Button: React.FC<ButtonProps> = ({
+  theme,
+  text,
+  isLoading,
+  icon: Icon,
+  ...buttonProps // Corrigido para incluir buttonProps
+}) => {
   return (
     <Container btnTheme={theme ? lightTheme : darkTheme}>
       <button {...buttonProps}>
@@ -32,7 +38,10 @@ export const Button: React.FC<ButtonProps> = (props) => {
             aria-hidden="true"
           />
         ) : (
-          text
+          <>
+            {Icon && <Icon />}
+            {text}
+          </>
         )}
       </button>
     </Container>

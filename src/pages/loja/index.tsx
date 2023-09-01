@@ -1,14 +1,8 @@
 import React, { useContext } from 'react';
 import Head from 'next/head';
-import Image from 'next/image';
-import { Container, Form, Row } from 'react-bootstrap';
-import { useRouter } from 'next/router';
-import { ShoppingCart } from 'lucide-react';
-import type {
-  GetServerSideProps,
-  InferGetServerSidePropsType,
-  NextPage,
-} from 'next';
+import { Container, Row } from 'react-bootstrap';
+
+import type { GetServerSideProps, NextPage } from 'next';
 
 import { Category, Product, ProductData } from '@interfaces';
 import {
@@ -18,29 +12,24 @@ import {
   TopBlockSection,
   CartShop,
 } from '@components';
-import { BASEURL, HttpCall } from '@utils';
+
 import Layout from '@layout';
 import { CartContext } from '@contexts';
-import { Cart, /* CartShop,  */ Section } from './styles';
 
 interface LojaProps {
   produtos: Product;
   categorias: Category;
 }
 
-const Loja: NextPage<LojaProps> = ({ produtos, categorias, ...rest }) => {
-  /* const [produtos, setProdutos] = React.useState<Product[]>([]); */
+const Loja: NextPage<LojaProps> = ({ produtos, categorias }) => {
   const [category, setCategory] = React.useState<number>(0);
   const [upperValue, setUpperValue] = React.useState<number>(100);
-  /*   const [shopCart, setShopCart] = React.useState<CartItem[]>([]); */
 
   const [FilteredProducts, setFilteredProducts] = React.useState<ProductData[]>(
     produtos.data,
   );
-  const router = useRouter();
-  const context = useContext(CartContext);
 
-  // adicionar ao carrinho
+  const context = useContext(CartContext);
 
   const handleAddToCart = (produtoData: ProductData) => {
     const isProductInCart = context?.cartItems.find(
@@ -59,27 +48,6 @@ const Loja: NextPage<LojaProps> = ({ produtos, categorias, ...rest }) => {
       });
     }
   };
-
-  /* rage de preços */
-
-  /*  open cart */
-  /*   const [isCartOpen, setCartOpen] = React.useState(false);
-
-  const handleCartToggle = () => {
-    setCartOpen(!isCartOpen);
-  }; */
-
-  /*   React.useEffect(() => {
-    async function fetchData() {
-      try {
-        setProdutos(await filterProduct(category));
-      } catch (error) {
-        console.error('Erro ao obter produtos:', error);
-      }
-    }
-
-    fetchData();
-  }, [category]); */
 
   function filterProductsByPriceAndCategory(
     products: Product,

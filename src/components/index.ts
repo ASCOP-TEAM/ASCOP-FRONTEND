@@ -16,3 +16,5 @@ export { default as CardLoja } from './cardLoja';
 export { default as ProductFilter } from './productFilter';
 export { default as BarCategorys } from './barCategorys';
 export { default as CartShop } from './cartShop';
+export { default as CustomCheckbox } from './customCheckbox';
+export { default as Alert } from './alert';
