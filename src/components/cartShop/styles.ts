@@ -6,7 +6,7 @@ export const Container = styled(Col)`
   .product-list {
     max-height: 390px;
     overflow-y: auto;
-    margin: auto 1rem;
+    margin: auto 0.5rem;
     padding: 0;
 
     ::-webkit-scrollbar {

@@ -33,7 +33,7 @@ const CartShop: React.FC = () => {
         </Offcanvas.Header>
         <Offcanvas.Body>
           <Container xs={12}>
-            <Row className="flex-column justify-content-between h-100">
+            <Row className="flex-column flex-nowrap  h-100">
               <Col xs={12}>
                 <p>
                   Escolheu seus produtos? Clique em "Finalizar" para ir ao
@@ -41,7 +41,7 @@ const CartShop: React.FC = () => {
                 </p>
               </Col>
 
-              <Col xs={12}>
+              <Col xs={12} className="p-0">
                 <ul className="product-list">
                   {context?.cartItems.map((product) => (
                     <li key={product.item.id} className="product d-flex ">
@@ -92,30 +92,27 @@ const CartShop: React.FC = () => {
                   ))}
                 </ul>
               </Col>
-
-              <Col xs={12}>
-                <div className="valototal">
-                  <div className="d-flex justify-content-between my-2">
-                    <div>
-                      <h3>Valor total:</h3>
-                    </div>
-                    <div>
-                      <h3>R$ {context?.getCartTotal()}</h3>
-                    </div>
-                  </div>
-
-                  <div className="finalizar">
-                    <Button
-                      className="w-100"
-                      text="Finalizar Compra"
-                      theme={false}
-                    ></Button>
-                  </div>
-                </div>
-              </Col>
             </Row>
           </Container>
         </Offcanvas.Body>
+        <div className="valototal p-2">
+          <div className="d-flex justify-content-between my-2">
+            <div>
+              <h3>Valor total:</h3>
+            </div>
+            <div>
+              <h3>R$ {context?.getCartTotal()}</h3>
+            </div>
+          </div>
+
+          <div className="finalizar">
+            <Button
+              className="w-100"
+              text="Finalizar Compra"
+              theme={false}
+            ></Button>
+          </div>
+        </div>
       </Offcanvas>
     </>
   );
