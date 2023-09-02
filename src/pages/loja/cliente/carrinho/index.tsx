@@ -9,7 +9,7 @@ import type { NextPage } from 'next';
 
 import Layout from '@layout';
 import { CartContext, CartItem } from '@contexts';
-import { Section, SizesVariables } from './styles';
+import { Section } from './styles';
 import { Alert, Button } from '@components';
 
 const Carrinho: NextPage = () => {

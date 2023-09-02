@@ -96,25 +96,3 @@ export const Section = styled.section`
     }
   }
 `;
-
-export const SizesVariables = styled.li<{ isErro: boolean; isSelect: boolean }>`
-  cursor: pointer;
-  padding: 0.5rem;
-  border: 2px solid
-    ${(props) =>
-      props.isErro ? '#ff0000' : props.isSelect ? '#14ff86' : 'black'};
-  border-radius: 5px;
-
-  p {
-    color: ${(props) =>
-      props.isErro ? '#ff0000' : props.isSelect ? '#14ff86' : '#818181'};
-    font-weight: 600;
-    margin: 0;
-    padding: 0;
-
-    &:hover,
-    :active {
-      color: #070707;
-    }
-  }
-`;
