@@ -5,15 +5,29 @@ import Image from 'next/image';
 import { Minus, Plus, ShoppingCart } from 'lucide-react';
 
 import { CartContext } from '@contexts';
-import { Button } from '@components';
+import { Alert, Button } from '@components';
 import { Cart, Container } from './styles';
+import { useRouter } from 'next/router';
 
 const CartShop: React.FC = () => {
+  const router = useRouter();
   const [isCartOpen, setCartOpen] = React.useState(false);
   const context = React.useContext(CartContext);
+  const [isError, setError] = React.useState<boolean>(false);
 
   const handleCartToggle = () => {
     setCartOpen(!isCartOpen);
+  };
+
+  const handleRedirect = () => {
+    const emptyCart = context?.cartItems.length === 0;
+
+    if (!emptyCart) {
+      setError(false);
+      router.push('/loja/cliente/carrinho');
+    } else {
+      setError(true);
+    }
   };
 
   return (
@@ -67,12 +81,20 @@ const CartShop: React.FC = () => {
                         </div>
                         <div className="sizes">
                           <p>
-                            tamanho:{' '}
-                            {product.size != null
-                              ? product.size
-                              : product.item.attributes.sizes.length > 1
-                              ? 'N/I'
-                              : 'UNICO'}
+                            {product.size != null ? (
+                              <p>
+                                Tamanho: <strong>{product.size}</strong>{' '}
+                              </p>
+                            ) : product.item.attributes.sizes.length === 1 ? (
+                              <p>
+                                Tamanho:{' '}
+                                <strong>
+                                  {product.item.attributes.sizes.map(
+                                    (size) => size.variations,
+                                  )}
+                                </strong>
+                              </p>
+                            ) : null}
                           </p>
                         </div>
                         <div className="action-product d-flex justify-content-between align-items-center">
@@ -110,10 +132,21 @@ const CartShop: React.FC = () => {
               className="w-100"
               text="Finalizar Compra"
               theme={false}
-            ></Button>
+              onClick={handleRedirect}
+              disabled={isError}
+            />
           </div>
         </div>
       </Offcanvas>
+
+      {isError && (
+        <Alert
+          message="O Carrinho está vazio!"
+          show={isError}
+          type="error"
+          onClose={() => setError(false)}
+        />
+      )}
     </>
   );
 };

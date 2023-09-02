@@ -47,9 +47,6 @@ export const Container = styled(Col)`
               padding: 0;
             }
           }
-
-          .plus {
-          }
         }
       }
     }

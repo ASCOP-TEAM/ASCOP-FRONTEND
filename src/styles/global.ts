@@ -224,4 +224,10 @@ footer {
 .hidden {
   display: none;
 }
+
+.error {
+  border: 2px solid red;
+  color: red;
+}
+
 `;

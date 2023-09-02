@@ -11,6 +11,7 @@ export const Container = styled.nav<{
   padding-left: 2rem;
   padding-right: 2rem;
   width: 100%;
+  position: static;
   background: ${(props) => (props.scrolled ? props.bgColor : 'transparent')};
   transition: background-color 0.3s ease-in-out;
 

@@ -3,13 +3,13 @@ import { ActiveLink } from '@components';
 import { Container } from './style';
 import { MenuMobile } from './menuMobile';
 
-
 interface MenuProps {
   bgColor?: string;
-  txColor?: string
+  txColor?: string;
+  staticmenu?: boolean;
 }
 
-export function Menu(props: MenuProps) {
+export function Menu({ bgColor, txColor, staticmenu = false }: MenuProps) {
   const routers = [
     {
       id: 1,
@@ -46,7 +46,7 @@ export function Menu(props: MenuProps) {
   const [isMenuOpen, setMenuOpen] = React.useState(false);
 
   const handleMenuToggle = () => {
-    setMenuOpen(!isMenuOpen)
+    setMenuOpen(!isMenuOpen);
     setMenuOpen(!isMenuOpen);
   };
 
@@ -54,7 +54,7 @@ export function Menu(props: MenuProps) {
 
   React.useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 100) {
+      if (window.scrollY > 100 || staticmenu) {
         setScrolled(true);
       } else {
         setScrolled(false);
@@ -68,7 +68,11 @@ export function Menu(props: MenuProps) {
   }, []);
 
   return (
-    <Container bgColor={props.bgColor} txColor={props.txColor} scrolled={scrolled || isMenuOpen}>
+    <Container
+      bgColor={bgColor}
+      txColor={txColor}
+      scrolled={scrolled || isMenuOpen || staticmenu}
+    >
       <div className="navbar__left label">
         <div className="text-wrapper">ASCOP</div>
       </div>
@@ -85,8 +89,16 @@ export function Menu(props: MenuProps) {
         </div>
 
         <div className="d-md-none">
-          <MenuMobile.Whapper isOpen={isMenuOpen} onClick={handleMenuToggle} txColor={props.txColor} />
-          <MenuMobile.Links {...{ routers, isMenuOpen }} bgColor={props.bgColor} txColor={props.txColor} />
+          <MenuMobile.Whapper
+            isOpen={isMenuOpen}
+            onClick={handleMenuToggle}
+            txColor={txColor}
+          />
+          <MenuMobile.Links
+            {...{ routers, isMenuOpen }}
+            bgColor={bgColor}
+            txColor={txColor}
+          />
         </div>
       </div>
     </Container>
