@@ -85,26 +85,21 @@ const Carrinho: NextPage = () => {
                             </h4>
                           </div>
                           <div className="sizes mb-3">
-                            {product.size != null || product.size ? (
-                              <p>
-                                Tamanho: <strong>{product.size}</strong>{' '}
-                              </p>
-                            ) : product.item.attributes.sizes.length === 1 ? (
-                              <p>
-                                Tamanho:{' '}
-                                <strong>
-                                  {product.item.attributes.sizes.map(
-                                    (size) => size.variations,
-                                  )}
-                                </strong>
-                              </p>
-                            ) : null}
+                            <p className="m-0">
+                              Tamanho:{' '}
+                              <strong>
+                                {product.size != null
+                                  ? product.size
+                                  : product.item.attributes.sizes.length === 1
+                                  ? product.item.attributes.sizes[0].variations
+                                  : null}
+                              </strong>
+                            </p>
 
                             {!product.size &&
                               product.item.attributes.sizes.length > 1 && (
                                 <Form>
                                   <Form.Group controlId="productSize">
-                                    <Form.Label>Tamanho</Form.Label>
                                     <div className="col-auto">
                                       <Form.Control
                                         as="select"

@@ -83,20 +83,14 @@ const CartShop: React.FC = () => {
                         </div>
                         <div className="sizes">
                           <p>
-                            {product.size != null ? (
-                              <p>
-                                Tamanho: <strong>{product.size}</strong>{' '}
-                              </p>
-                            ) : product.item.attributes.sizes.length === 1 ? (
-                              <p>
-                                Tamanho:{' '}
-                                <strong>
-                                  {product.item.attributes.sizes.map(
-                                    (size) => size.variations,
-                                  )}
-                                </strong>
-                              </p>
-                            ) : null}
+                            Tamanho:{' '}
+                            <strong>
+                              {product.size != null
+                                ? product.size
+                                : product.item.attributes.sizes.length === 1
+                                ? product.item.attributes.sizes[0].variations
+                                : 'Não Selecionado'}
+                            </strong>
                           </p>
                         </div>
                         <div className="action-product d-flex justify-content-between align-items-center">
