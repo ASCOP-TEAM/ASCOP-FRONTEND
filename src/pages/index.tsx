@@ -1,17 +1,31 @@
-import type { NextPage } from 'next';
+import type { GetServerSideProps, NextPage } from 'next';
 import Layout from '@layout';
-import { Container as ContainerMain, SectionAbout, SectionBecause, SectionFind, SectionValues } from './styles';
-import { Button, TextBlockSection, Card } from '@components';
+import {
+  SectionAbout,
+  SectionBecause,
+  SectionFind,
+  SectionValues,
+} from './style';
+import {
+  Button,
+  TextBlockSection,
+  Card,
+  BackgroundCarousel,
+} from '@components';
 import { Col, Container } from 'react-bootstrap';
-import { BookOpen, Users2, Laugh } from 'lucide-react'
+import { BookOpen, Users2, Laugh } from 'lucide-react';
 import GoogleMaps from 'src/components/googleMaps';
 
-
 const Home: NextPage = () => {
+  const carouselImages = [
+    'https://res.cloudinary.com/dxcnix8m7/image/upload/v1693946689/363357651_1196187101321878_309715068040637322_n_60b95b20a0.jpg',
+    'https://res.cloudinary.com/dxcnix8m7/image/upload/v1693948455/339511807_749975293246408_4279043499930021786_n_c036dfe571.jpg',
+    'https://res.cloudinary.com/dxcnix8m7/image/upload/v1693946523/352460751_636668595049257_1894940839145253768_n_1_Copia_7753f3772e.jpg',
+  ];
 
   return (
-    <Layout bgColor="black" txColor='white' >
-      <ContainerMain>
+    <Layout bgColor="black" txColor="white">
+      <BackgroundCarousel images={carouselImages}>
         <div className="main">
           <div className="title">
             <h1>Skate, Mais do que um esporte.</h1>
@@ -29,7 +43,8 @@ const Home: NextPage = () => {
             <Button text="DOAÇÃO" theme />
           </div>
         </div>
-      </ContainerMain>
+      </BackgroundCarousel>
+
       <Container>
         {/* about */}
         <SectionAbout>
@@ -111,22 +126,34 @@ const Home: NextPage = () => {
 
         {/* because */}
         <SectionBecause>
-          <Col xs={12} lg={5} className='img-because'>
-            <div className='img'>
+          <Col xs={12} lg={5} className="img-because">
+            <div className="img">
               <p>1</p>
             </div>
           </Col>
-          <Col xs={12} lg={5} className='text-because'>
-            <Col className='title mb-3'>
+          <Col xs={12} lg={5} className="text-because">
+            <Col className="title mb-3">
               <h1>Como estamos mudando a vida das crianças</h1>
             </Col>
-            <Col className='text-wrapper '>
-              <p> Contribuir com a inclusão social utilizando o skate como ferramenta de aprendizagem, oferecendo muito além de aulas práticas de skate para crianças e jovens da comunidade</p>
+            <Col className="text-wrapper ">
+              <p>
+                {' '}
+                Contribuir com a inclusão social utilizando o skate como
+                ferramenta de aprendizagem, oferecendo muito além de aulas
+                práticas de skate para crianças e jovens da comunidade
+              </p>
               <br />
-              <p>Trabalhar o desenvolvimento físico e emocional através de eventos sociais e incentivo a prática de atividades físicas e o convívio social saudável. Utilizando o brincar e o skate para que as crianças e jovens desenvolvam suas potencialidades e atuem como protagonistas para a transformação social de nossa comunidade.</p>
+              <p>
+                Trabalhar o desenvolvimento físico e emocional através de
+                eventos sociais e incentivo a prática de atividades físicas e o
+                convívio social saudável. Utilizando o brincar e o skate para
+                que as crianças e jovens desenvolvam suas potencialidades e
+                atuem como protagonistas para a transformação social de nossa
+                comunidade.
+              </p>
             </Col>
             <Col>
-              <Button text='FAÇA UMA DOAÇÃO' theme={false} />
+              <Button text="FAÇA UMA DOAÇÃO" theme={false} />
             </Col>
           </Col>
         </SectionBecause>
@@ -134,45 +161,68 @@ const Home: NextPage = () => {
         {/* find */}
         <SectionFind>
           <Col xs={12}>
-            <div className='title' >
+            <div className="title">
               <h2>Onde Nos Encontrar?</h2>
             </div>
 
-            <div className='infos my-3'>
-              <Col xs={12} lg={6} className='list'>
+            <div className="infos my-3">
+              <Col xs={12} lg={6} className="list">
                 <ul>
                   <li>
                     <h4>Contato:</h4>
-                    <a href='#'>telefone: (00) 000000000</a>
-                    <a href='#'>Email: maicongabrielalves@gmail.com</a>
+                    <a href="#">telefone: (00) 000000000</a>
+                    <a href="#">Email: maicongabrielalves@gmail.com</a>
                   </li>
                   <li>
                     <h4>Quando:</h4>
-                    <p>Todos os sábados, na pista da Costeira, das 16h às 18h.(Aula das 16h às 17h e lanche das 17h às 18h)</p>
+                    <p>
+                      Todos os sábados, na pista da Costeira, das 16h às
+                      18h.(Aula das 16h às 17h e lanche das 17h às 18h)
+                    </p>
                   </li>
                   <li>
                     <h4>Endereço:</h4>
-                    <a href='#'>Av. Jorge Lacerda, 1244 - Carianos, Florianópolis - SC, 88047-010</a>
+                    <a href="#">
+                      Av. Jorge Lacerda, 1244 - Carianos, Florianópolis - SC,
+                      88047-010
+                    </a>
                   </li>
                 </ul>
               </Col>
-              <Col className='text-wrapper d-none d-md-block' xs={5}>
-                <p>Estamos ansiosos para recebê-lo em nossas atividades, onde crianças a partir de 5 anos podem participar de aulas emocionantes de skate. Junte-se a nós todos os sábados na pista da Costeira, das 16h às 18h. Nossa equipe de instrutores dedicados está pronta para proporcionar uma experiência divertida e educacional para os pequenos skatistas. Venha fazer parte da nossa comunidade e se divertir com segurança enquanto aprendemos e crescemos juntos!
+              <Col className="text-wrapper d-none d-md-block" xs={5}>
+                <p>
+                  Estamos ansiosos para recebê-lo em nossas atividades, onde
+                  crianças a partir de 5 anos podem participar de aulas
+                  emocionantes de skate. Junte-se a nós todos os sábados na
+                  pista da Costeira, das 16h às 18h. Nossa equipe de instrutores
+                  dedicados está pronta para proporcionar uma experiência
+                  divertida e educacional para os pequenos skatistas. Venha
+                  fazer parte da nossa comunidade e se divertir com segurança
+                  enquanto aprendemos e crescemos juntos!
                 </p>
               </Col>
             </div>
           </Col>
 
-
-          <div className='maps '>
+          <div className="maps ">
             <GoogleMaps />
           </div>
         </SectionFind>
-
-
       </Container>
-    </Layout >
+    </Layout>
   );
 };
 
 export default Home;
+
+/* export const getServerSideProps: GetServerSideProps = async () => {
+  const response = await fetch('/api/sua-api'); //
+  const data = await response.json();
+
+  return {
+    props: {
+      data,
+    },
+  };
+};
+ */

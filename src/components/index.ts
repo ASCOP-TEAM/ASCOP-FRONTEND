@@ -21,3 +21,4 @@ export { default as Alert } from './alert';
 export { CheckoutForm } from './form';
 export { default as Payment } from './payment';
 export { List } from './List';
+export { BackgroundCarousel } from './BackgroundCarousel';

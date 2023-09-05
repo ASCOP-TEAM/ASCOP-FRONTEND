@@ -13,7 +13,7 @@ export function Menu({ bgColor, txColor, staticmenu = false }: MenuProps) {
   const routers = [
     {
       id: 1,
-      path: '/home',
+      path: '/',
       name: 'HOME',
     },
     {
@@ -74,7 +74,9 @@ export function Menu({ bgColor, txColor, staticmenu = false }: MenuProps) {
       scrolled={scrolled || isMenuOpen || staticmenu}
     >
       <div className="navbar__left label">
-        <div className="text-wrapper">ASCOP</div>
+        <ActiveLink href={'/'}>
+          <div className="text-wrapper"> ASCOP</div>
+        </ActiveLink>
       </div>
 
       <div className="navbar__right ">
