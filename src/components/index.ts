@@ -18,3 +18,5 @@ export { default as BarCategorys } from './barCategorys';
 export { default as CartShop } from './cartShop';
 export { default as CustomCheckbox } from './customCheckbox';
 export { default as Alert } from './alert';
+export { CheckoutForm } from './form';
+export { default as Payment } from './payment';

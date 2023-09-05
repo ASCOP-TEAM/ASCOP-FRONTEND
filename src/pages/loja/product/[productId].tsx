@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import Head from 'next/head';
-import { Carousel, Col, Container, Row } from 'react-bootstrap';
+import { Carousel, Col, Container, Row /* , Form  */ } from 'react-bootstrap';
 import Image from 'next/image';
 import { Minus, Plus, ShoppingCart } from 'lucide-react';
 import { useRouter } from 'next/router';
@@ -233,6 +233,60 @@ const Producto: NextPage = () => {
                               ))}
                             </ul>
                           </SizesContainer>
+
+                          {/*    <div className="sizes mb-3">
+                            {produto.attributes.sizes.length === 1 && (
+                              <p>
+                                Tamanho:{' '}
+                                <strong>
+                                  {produto.attributes.sizes.map(
+                                    (size) => size.variations,
+                                  )}
+                                </strong>
+                              </p>
+                            )}
+
+                            {produto.attributes.sizes.length > 1 && (
+                              <Form>
+                                <Form.Group controlId="productSize">
+                                  <Form.Label>Tamanho</Form.Label>
+                                  <div className="col-lg-md-6">
+                                    <Form.Control
+                                      as="select"
+                                      onChange={(e) =>
+                                        handleSizeChange(
+                                          produto,
+                                          e.target.value,
+                                        )
+                                      }
+                                      className={isError ? 'error' : ''}
+                                    >
+                                      <option value="">
+                                        Selecione um tamanho
+                                      </option>
+                                      {produto.attributes.sizes.map(
+                                        (size) =>
+                                          !context?.cartItems.some(
+                                            (item) =>
+                                              item.size === size.variations,
+                                          ) && (
+                                            <option
+                                              key={size.id}
+                                              value={size.variations}
+                                              className={
+                                                isError ? 'error-text' : ''
+                                              }
+                                            >
+                                              {size.variations}
+                                            </option>
+                                          ),
+                                      )}
+                                    </Form.Control>
+                                  </div>
+                                </Form.Group>
+                              </Form>
+                            )}
+                          </div> */}
 
                           <div className="quatity my-3 d-flex flex-column">
                             <div>

@@ -6,6 +6,7 @@ export const Button = styled.button`
   background: black;
   color: white !important;
   font-weight: 600 !important;
+
   width: 100%;
   &:hover {
     background: #2f2f2f;
@@ -16,9 +17,34 @@ export const Button = styled.button`
 `;
 
 export const Section = styled.section`
+  padding: 3rem 0;
   .container-form {
+    .title {
+      padding: 0 1rem;
+    }
+    @media (max-width: 960px) {
+      padding: 2rem 0;
+    }
   }
   .container-checkout {
+    position: sticky;
+    top: calc(var(--navbar-height) + 20px);
+    background: white;
+    padding: 1rem 0;
+
+    @media (max-width: 960px) {
+      position: sticky;
+      bottom: 0px;
+      z-index: 10;
+      background-color: #ffffff;
+      border-radius: 25px 25px 0 0;
+      padding-top: 30px;
+      box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.2);
+    }
+  }
+
+  @media (max-width: 960px) {
+    padding: 0;
   }
 `;
 

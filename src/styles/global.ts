@@ -111,7 +111,7 @@ span {
   font-family: "Inter-Medium", Helvetica;
   font-size: 1rem;
   font-weight: 400;
-  color: ${({ theme }) => theme.colors.primary};
+  /* color: ${({ theme }) => theme.colors.primary}; */
 }
 
 /* Tamanhos de fonte responsivos */

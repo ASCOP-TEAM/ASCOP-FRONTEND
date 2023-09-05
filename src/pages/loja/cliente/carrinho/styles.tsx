@@ -72,8 +72,7 @@ export const Section = styled.section`
       .items-info {
         background-color: #ffffff;
         padding: 1rem;
-        box-shadow: -2px 3px 9px 3px #bebebe, -6px -10px 60px #ffffff;
-
+        box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.2);
         ul {
           list-style: none;
           padding: 0;

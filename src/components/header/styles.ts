@@ -8,7 +8,6 @@ export const Container = styled.header`
   z-index: 10;
   white-space: nowrap;
   border-bottom-width: 1px;
-
 `;
 
 export const Placeholder = styled.div`

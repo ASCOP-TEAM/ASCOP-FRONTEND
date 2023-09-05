@@ -24,5 +24,9 @@ export const Container = styled.div<{ btnTheme: Theme }>`
       border: 0.2em solid ${(props) => props.btnTheme.color} !important;
       border-right-color: transparent !important;
     }
+
+    svg {
+      font-size: 25px;
+    }
   }
 `;

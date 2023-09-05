@@ -24,7 +24,7 @@ export const Button: React.FC<ButtonProps> = ({
   text,
   isLoading,
   icon: Icon,
-  ...buttonProps // Corrigido para incluir buttonProps
+  ...buttonProps
 }) => {
   return (
     <Container btnTheme={theme ? lightTheme : darkTheme}>
@@ -39,8 +39,8 @@ export const Button: React.FC<ButtonProps> = ({
           />
         ) : (
           <>
-            {Icon && <Icon />}
             {text}
+            {Icon && <Icon />}
           </>
         )}
       </button>

@@ -23,7 +23,7 @@ const ToastMessage = styled(Toast.Body)`
 
 const ToastContainer = styled(ToastContainerRC)`
   position: fixed !important;
-  top: 10px !important;
+  top: calc(var(--navbar-height) + 1px) !important;
   right: 10px !important;
   z-index: 9999;
 `;

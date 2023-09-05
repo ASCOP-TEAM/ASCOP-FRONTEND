@@ -6,3 +6,6 @@ export type { Sizes } from './sizes';
 export type { Relatorios } from './relatorios';
 export type { IEmail, MailtrapTransporter } from './email';
 export type { Meta } from './meta';
+export type { IDadosCliente } from './cliente';
+export type { Item } from './Items';
+export type { Payer } from './payer';
