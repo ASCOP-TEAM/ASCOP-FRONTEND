@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import Head from 'next/head';
-import { Carousel, Col, Container, Row /* , Form  */ } from 'react-bootstrap';
+import { Carousel, Col, Container, Row, Form } from 'react-bootstrap';
 import Image from 'next/image';
 import { Minus, Plus, ShoppingCart } from 'lucide-react';
 import { useRouter } from 'next/router';
@@ -10,7 +10,7 @@ import { ProductData } from '@interfaces';
 import { CartContext } from '@contexts';
 import { Alert, Button, CartShop } from '@components';
 import Layout from '@layout';
-import { Section, SizesContainer, SizesVariables } from './styles';
+import { Section } from './styles';
 
 const Producto: NextPage = () => {
   const router = useRouter();
@@ -41,27 +41,26 @@ const Producto: NextPage = () => {
     if (selectedSize == null) {
       setError(true);
       return false;
-    } else {
-      produtos.map((produto) => {
-        context?.addToCart({
-          item: produto,
-          price: produto.attributes.price,
-          quantity: quantity,
-          size: selectedSize,
-        });
-      });
-
-      setQuantity(1);
-      setSelectedSize(null);
-      setSuccess(true);
-      return true;
     }
+    produtos.map((produto) => {
+      context?.addToCart({
+        item: produto,
+        price: produto.attributes.price,
+        quantity: quantity,
+        size: selectedSize,
+      });
+    });
+
+    setQuantity(1);
+    setSelectedSize(null);
+    setSuccess(true);
+    return true;
   };
 
   const handleRedirect = () => {
-    const addCart = handleAddToCart();
+    const addCartItem = handleAddToCart();
 
-    if (addCart) {
+    if (addCartItem) {
       return router.push('/loja/cliente/carrinho');
     }
   };
@@ -210,31 +209,8 @@ const Producto: NextPage = () => {
                               {produto.attributes.description}
                             </p>
                           </div>
-                          <SizesContainer>
-                            <div className="label">
-                              <h4>Tamanhos: </h4>
-                            </div>
-                            <ul className={`my-2 `}>
-                              {produto.attributes.sizes.map((variables) => (
-                                <SizesVariables
-                                  key={variables.id}
-                                  onClick={() =>
-                                    setSelectedSize(variables.variations)
-                                  }
-                                  isErro={isError}
-                                  isSelect={
-                                    selectedSize === variables.variations
-                                  }
-                                >
-                                  <p>
-                                    <strong>{variables.variations}</strong>
-                                  </p>
-                                </SizesVariables>
-                              ))}
-                            </ul>
-                          </SizesContainer>
 
-                          {/*    <div className="sizes mb-3">
+                          <div className="sizes mb-3">
                             {produto.attributes.sizes.length === 1 && (
                               <p>
                                 Tamanho:{' '}
@@ -254,10 +230,7 @@ const Producto: NextPage = () => {
                                     <Form.Control
                                       as="select"
                                       onChange={(e) =>
-                                        handleSizeChange(
-                                          produto,
-                                          e.target.value,
-                                        )
+                                        setSelectedSize(e.target.value)
                                       }
                                       className={isError ? 'error' : ''}
                                     >
@@ -286,7 +259,7 @@ const Producto: NextPage = () => {
                                 </Form.Group>
                               </Form>
                             )}
-                          </div> */}
+                          </div>
 
                           <div className="quatity my-3 d-flex flex-column">
                             <div>

@@ -19,9 +19,6 @@ const Carrinho: NextPage = () => {
   const context = useContext(CartContext);
 
   const handleSizeChange = (cartItem: CartItem, size: string) => {
-    console.log('cart item >>', cartItem);
-    console.log('cart size >>', size);
-
     if (cartItem && size) {
       context?.updateToCart({
         item: cartItem.item,
