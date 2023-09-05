@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import Head from 'next/head';
-import { Container, Row } from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 
 import type { GetServerSideProps, NextPage } from 'next';
 
@@ -11,10 +11,12 @@ import {
   ProductFilter,
   TopBlockSection,
   CartShop,
+  List,
 } from '@components';
 
 import Layout from '@layout';
 import { CartContext } from '@contexts';
+import { SwiperSlide } from 'swiper/react';
 
 interface LojaProps {
   produtos: Product;
@@ -113,32 +115,68 @@ const Loja: NextPage<LojaProps> = ({ produtos, categorias }) => {
         <Container>
           <section>
             <div className="categorias">
-              <Row className="align-items-center">
+              <Row className="align-items-center justify-content-between">
                 <BarCategorys
                   {...{ categorias }}
                   setCatgory={filterProductByCategory}
                 />
+                <Row className="col-auto align-items-center">
+                  <Col xs={'auto'} className="d-none d-lg-block">
+                    <ProductFilter
+                      {...{ produtos }}
+                      onFilterChange={handleFilterChange}
+                    />
+                  </Col>
 
-                <CartShop />
+                  <CartShop />
+                </Row>
+                <Col xs={12} className="d-lg-none">
+                  <ProductFilter
+                    {...{ produtos }}
+                    onFilterChange={handleFilterChange}
+                  />
+                </Col>
               </Row>
-
-              <ProductFilter
-                {...{ produtos }}
-                onFilterChange={handleFilterChange}
-              />
             </div>
 
-            {produtos && (
-              <div className="main-card">
-                <Row>
+            {FilteredProducts.length > 0 && (
+              <div className="main-card py-4">
+                {FilteredProducts.some((item) => item.attributes.highlight) && (
+                  <div className="main-card">
+                    <Col xs={'auto'}>
+                      <h2> Produtos em Destaque</h2>
+                    </Col>
+
+                    <List>
+                      {FilteredProducts.filter(
+                        (item) => item.attributes.highlight,
+                      ).map((produto) => (
+                        <SwiperSlide key={produto.id}>
+                          <CardLoja
+                            key={produto.id}
+                            produto={produto}
+                            onAddToCart={() => handleAddToCart(produto)}
+                          />
+                        </SwiperSlide>
+                      ))}
+                    </List>
+                  </div>
+                )}
+
+                <Col xs={'auto'}>
+                  <h2> Todos os produtos</h2>
+                </Col>
+                <List>
                   {FilteredProducts.map((produto) => (
-                    <CardLoja
-                      key={produto.id}
-                      produto={produto}
-                      onAddToCart={() => handleAddToCart(produto)}
-                    />
+                    <SwiperSlide key={produto.id}>
+                      <CardLoja
+                        key={produto.id}
+                        produto={produto}
+                        onAddToCart={() => handleAddToCart(produto)}
+                      />
+                    </SwiperSlide>
                   ))}
-                </Row>
+                </List>
               </div>
             )}
 

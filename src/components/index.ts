@@ -20,3 +20,4 @@ export { default as CustomCheckbox } from './customCheckbox';
 export { default as Alert } from './alert';
 export { CheckoutForm } from './form';
 export { default as Payment } from './payment';
+export { List } from './List';

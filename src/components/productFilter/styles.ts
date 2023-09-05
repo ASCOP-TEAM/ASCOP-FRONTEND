@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
+  @media (min-height: 641px) {
+    padding: 0 1rem;
+  }
+
   h4 {
     margin: 0;
   }

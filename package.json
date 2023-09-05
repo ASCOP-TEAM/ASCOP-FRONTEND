@@ -27,7 +27,8 @@
     "react-hook-form": "^7.45.4",
     "react-icons": "^4.10.1",
     "strapi-react": "^0.0.1",
-    "styled-components": "^5.3.6"
+    "styled-components": "^5.3.6",
+    "swiper": "^10.2.0"
   },
   "devDependencies": {
     "@types/google.maps": "^3.54.0",

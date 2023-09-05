@@ -33,7 +33,9 @@ const CartShop: React.FC = () => {
   return (
     <>
       <Cart onClick={handleCartToggle} xs={'auto'}>
-        <span className="accout">{context?.cartItems.length}</span>
+        {context && context?.cartItems.length > 0 && (
+          <span className="accout">{context?.cartItems.length}</span>
+        )}
         <div className="icon-cart">
           <ShoppingCart />
         </div>

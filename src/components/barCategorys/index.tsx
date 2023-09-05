@@ -11,15 +11,32 @@ const BarCategorys: React.FC<BarCategorysProps> = ({
   categorias,
   setCatgory,
 }) => {
+  const [selectedCategor, setSelectedCategor] = React.useState<number>(0);
+
+  const handleCategory = (id: number) => {
+    setSelectedCategor(id);
+    setCatgory(id);
+  };
+
   return (
-    <Container>
+    <Container
+      xs={'auto'}
+      numberOfCategories={categorias.data ? categorias.data.length : 0}
+    >
       <ul>
-        <li onClick={() => setCatgory(0)}>
-          <span>Outros</span>
+        <li
+          onClick={() => handleCategory(0)}
+          className={selectedCategor === 0 ? 'active' : ''}
+        >
+          <span>Todos</span>
         </li>
         {categorias.data.map((categoria) => (
           <>
-            <li key={categoria.id} onClick={() => setCatgory(categoria.id)}>
+            <li
+              key={categoria.id}
+              onClick={() => handleCategory(categoria.id)}
+              className={selectedCategor === categoria.id ? 'active' : ''}
+            >
               <span>{categoria.attributes.name}</span>
             </li>
           </>
