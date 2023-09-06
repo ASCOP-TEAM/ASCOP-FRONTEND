@@ -73,7 +73,7 @@ const CardLoja: React.FC<CardLojaProps> = ({ produto, onAddToCart }) => {
         </div>
         <div className="submit">
           <Button
-            theme={false}
+            theme={'primary'}
             text="COMPRAR"
             className="w-100"
             onClick={handleBuyClick}

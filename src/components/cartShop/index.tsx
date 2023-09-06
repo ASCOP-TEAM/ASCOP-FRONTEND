@@ -127,7 +127,7 @@ const CartShop: React.FC = () => {
             <Button
               className="w-100"
               text="Finalizar Compra"
-              theme={false}
+              theme={'primary'}
               onClick={handleRedirect}
               disabled={isError}
             />

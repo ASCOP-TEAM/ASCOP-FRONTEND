@@ -33,13 +33,12 @@ export const SectionAbout = styled(BaseSection)`
     height: 500px;
 
     .img {
-      background-image: url(/homeback.png);
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      border-radius: 12px;
+      position: relative;
       width: 100%;
       height: 100%;
+      span {
+        border-radius: 12px;
+      }
     }
 
     @media (max-width: 768px) {
@@ -97,13 +96,12 @@ export const SectionBecause = styled(BaseSection)`
     height: 500px;
 
     .img {
-      background-image: url(/homeback.png);
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      border-radius: 12px;
+      position: relative;
       width: 100%;
       height: 100%;
+      span {
+        border-radius: 12px;
+      }
     }
 
     @media (max-width: 768px) {
@@ -164,20 +162,7 @@ export const SectionFind = styled(BaseSection)`
   }
 
   .maps {
-    flex: 1;
-    width: 100%;
     height: 50%;
-    position: relative;
-    overflow: hidden;
-
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-    }
+    width: 100%;
   }
 `;

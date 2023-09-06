@@ -11,163 +11,167 @@ import {
   TextBlockSection,
   Card,
   BackgroundCarousel,
+  ActiveLink,
 } from '@components';
-import { Col, Container } from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 import { BookOpen, Users2, Laugh } from 'lucide-react';
-import GoogleMaps from 'src/components/googleMaps';
+import { BASEURL, formatDescriptionToParagraphs } from '@utils';
+import { IHome } from '@interfaces';
+import Image from 'next/image';
 
-const Home: NextPage = () => {
-  const carouselImages = [
-    'https://res.cloudinary.com/dxcnix8m7/image/upload/v1693946689/363357651_1196187101321878_309715068040637322_n_60b95b20a0.jpg',
-    'https://res.cloudinary.com/dxcnix8m7/image/upload/v1693948455/339511807_749975293246408_4279043499930021786_n_c036dfe571.jpg',
-    'https://res.cloudinary.com/dxcnix8m7/image/upload/v1693946523/352460751_636668595049257_1894940839145253768_n_1_Copia_7753f3772e.jpg',
-  ];
+interface HomePros {
+  homeData: IHome | null;
+}
+
+const Home: NextPage<HomePros> = ({ homeData }) => {
+  if (!homeData) {
+    console.error('erro ao carregar dados da pagina');
+  }
+
+  const { bloco1, bloco2, bloco3, bloco4, bloco5 } =
+    homeData?.data.attributes || {};
+
+  const carouselImages = bloco1?.sliders?.data.map(
+    (imagens) => imagens.attributes.url,
+  );
+
+  const imageAbout = bloco2?.photo?.data.attributes.url;
+
+  const imageBecause = bloco4?.photo?.data.attributes.url;
 
   return (
     <Layout bgColor="black" txColor="white">
-      <BackgroundCarousel images={carouselImages}>
-        <div className="main">
-          <div className="title">
-            <h1>Skate, Mais do que um esporte.</h1>
-          </div>
-
-          <div className="text-wrapper">
-            <p>
-              Faça parte do nosso movimento de impacto! Junte-se a nós através
-              de doações ou envolvimento voluntário e ajude a ASCOP a continuar
-              promovendo mudanças positivas por meio do skate em comunidades.
-            </p>
-          </div>
-
-          <div>
-            <Button text="DOAÇÃO" theme />
-          </div>
-        </div>
-      </BackgroundCarousel>
-
-      <Container>
-        {/* about */}
-        <SectionAbout>
-          <Col className="text-about" xs={12} lg={5}>
-            <div className="title my-4">
-              <h1>Quem é a ASCOP?</h1>
+      {bloco1 && (
+        <BackgroundCarousel images={carouselImages || ['/backgroud.jpg']}>
+          <div className="main">
+            <div className="title">
+              <h1>{bloco1.titulo} </h1>
             </div>
             <div className="text-wrapper ">
-              <p>
-                Bem-vindo à ASCOP - Associação para o Skate Comunitário! Somos
-                uma organização apaixonada e comprometida com a promoção de
-                transformações positivas nas comunidades por meio do skate. Ao
-                longo de 15 anos de existência, temos trabalhado incansavelmente
-                para mostrar que o skate é muito mais do que um esporte; é uma
-                ferramenta poderosa para o crescimento pessoal, a construção de
-                confiança e o estabelecimento de laços duradouros.
-              </p>
-              <br />
-              <p>
-                Desde o nosso início, temos inspirado pessoas de todas as idades
-                a abraçar o skate não apenas como uma atividade física, mas como
-                uma jornada de autodescoberta e superação de limites. Através
-                das nossas aulas e programas comunitários, temos testemunhado
-                jovens e adultos encontrarem um espaço para expressão,
-                criatividade e desenvolvimento de habilidades.
-              </p>
-
-              <br />
-              <p>
-                Acreditamos que cada manobra, cada queda e cada desafio superado
-                no skate reflete o espírito de resiliência que buscamos
-                cultivar. Nosso compromisso com a inclusão nos levou a atuar em
-                comunidades diversas, criando oportunidades para aqueles que
-                talvez nunca tivessem considerado o skate como uma
-                possibilidade.
-              </p>
+              <p>{bloco1.descricao}</p>
             </div>
+
             <div>
-              <TextBlockSection.Social disableTitle={true} theme />
+              {bloco1.botao && (
+                <ActiveLink href={bloco1.botao.url}>
+                  <Button text={bloco1.botao.titulo} theme="secundary" />
+                </ActiveLink>
+              )}
             </div>
-          </Col>
+          </div>
+        </BackgroundCarousel>
+      )}
 
-          <Col className="image-about" xs={12} lg={5}>
-            <div className="img"></div>
-          </Col>
-        </SectionAbout>
-        {/* values */}
-        <SectionValues>
-          <Col xs={12} className="main-text">
-            <div className="title">
-              <h1>Nossos valores! </h1>
-            </div>
-            <div className="text-wrapper">
-              <p>
-                Na família ASCOP, abraçamos e vivemos esses valores com
-                convicção!
-              </p>
-            </div>
-          </Col>
-
-          <Col className="cards my-5" xs={12}>
-            <Card
-              icon={BookOpen}
-              title="TRANSPARÊNCIA"
-              content="Acreditamos na honestidade e na clareza como a base de todas as nossas ações. Mantemos nossas intenções e processos transparentes para construir confiança e conexões genuínas."
-            />
-            <Card
-              icon={Users2}
-              title="INCLUSÃO"
-              content="Valorizamos a diversidade e acreditamos que todos têm um lugar em nossa comunidade. Promovemos um ambiente onde cada voz é ouvida e cada indivíduo é respeitado e acolhido."
-            />
-            <Card
-              icon={Laugh}
-              title="DIVERSÃO"
-              content="Buscamos a alegria e a diversão no que fazemos, mas também reconhecemos a responsabilidade que temos para com nossos membros e comunidades."
-            />
-          </Col>
-        </SectionValues>
-
-        {/* because */}
-        <SectionBecause>
-          <Col xs={12} lg={5} className="img-because">
-            <div className="img">
-              <p>1</p>
-            </div>
-          </Col>
-          <Col xs={12} lg={5} className="text-because">
-            <Col className="title mb-3">
-              <h1>Como estamos mudando a vida das crianças</h1>
+      <Container>
+        {bloco2 && (
+          <SectionAbout>
+            <Col className="text-about" xs={12} lg={5}>
+              <div className="title my-4">
+                <h1>{bloco2.titulo}</h1>
+              </div>
+              <Col xs={12} lg={10} className="text-wrapper ">
+                {formatDescriptionToParagraphs(bloco2.descricao)}
+              </Col>
+              <div>
+                <TextBlockSection.Social disableTitle={true} theme />
+              </div>
             </Col>
-            <Col className="text-wrapper ">
-              <p>
-                {' '}
-                Contribuir com a inclusão social utilizando o skate como
-                ferramenta de aprendizagem, oferecendo muito além de aulas
-                práticas de skate para crianças e jovens da comunidade
-              </p>
-              <br />
-              <p>
-                Trabalhar o desenvolvimento físico e emocional através de
-                eventos sociais e incentivo a prática de atividades físicas e o
-                convívio social saudável. Utilizando o brincar e o skate para
-                que as crianças e jovens desenvolvam suas potencialidades e
-                atuem como protagonistas para a transformação social de nossa
-                comunidade.
-              </p>
-            </Col>
-            <Col>
-              <Button text="FAÇA UMA DOAÇÃO" theme={false} />
-            </Col>
-          </Col>
-        </SectionBecause>
 
-        {/* find */}
-        <SectionFind>
-          <Col xs={12}>
-            <div className="title">
-              <h2>Onde Nos Encontrar?</h2>
-            </div>
+            <Col className="image-about" xs={12} lg={5}>
+              {imageAbout && bloco2.photo && (
+                <div className="img">
+                  <Image
+                    src={imageAbout}
+                    layout="fill"
+                    alt={
+                      bloco2.photo?.data.attributes.alternativeText ||
+                      'sem texto alternativo'
+                    }
+                    objectFit="cover"
+                  />
+                </div>
+              )}
+            </Col>
+          </SectionAbout>
+        )}
 
-            <div className="infos my-3">
-              <Col xs={12} lg={6} className="list">
-                <ul>
+        {bloco3 && (
+          <SectionValues>
+            <Col xs={12} className="main-text">
+              <div className="title ">
+                <h1 className="m-0">{bloco3.titulo} </h1>
+              </div>
+              <div className="text-wrapper">
+                <p>{bloco3.descricao}</p>
+              </div>
+            </Col>
+
+            <Col className="cards my-5" xs={12}>
+              {bloco3.cards?.length &&
+                bloco3.cards.map((card) => (
+                  <Card
+                    key={card.id}
+                    icon={
+                      card.id == 4 ? BookOpen : card.id == 5 ? Users2 : Laugh
+                    }
+                    title={card.titulo}
+                    content={card.descricao}
+                  />
+                ))}
+            </Col>
+          </SectionValues>
+        )}
+
+        {bloco4 && (
+          <SectionBecause>
+            <Col xs={12} lg={5} className="img-because">
+              {imageBecause && bloco4.photo && (
+                <div className="img">
+                  <Image
+                    src={imageBecause}
+                    layout="fill"
+                    objectFit="cover"
+                    alt={
+                      bloco4.photo?.data.attributes.alternativeText ||
+                      'sem texto alternativo'
+                    }
+                  />
+                </div>
+              )}
+            </Col>
+            <Col xs={12} lg={5} className="text-because">
+              <Col className="title mb-3">
+                <h1 className="m-0">{bloco4.titulo}</h1>
+              </Col>
+              <Col className="text-wrapper ">
+                {formatDescriptionToParagraphs(bloco4.descricao)}
+              </Col>
+              <Col>
+                {bloco4.botao && (
+                  <ActiveLink href={bloco4.botao.url}>
+                    <Button text={bloco4.botao.titulo} />
+                  </ActiveLink>
+                )}
+              </Col>
+            </Col>
+          </SectionBecause>
+        )}
+
+        {bloco5 && (
+          <SectionFind>
+            <Row xs={12}>
+              <Col lg={6} xs={12}>
+                <div className="title">
+                  <h2>{bloco5.titulo}</h2>
+                </div>
+
+                <Col className="text-wrapper d-none d-md-block" xs={9}>
+                  <p>{bloco5.descricao}</p>
+                </Col>
+              </Col>
+
+              <Col xs={12} lg={6} className="infos my-3 ">
+                <ul className="list">
                   <li>
                     <h4>Contato:</h4>
                     <a href="#">telefone: (00) 000000000</a>
@@ -189,25 +193,18 @@ const Home: NextPage = () => {
                   </li>
                 </ul>
               </Col>
-              <Col className="text-wrapper d-none d-md-block" xs={5}>
-                <p>
-                  Estamos ansiosos para recebê-lo em nossas atividades, onde
-                  crianças a partir de 5 anos podem participar de aulas
-                  emocionantes de skate. Junte-se a nós todos os sábados na
-                  pista da Costeira, das 16h às 18h. Nossa equipe de instrutores
-                  dedicados está pronta para proporcionar uma experiência
-                  divertida e educacional para os pequenos skatistas. Venha
-                  fazer parte da nossa comunidade e se divertir com segurança
-                  enquanto aprendemos e crescemos juntos!
-                </p>
-              </Col>
-            </div>
-          </Col>
+            </Row>
 
-          <div className="maps ">
-            <GoogleMaps />
-          </div>
-        </SectionFind>
+            <div className="maps">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3534.8151991782693!2d-48.525583372192!3d-27.630239581039874!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9527399b4e636325%3A0x57046c191a8812e6!2sASCOP%20-%20Associa%C3%A7%C3%A3o%20dos%20Skatistas%20da%20Costeira%20do%20Pirajuba%C3%A9.!5e0!3m2!1spt-BR!2sbr!4v1694041863851!5m2!1spt-BR!2sbr"
+                width="100%"
+                height="100%"
+                loading="lazy"
+              ></iframe>
+            </div>
+          </SectionFind>
+        )}
       </Container>
     </Layout>
   );
@@ -215,14 +212,31 @@ const Home: NextPage = () => {
 
 export default Home;
 
-/* export const getServerSideProps: GetServerSideProps = async () => {
-  const response = await fetch('/api/sua-api'); //
-  const data = await response.json();
+export const getServerSideProps: GetServerSideProps<HomePros> = async () => {
+  try {
+    if (!BASEURL) {
+      throw new Error(
+        'A api não está definida corretamente nas variaveis de ambiente.',
+      );
+    }
 
-  return {
-    props: {
-      data,
-    },
-  };
+    const response = await fetch(
+      `${BASEURL}/api/home/?populate[background][populate]=*&populate[bloco1][populate]=*&populate[bloco2][populate]=*&populate[bloco3][populate]=*&populate[bloco4][populate]=*&populate[bloco5][populate]=*`,
+    );
+
+    const homeData: IHome = await response.json();
+
+    return {
+      props: {
+        homeData,
+      },
+    };
+  } catch (error) {
+    console.error('Erro ao buscar dados da API:', error);
+    return {
+      props: {
+        homeData: null,
+      },
+    };
+  }
 };
- */

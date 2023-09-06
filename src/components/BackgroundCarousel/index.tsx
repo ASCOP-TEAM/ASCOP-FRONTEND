@@ -24,7 +24,7 @@ export const BackgroundCarousel: React.FC<BackgroundCarouselProps> = ({
     <Container>
       <Swiper
         spaceBetween={1}
-        autoplay={{ delay: 5000, disableOnInteraction: true }}
+        autoplay={{ delay: 6000, disableOnInteraction: true }}
         navigation={false}
         loop={false}
       >

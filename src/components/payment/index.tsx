@@ -41,7 +41,7 @@ const Payment: React.FC<PaymentProps> = ({
   const router = useRouter();
 
   const fillItemsAndPayer = (
-    formData: IDadosCliente,
+    formData: IDadosCliente | null,
   ): { items: Item[]; payer: Payer } => {
     const itemsFromCart = context?.cartItems;
 
@@ -100,74 +100,68 @@ const Payment: React.FC<PaymentProps> = ({
   };
 
   const handleWhatsAppPayment = async () => {
-    if (formData) {
-      const { items, payer } = fillItemsAndPayer(formData);
+    const { items, payer } = fillItemsAndPayer(formData);
 
-      if (items.length && payer) {
-        try {
-          setIsLoading(true);
-          const response = await fetch('/api/send/orden', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ items, payer }),
-          });
+    if (items.length && payer) {
+      try {
+        setIsLoading(true);
+        const response = await fetch('/api/send/orden', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ items, payer }),
+        });
 
-          if (!response.ok) {
-            setIsLoading(false);
-            setAlertType('error');
-            setAlertMessage(
-              'Erro ao tentar gerar sua orden de serviço, tente novamnete em alguns minutos!',
-            );
-            setShowAlert(true);
-            return;
-          }
-
-          const itemsMessage = items
-            .map((item) => {
-              return `${item.quantity} x ${item.title}: R$ ${item.unit_price}`;
-            })
-            .join('\n');
-
-          let message = `Olá, gostaria de fazer um pedido:\n\n${itemsMessage}\n\nDados do Cliente:\n`;
-
-          message += `Nome: ${payer.name} ${payer.surname}\n`;
-          message += `E-mail: ${payer.email}\n`;
-          message += `Telefone: ${payer.phone.area_code} ${payer.phone.number}\n`;
-
-          message += `Endereço de Entrega:\n`;
-          message += `Rua: ${payer.address.street_name}\n`;
-          message += `Número: ${payer.address.street_number}\n`;
-          message += `CEP: ${payer.address.zip_code}\n`;
-
-          const encodedMessage = encodeURIComponent(message);
-
-          const whatsappURL = `https://api.whatsapp.com/send?phone=5511997217411&text=${encodedMessage}`;
-
+        if (!response.ok) {
           setIsLoading(false);
-
-          router.push(whatsappURL);
-        } catch (error) {
-          let errorMessage = 'Erro ao processar o pedido';
-
-          if (error instanceof Error) {
-            errorMessage = `Erro: ${error.message}`;
-          }
-
           setAlertType('error');
-          setAlertMessage(errorMessage);
+          setAlertMessage(
+            'Erro ao tentar gerar sua orden de serviço, tente novamnete em alguns minutos!',
+          );
           setShowAlert(true);
-          setIsLoading(false);
-          console.error(error);
-        } finally {
-          setIsLoading(false);
+          return;
         }
+
+        const itemsMessage = items
+          .map((item) => {
+            return `${item.quantity} x ${item.title}: R$ ${item.unit_price}`;
+          })
+          .join('\n');
+
+        let message = `Olá, gostaria de fazer um pedido:\n\n${itemsMessage}\n\nDados do Cliente:\n`;
+
+        message += `Nome: ${payer.name} ${payer.surname}\n`;
+        message += `E-mail: ${payer.email}\n`;
+        message += `Telefone: ${payer.phone.area_code} ${payer.phone.number}\n`;
+
+        message += `Endereço de Entrega:\n`;
+        message += `Rua: ${payer.address.street_name}\n`;
+        message += `Número: ${payer.address.street_number}\n`;
+        message += `CEP: ${payer.address.zip_code}\n`;
+
+        const encodedMessage = encodeURIComponent(message);
+
+        const whatsappURL = `https://api.whatsapp.com/send?phone=5511997217411&text=${encodedMessage}`;
+
+        setIsLoading(false);
+
+        router.push(whatsappURL);
+      } catch (error) {
+        let errorMessage = 'Erro ao processar o pedido';
+
+        if (error instanceof Error) {
+          errorMessage = `Erro: ${error.message}`;
+        }
+
+        setAlertType('error');
+        setAlertMessage(errorMessage);
+        setShowAlert(true);
+        setIsLoading(false);
+        console.error(error);
+      } finally {
+        setIsLoading(false);
       }
-    } else {
-      setAlertType('error');
-      setAlertMessage('Dados de entrega indisponível ou Incorretos');
-      setShowAlert(true);
     }
   };
 

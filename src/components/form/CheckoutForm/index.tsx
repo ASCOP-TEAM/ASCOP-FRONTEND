@@ -313,7 +313,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSubmit }) => {
               className="w-100 d-flex gap-3 justify-content-center align-items-center"
               type="button"
               text="EDITAR DADOS"
-              theme={false}
+              theme={'primary'}
               onClick={handleEditButtonClick}
             />
           )}
@@ -324,7 +324,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSubmit }) => {
               type="submit"
               text="CONFIRMAR DADOS"
               onClick={handleConfirmButtonClick}
-              theme={false}
+              theme={'secundary'}
             />
           )}
         </div>

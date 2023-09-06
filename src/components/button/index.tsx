@@ -13,21 +13,23 @@ const lightTheme = {
 };
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  theme: boolean;
+  theme?: 'primary' | 'secundary';
   text: string;
   isLoading?: boolean;
   icon?: React.ElementType;
 }
 
 export const Button: React.FC<ButtonProps> = ({
-  theme,
+  theme = 'primary',
   text,
   isLoading,
   icon: Icon,
   ...buttonProps
 }) => {
+  const selectedTheme = theme === 'primary' ? darkTheme : lightTheme;
+
   return (
-    <Container btnTheme={theme ? lightTheme : darkTheme}>
+    <Container btnTheme={selectedTheme}>
       <button {...buttonProps}>
         {isLoading ? (
           <Spinner
