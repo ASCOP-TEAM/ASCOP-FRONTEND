@@ -1,37 +1,13 @@
 import styled from 'styled-components';
 
-export const SectionMain = styled.section`
-  display: flex;
-  flex-direction: column;
-  text-align: left;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to bottom, rgb(0 0 0 / 15%), black),
-      url(/cadastrosbg.jpeg);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    background-attachment: fixed;
-    z-index: -1;
-
-    @media (max-width: 768px) {
-      height: 200vh;
-    }
-  }
-`;
-
 export const SectionContent = styled.section`
   display: flex;
   flex-direction: row;
   justify-content: center;
   padding: 1rem 0;
+
   .box {
+    z-index: 1;
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
@@ -70,4 +46,23 @@ export const SectionContent = styled.section`
   @media (max-width: 768px) {
     flex-direction: column;
   }
+
+  .gradient-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgb(0 0 0 / 0%), rgb(0 0 0 / 52%));
+    z-index: 2;
+  }
+`;
+
+export const ImageContainer = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
 `;
