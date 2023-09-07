@@ -272,7 +272,6 @@ const Payment: React.FC<PaymentProps> = ({
                   text="CHECKOUT NO WHATSAPP"
                   icon={BiLogoWhatsapp}
                   isLoading={isLoading}
-                  theme={false}
                   onClick={handleWhatsAppPayment}
                   disabled={disableButton}
                 />

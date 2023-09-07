@@ -283,7 +283,6 @@ const Producto: NextPage = () => {
                               <Button
                                 className="mb-3 w-100"
                                 text="COMPRAR"
-                                theme={false}
                                 onClick={handleRedirect}
                                 disabled={isError}
                               />
@@ -292,7 +291,6 @@ const Producto: NextPage = () => {
                               <Button
                                 className="d-flex w-100 justify-content-center align-items-center gap-2 pb-2"
                                 text="ADICIONAR "
-                                theme={false}
                                 onClick={handleAddToCart}
                                 disabled={isError}
                                 icon={ShoppingCart}

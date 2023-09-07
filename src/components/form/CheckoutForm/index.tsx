@@ -324,7 +324,6 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSubmit }) => {
               type="submit"
               text="CONFIRMAR DADOS"
               onClick={handleConfirmButtonClick}
-              theme={'secundary'}
             />
           )}
         </div>

@@ -195,7 +195,6 @@ const Carrinho: NextPage = () => {
                         <Button
                           className="w-100"
                           text="COMPRAR"
-                          theme={false}
                           onClick={handleCheckout}
                           disabled={isError}
                         />
@@ -239,7 +238,6 @@ const Carrinho: NextPage = () => {
                     <Button
                       className="w-100"
                       text="COMPRAR"
-                      theme={false}
                       onClick={handleCheckout}
                       disabled={isError}
                     />
