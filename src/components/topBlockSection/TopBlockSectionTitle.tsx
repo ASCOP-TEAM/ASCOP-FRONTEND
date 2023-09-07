@@ -5,5 +5,9 @@ type TopBlockSectionTitleProps = {
 };
 
 export function TopBlockSectionTitle({ title }: TopBlockSectionTitleProps) {
-  return <ContainerTitle className=" mb-3">{title}</ContainerTitle>;
+  return (
+    <ContainerTitle lg={5} xs={12}>
+      <h2>{title}</h2>
+    </ContainerTitle>
+  );
 }

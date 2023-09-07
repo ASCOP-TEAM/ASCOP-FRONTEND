@@ -35,9 +35,8 @@ export const SectionContent = styled.section`
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
-    justify-content: space-evenly;
-    padding: 2rem;
-    /* background: red; */
+    justify-content: center;
+    padding: 0 3rem;
     min-height: 560px;
     height: 100%;
 
