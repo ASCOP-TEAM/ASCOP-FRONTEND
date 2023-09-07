@@ -15,4 +15,5 @@ export {
   type ICadastros,
   type IDoacao,
   type ITransparencia,
+  type IContato,
 } from './pages';

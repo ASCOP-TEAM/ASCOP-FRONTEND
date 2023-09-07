@@ -99,6 +99,7 @@ export const SectionContent = styled.section`
       overflow: hidden;
       min-width: 581px;
       width: 100%;
+      border-radius: 12px;
 
       @media (min-width: 1024px) {
         min-width: 410px;
