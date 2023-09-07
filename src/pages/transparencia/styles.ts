@@ -9,9 +9,6 @@ export const SectionContent = styled.section`
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
-    /*   justify-content: space-evenly; */
-    padding: 2rem;
-    /* background: red; */
     min-height: 560px;
     height: 100%;
 

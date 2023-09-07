@@ -1,55 +1,59 @@
 import React from 'react';
 import { Col, Container, Pagination, Row } from 'react-bootstrap';
-import { NextPage } from 'next';
+import { GetServerSideProps, NextPage } from 'next';
 
 import Layout from '@layout';
 import { SectionContent } from './styles';
 import { CardReport, TopBlockSection } from '@components';
 import { BASEURL, HttpCall } from '@utils';
-import { Relatorios } from '@interfaces';
+import { Relatorios, ITransparencia } from '@interfaces';
 
-const Transparencia: NextPage = () => {
-  const [currentPage, setCurrentPage] = React.useState(1); // Estado para controlar a página atual
-  const itemsPerPage = 25; // Número de itens por página
+interface TransparenciaProps {
+  trasparenciaData: ITransparencia | null;
+}
+
+const Transparencia: NextPage<TransparenciaProps> = ({ trasparenciaData }) => {
+  const [currentPage, setCurrentPage] = React.useState(1);
 
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
 
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
+  const { bloco1, topblocksection } = trasparenciaData?.data.attributes || {};
 
-  console.log('valores', startIndex, endIndex, currentPage);
+  const backgroudBlockSection =
+    topblocksection?.background?.data.attributes.url;
 
   return (
     <>
       <Layout bgColor={'white'} txColor="black">
-        <TopBlockSection.Root backgroud="./backgroud.jpg">
-          <TopBlockSection.Title title="Transparência Financeira" />
-          <TopBlockSection.Paragrap paragrap="Bem-vindo à nossa seção de Transparência Financeira. Aqui, compartilhamos de forma aberta e clara todas as informações financeiras relacionadas às nossas atividades. Acreditamos que a transparência é a base de uma relação confiável com nossos apoiadores, e estamos empenhados em manter essa confiança por meio da divulgação completa de nossos dados financeiros." />
-        </TopBlockSection.Root>
+        {topblocksection && backgroudBlockSection && (
+          <TopBlockSection.Root
+            imageUrl={backgroudBlockSection || './backgroud.jpg'}
+          >
+            <TopBlockSection.Title title={topblocksection.titulo} />
+            <TopBlockSection.Paragrap paragrap={topblocksection.descricao} />
+          </TopBlockSection.Root>
+        )}
 
         <Container>
           <SectionContent>
             <Row>
               <Col xs={12} className="box light">
-                <div className="my-4">
+                {bloco1 && (
                   <div className="my-2">
-                    <h2>Documentos Financeiros Disponíveis:</h2>
+                    <div className="my-2">
+                      <h2>{bloco1.titulo}</h2>
+                    </div>
+                    <Col lg={6} xs={12}>
+                      <p>{bloco1.descricao}</p>
+                    </Col>
                   </div>
-                  <div>
-                    <p>
-                      Agradecemos antecipadamente por sua generosidade e apoio.
-                      Juntos, podemos construir um futuro mais brilhante para as
-                      crianças que atendemos. Skate é mais do que um esporte é
-                      uma ferramenta para a transformação social.
-                    </p>
-                  </div>
-                </div>
+                )}
 
                 <Row>
                   <HttpCall<Relatorios>
-                    url={`${BASEURL}/relatorios?pagination[page]=${currentPage}`}
+                    url={`${BASEURL}/api/relatorios?pagination[page]=${currentPage}`}
                   >
                     {(response, error: Error | null) => (
                       <>
@@ -120,3 +124,34 @@ const Transparencia: NextPage = () => {
 };
 
 export default Transparencia;
+
+export const getServerSideProps: GetServerSideProps<
+  TransparenciaProps
+> = async () => {
+  try {
+    if (!BASEURL) {
+      throw new Error(
+        'A api não está definida corretamente nas variaveis de ambiente. - transparencia',
+      );
+    }
+
+    const response = await fetch(
+      `${BASEURL}/api/transparencia/?populate[topblocksection][populate]=*&populate[bloco1][populate]=*`,
+    );
+
+    const trasparenciaData = await response.json();
+
+    return {
+      props: {
+        trasparenciaData,
+      },
+    };
+  } catch (error) {
+    console.error('Erro ao buscar dados da API:', error);
+    return {
+      props: {
+        trasparenciaData: null,
+      },
+    };
+  }
+};
