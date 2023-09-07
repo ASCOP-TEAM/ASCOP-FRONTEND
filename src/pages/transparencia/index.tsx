@@ -4,7 +4,7 @@ import { GetServerSideProps, NextPage } from 'next';
 
 import Layout from '@layout';
 import { SectionContent } from './styles';
-import { CardReport, TopBlockSection } from '@components';
+import { CardReport, ErrorDataNotLoaded, TopBlockSection } from '@components';
 import { BASEURL, HttpCall } from '@utils';
 import { Relatorios, ITransparencia } from '@interfaces';
 import { useRouter } from 'next/router';
@@ -66,7 +66,7 @@ const Transparencia: NextPage<TransparenciaProps> = ({ trasparenciaData }) => {
                   >
                     {(response, error: Error | null) => (
                       <>
-                        {response && response.data && (
+                        {response && response.data ? (
                           <>
                             {response.data.map((dataValues) => {
                               return (
@@ -115,9 +115,32 @@ const Transparencia: NextPage<TransparenciaProps> = ({ trasparenciaData }) => {
                               </Pagination>
                             </div>
                           </>
+                        ) : (
+                          <ErrorDataNotLoaded.Root>
+                            <ErrorDataNotLoaded.Title>
+                              Dados não Carregados
+                            </ErrorDataNotLoaded.Title>
+                            <ErrorDataNotLoaded.Content>
+                              Parece que não conseguimos carregar os dados
+                              necessários para exibir esta página. Isso pode ser
+                              devido a um problema temporário. Por favor, tente
+                              novamente mais tarde.
+                            </ErrorDataNotLoaded.Content>
+                          </ErrorDataNotLoaded.Root>
                         )}
+
                         {error && (
-                          <p>Error fetching relatorios: {error.message}</p>
+                          <ErrorDataNotLoaded.Root>
+                            <ErrorDataNotLoaded.Title>
+                              Dados não Carregados
+                            </ErrorDataNotLoaded.Title>
+                            <ErrorDataNotLoaded.Content>
+                              Parece que não conseguimos carregar os dados
+                              necessários para exibir esta página. Isso pode ser
+                              devido a um problema temporário. Por favor, tente
+                              novamente mais tarde.
+                            </ErrorDataNotLoaded.Content>
+                          </ErrorDataNotLoaded.Root>
                         )}
                       </>
                     )}

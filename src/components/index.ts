@@ -22,3 +22,4 @@ export { CheckoutForm, ContactForm } from './form';
 export { default as Payment } from './payment';
 export { List } from './List';
 export { BackgroundCarousel } from './BackgroundCarousel';
+export { ErrorDataNotLoaded } from './errorDataNotLoaded';

@@ -13,6 +13,8 @@ const ProductFilter: React.FC<RageValueProps> = ({
   onFilterChange,
 }) => {
   const [upperValue, setUpperValue] = React.useState<number>(100);
+  const [maxPrice, setMaxPrice] = React.useState<number>(100);
+  const [minPrice, setMinPrice] = React.useState<number>(0);
 
   const handleUpperChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event) {
@@ -22,12 +24,16 @@ const ProductFilter: React.FC<RageValueProps> = ({
     }
   };
 
-  const minPrice = Math.min(
-    ...produtos.data?.map((produto) => produto.attributes.price),
-  );
-  const maxPrice = Math.max(
-    ...produtos.data?.map((produto) => produto.attributes.price),
-  );
+  React.useEffect(() => {
+    if (produtos && produtos.data) {
+      const prices = produtos.data.map((produto) => produto.attributes.price);
+      const minPrice = Math.min(...prices);
+      const maxPrice = Math.max(...prices);
+
+      setMinPrice(minPrice);
+      setMaxPrice(maxPrice);
+    }
+  }, [produtos]);
 
   return (
     <>

@@ -48,6 +48,10 @@ const ContactForm: React.FC = () => {
         return;
       }
 
+      setAlertType('success');
+      setAlertMessage('Sua mensagem foi enviada com sucesso!');
+      setShowAlert(true);
+
       setIsLoading(false);
       reset();
     } catch (error) {
@@ -126,11 +130,11 @@ const ContactForm: React.FC = () => {
             <Form.Control
               type="tel"
               {...register('phone', {
-                required: 'Phone number is required',
+                required: 'Telefone é Necessário!',
                 pattern: {
                   value: /^\(?\d{2}\)?\s?9\d{4}-?\d{4}$/,
                   message:
-                    'Invalid phone number, exemple: "(11) 999999999", "11999999999" ou "11 99999-9999"',
+                    'Telefone inválido, siga o exemplo: "(XX) 999999999", "XX999999999" ou "XX 99999-9999"',
                 },
               })}
               placeholder="Digite seu Telefone"

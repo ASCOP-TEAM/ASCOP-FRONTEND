@@ -11,6 +11,7 @@ import {
   TopBlockSection,
   CartShop,
   List,
+  ErrorDataNotLoaded,
 } from '@components';
 
 import Layout from '@layout';
@@ -57,6 +58,10 @@ const Loja: NextPage<LojaProps> = ({ produtos, categorias, lojaData }) => {
     upperValue: number,
     categoryId: number,
   ) {
+    if (!products || !products?.data) {
+      return null;
+    }
+
     return products.data.filter((produto) => {
       const isCategoryMatch =
         categoryId === 0 ||
@@ -74,12 +79,13 @@ const Loja: NextPage<LojaProps> = ({ produtos, categorias, lojaData }) => {
 
   const handleFilterChange = (upperValue: number) => {
     setUpperValue(upperValue);
+
     const filteredProducts = filterProductsByPriceAndCategory(
       produtos,
       upperValue,
       category,
     );
-    setFilteredProducts(filteredProducts);
+    setFilteredProducts(filteredProducts || []);
   };
 
   function filterProductByCategory(categoryId: number) {
@@ -89,7 +95,7 @@ const Loja: NextPage<LojaProps> = ({ produtos, categorias, lojaData }) => {
       upperValue,
       categoryId,
     );
-    setFilteredProducts(filteredByCategoryAndPrice);
+    setFilteredProducts(filteredByCategoryAndPrice || []);
   }
 
   const topblocksection = lojaData?.data.attributes.topblocksection;
@@ -119,74 +125,107 @@ const Loja: NextPage<LojaProps> = ({ produtos, categorias, lojaData }) => {
         <Container>
           <section>
             <div className="categorias">
-              {produtos && categorias && (
-                <Row className="align-items-center justify-content-between">
-                  <BarCategorys
-                    {...{ categorias }}
-                    setCatgory={filterProductByCategory}
-                  />
-                  <Row className="col-auto align-items-center">
-                    <Col xs={'auto'} className="d-none d-lg-block">
-                      <ProductFilter
-                        {...{ produtos }}
-                        onFilterChange={handleFilterChange}
-                      />
-                    </Col>
-
-                    <CartShop />
-                  </Row>
-                  <Col xs={12} className="d-lg-none">
+              <Row className="align-items-center justify-content-between">
+                <BarCategorys
+                  {...{ categorias }}
+                  setCatgory={filterProductByCategory}
+                />
+                <Row className="col-auto align-items-center">
+                  <Col xs={'auto'} className="d-none d-lg-block">
                     <ProductFilter
                       {...{ produtos }}
                       onFilterChange={handleFilterChange}
                     />
                   </Col>
+
+                  <CartShop />
                 </Row>
-              )}
+                <Col xs={12} className="d-lg-none">
+                  <ProductFilter
+                    {...{ produtos }}
+                    onFilterChange={handleFilterChange}
+                  />
+                </Col>
+              </Row>
             </div>
 
-            {FilteredProducts && FilteredProducts.length > 0 && (
-              <div className="main-card py-4">
-                {FilteredProducts.some((item) => item.attributes.highlight) && (
-                  <div className="main-card">
-                    <Col xs={'auto'}>
-                      <h2> Produtos em Destaque</h2>
-                    </Col>
+            {FilteredProducts !== null &&
+              (FilteredProducts.length > 0 ? (
+                <div className="main-card py-4">
+                  {FilteredProducts.some(
+                    (item) => item.attributes.highlight,
+                  ) && (
+                    <div className="main-card">
+                      <Col xs={'auto'}>
+                        <h2> Produtos em Destaque</h2>
+                      </Col>
 
-                    <List>
-                      {FilteredProducts.filter(
-                        (item) => item.attributes.highlight,
-                      ).map((produto) => (
-                        <SwiperSlide key={produto.id}>
-                          <CardLoja
-                            key={produto.id}
-                            produto={produto}
-                            onAddToCart={() => handleAddToCart(produto)}
-                          />
-                        </SwiperSlide>
-                      ))}
-                    </List>
-                  </div>
-                )}
+                      <List>
+                        {FilteredProducts.filter(
+                          (item) => item.attributes.highlight,
+                        ).map((produto) => (
+                          <SwiperSlide key={produto.id}>
+                            <CardLoja
+                              key={produto.id}
+                              produto={produto}
+                              onAddToCart={() => handleAddToCart(produto)}
+                            />
+                          </SwiperSlide>
+                        ))}
+                      </List>
+                    </div>
+                  )}
 
-                <Col xs={'auto'}>
-                  <h2> Todos os produtos</h2>
-                </Col>
-                <List>
-                  {FilteredProducts.map((produto) => (
-                    <SwiperSlide key={produto.id}>
-                      <CardLoja
-                        key={produto.id}
-                        produto={produto}
-                        onAddToCart={() => handleAddToCart(produto)}
-                      />
-                    </SwiperSlide>
-                  ))}
-                </List>
-              </div>
+                  <Col xs={'auto'}>
+                    <h2> Todos os produtos</h2>
+                  </Col>
+                  <List>
+                    {FilteredProducts.map((produto) => (
+                      <SwiperSlide key={produto.id}>
+                        <CardLoja
+                          key={produto.id}
+                          produto={produto}
+                          onAddToCart={() => handleAddToCart(produto)}
+                        />
+                      </SwiperSlide>
+                    ))}
+                  </List>
+                </div>
+              ) : (
+                <ErrorDataNotLoaded.Root>
+                  <ErrorDataNotLoaded.Title>
+                    <h2 className="m-0">Produto não encontrado</h2>
+                  </ErrorDataNotLoaded.Title>
+                  <ErrorDataNotLoaded.Content>
+                    <p>
+                      Não encontramos produtos na categoria{' '}
+                      <strong>
+                        {categorias.data &&
+                          categorias.data.map(
+                            (cat) => cat.id === category && cat.attributes.name,
+                          )}{' '}
+                      </strong>
+                      com valores abaixo de
+                      <strong> R${upperValue}</strong>. Verifique se há produtos
+                      disponíveis para essa categoria com um valor superiore a
+                      R${upperValue}.
+                    </p>
+                  </ErrorDataNotLoaded.Content>
+                </ErrorDataNotLoaded.Root>
+              ))}
+
+            {!FilteredProducts && (
+              <ErrorDataNotLoaded.Root>
+                <ErrorDataNotLoaded.Title>
+                  Dados não Carregados
+                </ErrorDataNotLoaded.Title>
+                <ErrorDataNotLoaded.Content>
+                  Parece que não conseguimos carregar os dados necessários para
+                  exibir esta página. Isso pode ser devido a um problema
+                  temporário. Por favor, tente novamente mais tarde.
+                </ErrorDataNotLoaded.Content>
+              </ErrorDataNotLoaded.Root>
             )}
-
-            {!FilteredProducts && <p>dados não carregados</p>}
           </section>
         </Container>
       </Layout>
@@ -229,7 +268,7 @@ export const getServerSideProps: GetServerSideProps<LojaProps> = async () => {
     return {
       props: {
         produtos: null,
-        categorias: null,
+        categorias: [],
         lojaData: null,
       },
     };
