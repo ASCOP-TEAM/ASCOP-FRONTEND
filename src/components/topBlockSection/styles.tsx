@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const ContainerRoot = styled.div<{ backgroud: string }>`
+export const ContainerRoot = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -14,27 +14,19 @@ export const ContainerRoot = styled.div<{ backgroud: string }>`
     padding-right: 1rem;
   }
 
-  &::before {
-    content: '';
+  .gradient-overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(
-        to bottom,
-        rgba(255, 255, 255, 0),
-        rgba(0, 0, 0, 0.762)
-      ),
-      url(${(props) => props.backgroud});
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    z-index: -1;
+    background: linear-gradient(to bottom, rgb(0 0 0 / 0%), rgb(0 0 0 / 52%));
+    z-index: 2;
   }
 `;
 
 export const LabelRoot = styled.div`
+  z-index: 2;
   height: 100%;
   display: flex;
   flex-direction: column;

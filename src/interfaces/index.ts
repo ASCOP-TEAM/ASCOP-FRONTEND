@@ -9,4 +9,4 @@ export type { Meta } from './meta';
 export type { IDadosCliente } from './cliente';
 export type { Item } from './Items';
 export type { Payer } from './payer';
-export { type IHome } from './pages';
+export { type IHome, type ILoja } from './pages';

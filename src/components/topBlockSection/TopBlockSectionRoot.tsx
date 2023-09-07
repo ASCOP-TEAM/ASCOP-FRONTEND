@@ -1,16 +1,24 @@
+import Image from 'next/image';
 import { ContainerRoot, LabelRoot } from './styles';
 
 type TopBlockSectionRootProps = {
-  backgroud: string;
+  imageUrl: string;
   children: React.ReactNode;
 };
 
 export function TopBlockSectionRoot({
-  backgroud,
+  imageUrl,
   children,
 }: TopBlockSectionRootProps) {
   return (
-    <ContainerRoot backgroud={backgroud} className="my-3">
+    <ContainerRoot className="my-3">
+      <Image
+        src={imageUrl}
+        alt="Imagem de fundo"
+        layout="fill"
+        objectFit="cover"
+      />
+      <div className="gradient-overlay"></div>
       <LabelRoot>{children}</LabelRoot>
     </ContainerRoot>
   );
