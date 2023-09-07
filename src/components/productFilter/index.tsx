@@ -23,29 +23,27 @@ const ProductFilter: React.FC<RageValueProps> = ({
   };
 
   const minPrice = Math.min(
-    ...produtos.data.map((produto) => produto.attributes.price),
+    ...produtos.data?.map((produto) => produto.attributes.price),
   );
   const maxPrice = Math.max(
-    ...produtos.data.map((produto) => produto.attributes.price),
+    ...produtos.data?.map((produto) => produto.attributes.price),
   );
-
-  console.log(produtos);
 
   return (
     <>
       <Container>
         <div>
-          <h5>R${minPrice} </h5>
+          <h5>R${minPrice || 0} </h5>
         </div>
         <strong>
           <h5>-</h5>
         </strong>
         <div>
-          <h5>R${upperValue}</h5>
+          <h5>R${upperValue || 0}</h5>
         </div>
         <Form.Range
-          min={minPrice}
-          max={maxPrice}
+          min={minPrice || 0}
+          max={maxPrice || 100}
           value={upperValue}
           onChange={handleUpperChange}
         />

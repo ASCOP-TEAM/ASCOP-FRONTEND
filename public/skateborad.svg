@@ -1,0 +1,27 @@
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 721 505" style="enable-background:new 0 0 721 505;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:none;stroke:#FFFFFF;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;}
+	.st1{fill:none;}
+	.st2{fill:none;stroke:#FFFFFF;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;}
+	.st3{fill:#00C9FF;stroke:#FF3333;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+</style>
+<path id="ramp" class="st0" d="M719,503V220.5h-42.8v57.9l-15,56l-29,50.2l-41,41l-50.2,29l-56,15h-58H294h-58l-56-15l-50.2-29
+	l-41-41l-29-50.2l-15-56v-57.9H2V503H719z"/>
+<path id="motionpath" class="st1" d="M673.5,133.5v91.1v37c0,11.2-2.4,29.2-5.3,40l-4.3,16.2c-2.9,10.8-9.8,27.6-15.5,37.3
+	l-8.4,14.5c-5.6,9.7-16.7,24.1-24.6,32l-11.9,11.9c-7.9,7.9-22.3,19-32,24.6l-14.5,8.4c-9.7,5.6-26.5,12.6-37.3,15.5l-16.2,4.3
+	c-10.8,2.9-28.8,5.3-40,5.3h-16.8c-11.2,0-29.5,0-40.7,0h-91.1c-11.2,0-29.5,0-40.7,0h-16.8c-11.2,0-29.2-2.4-40-5.3l-16.2-4.3
+	c-10.8-2.9-27.6-9.8-37.3-15.5l-14.5-8.4c-9.7-5.6-24.1-16.7-32-24.6l-11.9-11.9c-7.9-7.9-19-22.3-24.6-32l-8.4-14.5
+	c-5.6-9.7-12.6-26.5-15.5-37.3l-4.3-16.2c-2.9-10.8-5.3-28.8-5.3-40v-37v-91.1"/>
+<g id="board">
+	<g transform="matrix( 1, 0, 0, 1, 300,437.6) ">
+		<g transform="matrix( 1, 0, 0, 1, 0,0) ">
+			<g>
+				<path id="board_0_Layer0_0_1_STROKES" class="st2" d="M-267.8-430.4c-1.8-2.4-4.5-4-8-4.8h-47.1c-3.5,0.9-6.2,2.5-8.1,4.8"/>
+			</g>
+		</g>
+	</g>
+	<circle class="st3" cx="-21" cy="-2.8" r="2.8"/>
+	<circle class="st3" cx="22.2" cy="-2.8" r="2.8"/>
+</g>
+</svg>

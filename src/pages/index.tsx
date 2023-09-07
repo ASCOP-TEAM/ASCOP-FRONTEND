@@ -1,3 +1,4 @@
+import React from 'react';
 import type { GetServerSideProps, NextPage } from 'next';
 import Layout from '@layout';
 import {
@@ -18,16 +19,13 @@ import { BookOpen, Users2, Laugh } from 'lucide-react';
 import { BASEURL, formatDescriptionToParagraphs } from '@utils';
 import { IHome } from '@interfaces';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 interface HomePros {
   homeData: IHome | null;
 }
 
 const Home: NextPage<HomePros> = ({ homeData }) => {
-  if (!homeData) {
-    console.error('erro ao carregar dados da pagina');
-  }
-
   const { bloco1, bloco2, bloco3, bloco4, bloco5 } =
     homeData?.data.attributes || {};
 
@@ -38,6 +36,14 @@ const Home: NextPage<HomePros> = ({ homeData }) => {
   const imageAbout = bloco2?.photo?.data.attributes.url;
 
   const imageBecause = bloco4?.photo?.data.attributes.url;
+
+  const router = useRouter();
+
+  React.useEffect(() => {
+    if (!homeData) {
+      router.push('/505');
+    }
+  }, [homeData, router]);
 
   return (
     <Layout bgColor="black" txColor="white">
@@ -232,7 +238,7 @@ export const getServerSideProps: GetServerSideProps<HomePros> = async () => {
       },
     };
   } catch (error) {
-    console.error('Erro ao buscar dados da API:', error);
+    console.error('Erro ao buscar dados da API - page home:', error);
     return {
       props: {
         homeData: null,

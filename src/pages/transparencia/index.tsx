@@ -7,12 +7,21 @@ import { SectionContent } from './styles';
 import { CardReport, TopBlockSection } from '@components';
 import { BASEURL, HttpCall } from '@utils';
 import { Relatorios, ITransparencia } from '@interfaces';
+import { useRouter } from 'next/router';
 
 interface TransparenciaProps {
   trasparenciaData: ITransparencia | null;
 }
 
 const Transparencia: NextPage<TransparenciaProps> = ({ trasparenciaData }) => {
+  const router = useRouter();
+
+  React.useEffect(() => {
+    if (!trasparenciaData) {
+      router.push('/505');
+    }
+  }, [trasparenciaData, router]);
+
   const [currentPage, setCurrentPage] = React.useState(1);
 
   const handlePageChange = (newPage: number) => {
@@ -147,7 +156,7 @@ export const getServerSideProps: GetServerSideProps<
       },
     };
   } catch (error) {
-    console.error('Erro ao buscar dados da API:', error);
+    console.error('Erro ao buscar dados da API - page Trasparencia:', error);
     return {
       props: {
         trasparenciaData: null,

@@ -1,3 +1,4 @@
+import React from 'react';
 import Layout from '@layout';
 import { GetServerSideProps, NextPage } from 'next';
 import { Col, Container } from 'react-bootstrap';
@@ -6,18 +7,25 @@ import { ActiveLink, Button } from '@components';
 import { BASEURL } from '@utils';
 import { ICadastros } from '@interfaces';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 interface CadastrosProps {
   cadastrosData: ICadastros | null;
 }
 
 const Cadastros: NextPage<CadastrosProps> = ({ cadastrosData }) => {
-  console.log('data >>', cadastrosData);
+  const router = useRouter();
+
+  React.useEffect(() => {
+    if (!cadastrosData) {
+      router.push('/505');
+    }
+  }, [cadastrosData, router]);
 
   const { background, bloco1, bloco2 } = cadastrosData?.data.attributes || {};
 
   return (
     <>
-      <Layout bgColor={'white'} txColor="black">
+      <Layout bgColor={'white'} txColor="black" title="Cadastros">
         <Container>
           <SectionContent>
             {bloco1 && (
@@ -98,7 +106,7 @@ export const getServerSideProps: GetServerSideProps<
       },
     };
   } catch (error) {
-    console.error('Erro ao buscar dados da API:', error);
+    console.error('Erro ao buscar dados da API - page cadastros:', error);
     return {
       props: {
         cadastrosData: null,

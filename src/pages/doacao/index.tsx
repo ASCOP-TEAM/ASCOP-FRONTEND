@@ -1,3 +1,4 @@
+import React from 'react';
 import Layout from '@layout';
 import { GetServerSideProps, NextPage } from 'next';
 import { Col, Container } from 'react-bootstrap';
@@ -5,12 +6,21 @@ import { SectionContent } from './styles';
 import { QrCode, TextBlockSection, TopBlockSection } from '@components';
 import { BASEURL } from '@utils';
 import { IDoacao } from '@interfaces';
+import { useRouter } from 'next/router';
 
 interface DoacaoProps {
   doacaoData: IDoacao;
 }
 
 const Doacao: NextPage<DoacaoProps> = ({ doacaoData }) => {
+  const router = useRouter();
+
+  React.useEffect(() => {
+    if (!doacaoData) {
+      router.push('/505');
+    }
+  }, [doacaoData, router]);
+
   const { bloco1, topblocksection } = doacaoData?.data.attributes || {};
 
   const backgroudBlockSection =
@@ -86,7 +96,7 @@ export const getServerSideProps: GetServerSideProps<DoacaoProps> = async () => {
   try {
     if (!BASEURL) {
       throw new Error(
-        'A api não está definida corretamente nas variaveis de ambiente. - doar',
+        'A api não está definida corretamente nas variaveis de ambiente. - page doacao',
       );
     }
 
@@ -102,7 +112,7 @@ export const getServerSideProps: GetServerSideProps<DoacaoProps> = async () => {
       },
     };
   } catch (error) {
-    console.error('Erro ao buscar dados da API:', error);
+    console.error('Erro ao buscar dados da API - page doacao :', error);
     return {
       props: {
         doacaoData: null,

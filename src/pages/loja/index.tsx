@@ -17,6 +17,7 @@ import Layout from '@layout';
 import { CartContext } from '@contexts';
 import { SwiperSlide } from 'swiper/react';
 import { BASEURL } from '@utils';
+import { useRouter } from 'next/router';
 
 interface LojaProps {
   produtos: Product;
@@ -31,7 +32,7 @@ const Loja: NextPage<LojaProps> = ({ produtos, categorias, lojaData }) => {
   const context = useContext(CartContext);
 
   const [FilteredProducts, setFilteredProducts] = React.useState<ProductData[]>(
-    produtos.data,
+    produtos?.data || null,
   );
 
   const handleAddToCart = (produtoData: ProductData) => {
@@ -95,6 +96,14 @@ const Loja: NextPage<LojaProps> = ({ produtos, categorias, lojaData }) => {
 
   const backgroudBlockSection = topblocksection?.background.data.attributes.url;
 
+  const router = useRouter();
+
+  React.useEffect(() => {
+    if (!lojaData) {
+      router.push('/505');
+    }
+  }, [lojaData, router]);
+
   return (
     <>
       <Layout bgColor="white" txColor={'black'} title="Loja">
@@ -110,31 +119,33 @@ const Loja: NextPage<LojaProps> = ({ produtos, categorias, lojaData }) => {
         <Container>
           <section>
             <div className="categorias">
-              <Row className="align-items-center justify-content-between">
-                <BarCategorys
-                  {...{ categorias }}
-                  setCatgory={filterProductByCategory}
-                />
-                <Row className="col-auto align-items-center">
-                  <Col xs={'auto'} className="d-none d-lg-block">
+              {produtos && categorias && (
+                <Row className="align-items-center justify-content-between">
+                  <BarCategorys
+                    {...{ categorias }}
+                    setCatgory={filterProductByCategory}
+                  />
+                  <Row className="col-auto align-items-center">
+                    <Col xs={'auto'} className="d-none d-lg-block">
+                      <ProductFilter
+                        {...{ produtos }}
+                        onFilterChange={handleFilterChange}
+                      />
+                    </Col>
+
+                    <CartShop />
+                  </Row>
+                  <Col xs={12} className="d-lg-none">
                     <ProductFilter
                       {...{ produtos }}
                       onFilterChange={handleFilterChange}
                     />
                   </Col>
-
-                  <CartShop />
                 </Row>
-                <Col xs={12} className="d-lg-none">
-                  <ProductFilter
-                    {...{ produtos }}
-                    onFilterChange={handleFilterChange}
-                  />
-                </Col>
-              </Row>
+              )}
             </div>
 
-            {FilteredProducts.length > 0 && (
+            {FilteredProducts && FilteredProducts.length > 0 && (
               <div className="main-card py-4">
                 {FilteredProducts.some((item) => item.attributes.highlight) && (
                   <div className="main-card">
@@ -175,7 +186,7 @@ const Loja: NextPage<LojaProps> = ({ produtos, categorias, lojaData }) => {
               </div>
             )}
 
-            {!FilteredProducts.length && <p>dados não caregados</p>}
+            {!FilteredProducts && <p>dados não carregados</p>}
           </section>
         </Container>
       </Layout>
@@ -214,11 +225,11 @@ export const getServerSideProps: GetServerSideProps<LojaProps> = async () => {
       },
     };
   } catch (error) {
-    console.error('Error fetching data:', error);
+    console.error('Erro ao buscar dados da API - page loja:', error);
     return {
       props: {
-        produtos: [],
-        categorias: [],
+        produtos: null,
+        categorias: null,
         lojaData: null,
       },
     };

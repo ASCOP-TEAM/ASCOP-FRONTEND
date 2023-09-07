@@ -28,7 +28,7 @@ export function Menu({ bgColor, txColor, staticmenu = false }: MenuProps) {
     },
     {
       id: 4,
-      path: '/doar',
+      path: '/doacao',
       name: 'DOAÇÃO',
     },
     {

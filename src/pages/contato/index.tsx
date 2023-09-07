@@ -7,12 +7,21 @@ import { SectionContent } from './styles';
 import { TopBlockSection, ContactForm } from '@components';
 import { IContato } from '@interfaces';
 import { BASEURL } from '@utils';
+import { useRouter } from 'next/router';
 
 interface ContatoProps {
   contatoData: IContato | null;
 }
 
 const Contato: NextPage<ContatoProps> = ({ contatoData }) => {
+  const router = useRouter();
+
+  React.useEffect(() => {
+    if (!contatoData) {
+      router.push('/505');
+    }
+  }, [contatoData, router]);
+
   const { bloco1, bloco2, topblocksection } =
     contatoData?.data.attributes || {};
 
@@ -20,7 +29,7 @@ const Contato: NextPage<ContatoProps> = ({ contatoData }) => {
     topblocksection?.background?.data.attributes.url;
 
   return (
-    <Layout bgColor={'white'} txColor="black">
+    <Layout bgColor={'white'} txColor="black" title="Contato">
       {topblocksection && backgroudBlockSection && (
         <TopBlockSection.Root
           imageUrl={backgroudBlockSection || './backgroud.jpg'}
@@ -89,7 +98,7 @@ export const getServerSideProps: GetServerSideProps<
       },
     };
   } catch (error) {
-    console.error('Erro ao buscar dados da API:', error);
+    console.error('Erro ao buscar dados da API - page contato:', error);
     return {
       props: {
         contatoData: null,

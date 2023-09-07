@@ -19,30 +19,36 @@ const BarCategorys: React.FC<BarCategorysProps> = ({
   };
 
   return (
-    <Container
-      xs={'auto'}
-      numberOfCategories={categorias.data ? categorias.data.length : 0}
-    >
-      <ul>
-        <li
-          onClick={() => handleCategory(0)}
-          className={selectedCategor === 0 ? 'active' : ''}
+    <>
+      {categorias && (
+        <Container
+          xs={'auto'}
+          numberOfCategories={categorias.data ? categorias.data.length : 0}
         >
-          <span>Todos</span>
-        </li>
-        {categorias.data.map((categoria) => (
-          <>
+          <ul>
             <li
-              key={categoria.id}
-              onClick={() => handleCategory(categoria.id)}
-              className={selectedCategor === categoria.id ? 'active' : ''}
+              onClick={() => handleCategory(0)}
+              className={selectedCategor === 0 ? 'active' : ''}
             >
-              <span>{categoria.attributes.name}</span>
+              <span>Todos</span>
             </li>
-          </>
-        ))}
-      </ul>
-    </Container>
+            {categorias &&
+              categorias.data?.map((categoria) => (
+                <>
+                  <li
+                    key={categoria.id}
+                    onClick={() => handleCategory(categoria.id)}
+                    className={selectedCategor === categoria.id ? 'active' : ''}
+                  >
+                    <span>{categoria.attributes.name}</span>
+                  </li>
+                </>
+              ))}
+          </ul>
+        </Container>
+      )}
+      {!categorias && <p>dados não carregados</p>}
+    </>
   );
 };
 
