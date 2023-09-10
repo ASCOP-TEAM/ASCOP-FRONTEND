@@ -2,9 +2,19 @@ import React from 'react';
 import { Container } from './styles';
 
 const CustomCheckbox: React.FC<{ checked: boolean }> = ({ checked }) => {
+  const [isChecked, setChecked] = React.useState(checked);
+
+  const handleChange = () => {
+    setChecked(!isChecked);
+  };
+
   return (
     <Container>
-      <input type="checkbox" checked={checked} />
+      <input
+        type="checkbox"
+        checked={checked ? checked : isChecked}
+        onChange={handleChange}
+      />
       <div className="checkmark">
         <svg viewBox="0 0 256 256">
           <path

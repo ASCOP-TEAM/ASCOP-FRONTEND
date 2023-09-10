@@ -5,15 +5,19 @@ import { GetServerSideProps, NextPage } from 'next';
 import Layout from '@layout';
 import { SectionContent } from './styles';
 import { CardReport, ErrorDataNotLoaded, TopBlockSection } from '@components';
-import { BASEURL, HttpCall } from '@utils';
+import { BASEURL } from '@utils';
 import { Relatorios, ITransparencia } from '@interfaces';
 import { useRouter } from 'next/router';
 
 interface TransparenciaProps {
   trasparenciaData: ITransparencia | null;
+  reportData: Relatorios | null;
 }
 
-const Transparencia: NextPage<TransparenciaProps> = ({ trasparenciaData }) => {
+const Transparencia: NextPage<TransparenciaProps> = ({
+  trasparenciaData,
+  reportData,
+}) => {
   const router = useRouter();
 
   React.useEffect(() => {
@@ -26,9 +30,16 @@ const Transparencia: NextPage<TransparenciaProps> = ({ trasparenciaData }) => {
 
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
+    router.replace(
+      {
+        pathname: router.pathname,
+        query: { ...router.query, page: newPage },
+      },
+      undefined,
+    );
   };
 
-  const { bloco1, topblocksection } = trasparenciaData?.data.attributes || {};
+  const { bloco1, topblocksection } = trasparenciaData?.data?.attributes || {};
 
   const backgroudBlockSection =
     topblocksection?.background?.data.attributes.url;
@@ -61,90 +72,80 @@ const Transparencia: NextPage<TransparenciaProps> = ({ trasparenciaData }) => {
                 )}
 
                 <Row>
-                  <HttpCall<Relatorios>
-                    url={`${BASEURL}/api/relatorios?pagination[page]=${currentPage}`}
-                  >
-                    {(response, error: Error | null) => (
+                  <>
+                    {reportData && reportData.data ? (
                       <>
-                        {response && response.data ? (
-                          <>
-                            {response.data.map((dataValues) => {
-                              return (
-                                <Col key={dataValues.id} xs={12} md={6} lg={4}>
-                                  <CardReport
-                                    key={dataValues.id}
-                                    {...dataValues.attributes}
-                                  />
-                                </Col>
-                              );
-                            })}
+                        {reportData.data.map((dataValues) => {
+                          return (
+                            <Col key={dataValues.id} xs={12} md={6} lg={4}>
+                              <CardReport
+                                key={dataValues.id}
+                                {...dataValues.attributes}
+                              />
+                            </Col>
+                          );
+                        })}
 
-                            <div className="pages my-5">
-                              <Pagination>
-                                <Pagination.First
-                                  onClick={() => handlePageChange(1)}
-                                />
-                                <Pagination.Prev
-                                  onClick={() =>
-                                    handlePageChange(currentPage - 1)
-                                  }
-                                />
-                                {[
-                                  ...Array(response.meta.pagination.pageCount),
-                                ].map((_, index) => (
-                                  <Pagination.Item
-                                    key={index + 1}
-                                    active={index + 1 === currentPage}
-                                    onClick={() => handlePageChange(index + 1)}
-                                  >
-                                    {index + 1}
-                                  </Pagination.Item>
-                                ))}
-                                <Pagination.Next
-                                  onClick={() =>
-                                    handlePageChange(currentPage + 1)
-                                  }
-                                />
-                                <Pagination.Last
-                                  onClick={() =>
-                                    handlePageChange(
-                                      response.meta.pagination.pageCount,
-                                    )
-                                  }
-                                />
-                              </Pagination>
-                            </div>
-                          </>
-                        ) : (
-                          <ErrorDataNotLoaded.Root>
-                            <ErrorDataNotLoaded.Title>
-                              Dados não Carregados
-                            </ErrorDataNotLoaded.Title>
-                            <ErrorDataNotLoaded.Content>
-                              Parece que não conseguimos carregar os dados
-                              necessários para exibir esta página. Isso pode ser
-                              devido a um problema temporário. Por favor, tente
-                              novamente mais tarde.
-                            </ErrorDataNotLoaded.Content>
-                          </ErrorDataNotLoaded.Root>
-                        )}
-
-                        {error && (
-                          <ErrorDataNotLoaded.Root>
-                            <ErrorDataNotLoaded.Title>
-                              Dados não Carregados
-                            </ErrorDataNotLoaded.Title>
-                            <ErrorDataNotLoaded.Content>
-                              Parece que não conseguimos carregar os dados
-                              necessários para exibir esta página. Isso pode ser
-                              devido a um problema temporário. Por favor, tente
-                              novamente mais tarde.
-                            </ErrorDataNotLoaded.Content>
-                          </ErrorDataNotLoaded.Root>
-                        )}
+                        <div className="pages my-5">
+                          <Pagination>
+                            <Pagination.First
+                              onClick={() => handlePageChange(1)}
+                            />
+                            <Pagination.Prev
+                              onClick={() => handlePageChange(currentPage - 1)}
+                            />
+                            {[
+                              ...Array(reportData.meta.pagination.pageCount),
+                            ].map((_, index) => (
+                              <Pagination.Item
+                                key={index + 1}
+                                active={index + 1 === currentPage}
+                                onClick={() => handlePageChange(index + 1)}
+                              >
+                                {index + 1}
+                              </Pagination.Item>
+                            ))}
+                            <Pagination.Next
+                              onClick={() => handlePageChange(currentPage + 1)}
+                            />
+                            <Pagination.Last
+                              onClick={() =>
+                                handlePageChange(
+                                  reportData.meta.pagination.pageCount,
+                                )
+                              }
+                            />
+                          </Pagination>
+                        </div>
                       </>
+                    ) : (
+                      <ErrorDataNotLoaded.Root>
+                        <ErrorDataNotLoaded.Title>
+                          Dados não Carregados
+                        </ErrorDataNotLoaded.Title>
+                        <ErrorDataNotLoaded.Content>
+                          Parece que não conseguimos carregar os dados
+                          necessários para exibir esta página. Isso pode ser
+                          devido a um problema temporário. Por favor, tente
+                          novamente mais tarde.
+                        </ErrorDataNotLoaded.Content>
+                      </ErrorDataNotLoaded.Root>
                     )}
-                  </HttpCall>
+                  </>
+
+                  {!reportData && (
+                    <ErrorDataNotLoaded.Root>
+                      <ErrorDataNotLoaded.Title>
+                        Dados não Carregados
+                      </ErrorDataNotLoaded.Title>
+                      <ErrorDataNotLoaded.Content>
+                        Parece que não conseguimos carregar os dados necessários
+                        para exibir esta página. Isso pode ser devido a um
+                        problema temporário. Por favor, tente novamente mais
+                        tarde.
+                      </ErrorDataNotLoaded.Content>
+                    </ErrorDataNotLoaded.Root>
+                  )}
                 </Row>
               </Col>
             </Row>
@@ -159,7 +160,7 @@ export default Transparencia;
 
 export const getServerSideProps: GetServerSideProps<
   TransparenciaProps
-> = async () => {
+> = async (context) => {
   try {
     if (!BASEURL) {
       throw new Error(
@@ -167,15 +168,22 @@ export const getServerSideProps: GetServerSideProps<
       );
     }
 
-    const response = await fetch(
-      `${BASEURL}/api/transparencia/?populate[topblocksection][populate]=*&populate[bloco1][populate]=*`,
-    );
+    const pageNumber = context.query.page || 1;
 
-    const trasparenciaData = await response.json();
+    const [resTransparencyData, resReportData] = await Promise.all([
+      fetch(
+        `${BASEURL}/api/transparencia/?populate[topblocksection][populate]=*&populate[bloco1][populate]=*`,
+      ),
+      fetch(`${BASEURL}/api/relatorios?pagination[page]=${pageNumber}`),
+    ]);
+
+    const trasparenciaData = await resTransparencyData.json();
+    const reportData = await resReportData.json();
 
     return {
       props: {
         trasparenciaData,
+        reportData,
       },
     };
   } catch (error) {
@@ -183,6 +191,7 @@ export const getServerSideProps: GetServerSideProps<
     return {
       props: {
         trasparenciaData: null,
+        reportData: null,
       },
     };
   }

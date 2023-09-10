@@ -17,6 +17,7 @@ export function TopBlockSectionRoot({
         alt="Imagem de fundo"
         layout="fill"
         objectFit="cover"
+        priority
       />
       <div className="gradient-overlay"></div>
       <LabelRoot>{children}</LabelRoot>

@@ -23,10 +23,11 @@ const BarCategorys: React.FC<BarCategorysProps> = ({
       {categorias && (
         <Container
           xs={'auto'}
-          numberOfCategories={categorias.data ? categorias.data.length : 0}
+          numberofcategories={categorias.data?.length || 0}
         >
           <ul>
             <li
+              key={0}
               onClick={() => handleCategory(0)}
               className={selectedCategor === 0 ? 'active' : ''}
             >
@@ -34,15 +35,13 @@ const BarCategorys: React.FC<BarCategorysProps> = ({
             </li>
             {categorias &&
               categorias.data?.map((categoria) => (
-                <>
-                  <li
-                    key={categoria.id}
-                    onClick={() => handleCategory(categoria.id)}
-                    className={selectedCategor === categoria.id ? 'active' : ''}
-                  >
-                    <span>{categoria.attributes.name}</span>
-                  </li>
-                </>
+                <li
+                  key={categoria.id}
+                  onClick={() => handleCategory(categoria.id)}
+                  className={selectedCategor === categoria.id ? 'active' : ''}
+                >
+                  <span>{categoria.attributes.name}</span>
+                </li>
               ))}
           </ul>
         </Container>

@@ -1,7 +1,7 @@
 import { Col } from 'react-bootstrap';
 import styled from 'styled-components';
 
-export const Container = styled(Col)<{ numberOfCategories: number }>`
+export const Container = styled(Col)<{ numberofcategories: number }>`
   display: flex;
   flex-direction: row;
   height: 100%;
@@ -35,8 +35,8 @@ export const Container = styled(Col)<{ numberOfCategories: number }>`
 
   @media (min-width: 641px) {
     overflow-y: ${(props) =>
-      props.numberOfCategories > 3 ? 'auto' : 'visible'};
-    max-width: ${(props) => (props.numberOfCategories > 3 ? '200px' : 'auto')};
+      props.numberofcategories > 3 ? 'auto' : 'visible'};
+    max-width: ${(props) => (props.numberofcategories > 3 ? '200px' : 'auto')};
   }
 
   ul {
