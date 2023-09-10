@@ -137,27 +137,23 @@ export const SectionFind = styled(BaseSection)`
   justify-content: center;
 
   .infos {
-    display: flex;
-    flex-direction: row;
-    gap: 2rem;
+    padding: 1rem;
 
-    .list {
-      ul {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-        list-style: none;
-        padding: 0;
-
-        li {
-          display: flex;
-          flex-direction: column;
-          p,
-          h4 {
-            margin: 0;
-          }
-        }
-      }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    h4 {
+      font-size: 20px;
+    }
+    p {
+      font-size: 16px;
+      margin: 5px 0;
+    }
+    a {
+      color: #0000ff;
+      text-decoration: none;
+      font-size: 16px;
     }
   }
 

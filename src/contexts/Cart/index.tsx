@@ -33,10 +33,6 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     return cartItems.find((p) => p.item.id === id);
   };
 
-  /*  const getProductByIdAndSize = (id: number, size: string | null) => {
-    return cartItems.find((p) => p.item.id === id && p.size === size);
-  }; */
-
   const addToCart = (product: CartItem) => {
     const isItemInCart = getProductById(product.item.id);
 

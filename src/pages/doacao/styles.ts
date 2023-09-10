@@ -1,42 +1,13 @@
+import { Row } from 'react-bootstrap';
 import styled from 'styled-components';
 
-export const SectionMain = styled.section`
-  display: flex;
-  flex-direction: column;
-  text-align: left;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to bottom, rgb(0 0 0 / 15%), black),
-      url(/cadastrosbg.jpeg);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    background-attachment: fixed;
-    z-index: -1;
-
-    @media (max-width: 768px) {
-      height: 200vh;
-    }
-  }
-`;
-
-export const SectionContent = styled.section`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  padding: 1rem 0;
+export const Section = styled(Row)`
+  justify-content: space-around;
   .box {
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
     justify-content: center;
-    padding: 0 3rem;
     min-height: 560px;
     height: 100%;
 
@@ -95,13 +66,12 @@ export const SectionContent = styled.section`
     .vakinha-btn {
       font-family: 'Inter-Bold', Helvetica;
       font-weight: 700;
-
       background-color: #24ca68;
       color: white;
-      padding: 22px 53px;
+      padding: 1rem 2rem;
       border: none;
       cursor: pointer;
-      border-radius: 10px;
+      /*  border-radius: 10px; */
       text-decoration: none;
     }
   }

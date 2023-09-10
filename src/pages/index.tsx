@@ -16,16 +16,25 @@ import {
 } from '@components';
 import { Col, Container, Row } from 'react-bootstrap';
 import { BookOpen, Users2, Laugh } from 'lucide-react';
-import { BASEURL, formatDescriptionToParagraphs } from '@utils';
+import {
+  BASEURL,
+  formatDescriptionToParagraphs,
+  formatPhoneNumber,
+} from '@utils';
 import { IHome } from '@interfaces';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { ONGContext } from '@contexts';
 
 interface HomePros {
   homeData: IHome | null;
 }
 
 const Home: NextPage<HomePros> = ({ homeData }) => {
+  const ongData = React.useContext(ONGContext);
+
+  const { email, endereco, telefone } = ongData?.data.attributes.contato || {};
+
   const { bloco1, bloco2, bloco3, bloco4, bloco5 } =
     homeData?.data.attributes || {};
 
@@ -163,9 +172,9 @@ const Home: NextPage<HomePros> = ({ homeData }) => {
           </SectionBecause>
         )}
 
-        {bloco5 && (
+        {bloco5 && ongData && (
           <SectionFind>
-            <Row xs={12}>
+            <Row xs={12} className="align-items-center">
               <Col lg={6} xs={12}>
                 <div className="title">
                   <h2>{bloco5.titulo}</h2>
@@ -176,25 +185,33 @@ const Home: NextPage<HomePros> = ({ homeData }) => {
                 </Col>
               </Col>
 
-              <Col xs={12} lg={6} className="infos my-3 ">
+              <Col xs={12} lg={6} className="infos ">
                 <ul className="list">
                   <li>
                     <h4>Contato:</h4>
-                    <a href="#">telefone: (00) 000000000</a>
-                    <a href="#">Email: maicongabrielalves@gmail.com</a>
-                  </li>
-                  <li>
-                    <h4>Quando:</h4>
                     <p>
-                      Todos os sábados, na pista da Costeira, das 16h às
-                      18h.(Aula das 16h às 17h e lanche das 17h às 18h)
+                      Telefone:{' '}
+                      <a href={`tel:${telefone}`}>
+                        {formatPhoneNumber(telefone)}
+                      </a>
+                    </p>
+                    <p>
+                      Email:
+                      <a href={'mailto' + email}> {email}</a>
                     </p>
                   </li>
                   <li>
+                    <h4>Quando:</h4>
+                    <p>{bloco5.quando}</p>
+                  </li>
+                  <li>
                     <h4>Endereço:</h4>
-                    <a href="#">
-                      Av. Jorge Lacerda, 1244 - Carianos, Florianópolis - SC,
-                      88047-010
+                    <a
+                      href={`https://www.google.com.br/maps/place/${
+                        endereco ? endereco.replace(/\s+/g, '+') : ''
+                      }`}
+                    >
+                      {endereco}
                     </a>
                   </li>
                 </ul>

@@ -39,14 +39,6 @@ const Carrinho: NextPage = () => {
     setFormData(data);
   };
 
-  const paymentComponent = (
-    <Payment
-      formData={formData}
-      checkoutType={'WhatsApp'}
-      disableButton={!showCheckout}
-    />
-  );
-
   return (
     <>
       <Head>
@@ -76,13 +68,23 @@ const Carrinho: NextPage = () => {
                 lg={5}
                 className={`container-checkout d-none d-lg-block`}
               >
-                {width > 986 && paymentComponent}
+                {width > 986 && (
+                  <Payment
+                    formData={formData}
+                    checkoutType={'WhatsApp'}
+                    disableButton={!showCheckout}
+                  />
+                )}
               </Col>
             </Row>
           </Container>
           {showCheckout && width < 986 && (
             <Col xs={12} lg={5} className={`container-checkout d-lg-none`}>
-              {paymentComponent}
+              <Payment
+                formData={formData}
+                checkoutType={'WhatsApp'}
+                disableButton={!showCheckout}
+              />
             </Col>
           )}
         </Section>

@@ -6,3 +6,4 @@ export { loadMercadoPago } from './loaderMErcadoPago';
 export { renderCheckoutButton } from './loaderMErcadoPago/renderCheckButton';
 export { default as useScreenWidth } from './useScreenWidth';
 export { formatDescriptionToParagraphs } from './formatDescriptionToParagraphs';
+export { formatPhoneNumber } from './formatPhoneNumber';

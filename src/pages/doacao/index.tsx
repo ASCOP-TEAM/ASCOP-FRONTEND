@@ -2,26 +2,32 @@ import React from 'react';
 import Layout from '@layout';
 import { GetServerSideProps, NextPage } from 'next';
 import { Col, Container } from 'react-bootstrap';
-import { SectionContent } from './styles';
+import { Section } from './styles';
 import { QrCode, TextBlockSection, TopBlockSection } from '@components';
 import { BASEURL } from '@utils';
 import { IDoacao } from '@interfaces';
 import { useRouter } from 'next/router';
+import { ONGContext } from '@contexts';
 
 interface DoacaoProps {
-  doacaoData: IDoacao;
+  donateData: IDoacao;
 }
 
-const Doacao: NextPage<DoacaoProps> = ({ doacaoData }) => {
+const Doacao: NextPage<DoacaoProps> = ({ donateData }) => {
   const router = useRouter();
 
+  const ongData = React.useContext(ONGContext);
+
+  const { agencia, banco, conta } =
+    ongData?.data?.attributes.dadosBancarios || {};
+
   React.useEffect(() => {
-    if (!doacaoData) {
+    if (!donateData) {
       router.push('/505');
     }
-  }, [doacaoData, router]);
+  }, [donateData, router]);
 
-  const { bloco1, topblocksection } = doacaoData?.data.attributes || {};
+  const { bloco1, topblocksection } = donateData?.data.attributes || {};
 
   const backgroudBlockSection =
     topblocksection?.background?.data.attributes.url;
@@ -39,9 +45,9 @@ const Doacao: NextPage<DoacaoProps> = ({ doacaoData }) => {
         )}
 
         <Container>
-          <SectionContent>
-            {bloco1 && (
-              <Col xs={12} lg={6} className="box light">
+          <Section>
+            {bloco1 && ongData && (
+              <Col xs={12} lg={6} md={6} className="box light">
                 <div className="">
                   <h1>{bloco1.titulo}</h1>
                 </div>
@@ -50,11 +56,11 @@ const Doacao: NextPage<DoacaoProps> = ({ doacaoData }) => {
                   <br />
                   <h4>Nossos dados bancarios:</h4>
                   <p>
-                    Banco: <strong>000 bank</strong>
+                    Banco: <strong>{banco || 'Dado não carregado'}</strong>
                     <br />
-                    Agência: <strong>000-0</strong>
+                    Agência: <strong>{agencia || 'Dado não carregado'}</strong>
                     <br />
-                    Conta: <strong>00.000-0</strong>
+                    Conta: <strong>{conta || 'Dado não carregado'}</strong>
                   </p>
                   <br />
                   <p>
@@ -68,7 +74,12 @@ const Doacao: NextPage<DoacaoProps> = ({ doacaoData }) => {
               </Col>
             )}
 
-            <Col xs={12} lg={6} className="box donate">
+            <Col
+              xs={12}
+              lg={6}
+              md={5}
+              className="box justify-content-center donate"
+            >
               <Col xs={12} lg={6}>
                 <QrCode />
               </Col>
@@ -77,13 +88,18 @@ const Doacao: NextPage<DoacaoProps> = ({ doacaoData }) => {
                 <p>OU</p>
                 <hr />
               </div>
-              <div>
-                <a href="#" className="vakinha-btn">
+              <Col xs={'auto'}>
+                <a
+                  href={ongData?.data.attributes.vakinha_url || ''}
+                  target="_blank"
+                  className="btn vakinha-btn"
+                  rel="noreferrer"
+                >
                   Contribuir Pelo Vakinha{' '}
                 </a>
-              </div>
+              </Col>
             </Col>
-          </SectionContent>
+          </Section>
         </Container>
       </Layout>
     </>
@@ -100,22 +116,24 @@ export const getServerSideProps: GetServerSideProps<DoacaoProps> = async () => {
       );
     }
 
-    const response = await fetch(
-      `${BASEURL}/api/doacao?populate[topblocksection][populate]=*&populate[bloco1][populate]=*`,
-    );
+    const [resDonateData] = await Promise.all([
+      fetch(
+        `${BASEURL}/api/doacao?populate[topblocksection][populate]=*&populate[bloco1][populate]=*`,
+      ),
+    ]);
 
-    const doacaoData = await response.json();
+    const donateData = await resDonateData.json();
 
     return {
       props: {
-        doacaoData,
+        donateData,
       },
     };
   } catch (error) {
     console.error('Erro ao buscar dados da API - page doacao :', error);
     return {
       props: {
-        doacaoData: null,
+        donateData: null,
       },
     };
   }

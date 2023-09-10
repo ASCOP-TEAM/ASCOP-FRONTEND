@@ -35,6 +35,7 @@ const Layout: React.FC<layoutProps> = (props) => {
       </Header>
       <>{props.children}</>
       <Footer.Root>
+        <Footer.Content isMobileView />
         <Footer.Content />
       </Footer.Root>
     </>

@@ -2,21 +2,16 @@ import styled from 'styled-components';
 
 export const SectionContent = styled.section`
   display: flex;
-  flex-direction: row;
+  height: calc(100vh - var(--navbar-height));
+  align-items: center;
   justify-content: center;
-  padding: 1rem 0;
+  width: 100%;
 
   .box {
     z-index: 1;
     display: flex;
     flex-direction: column;
-    flex-wrap: nowrap;
-    justify-content: space-evenly;
     padding: 2rem;
-    /* background: red; */
-    min-height: 560px;
-    height: 100%;
-
     div:nth-child(3n) {
       button {
         width: 100%;
@@ -45,6 +40,7 @@ export const SectionContent = styled.section`
   }
   @media (max-width: 768px) {
     flex-direction: column;
+    height: 100%;
   }
 
   .gradient-overlay {
@@ -52,8 +48,8 @@ export const SectionContent = styled.section`
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
-    background: linear-gradient(to bottom, rgb(0 0 0 / 0%), rgb(0 0 0 / 52%));
+    height: 145vh;
+    background: linear-gradient(to bottom, rgb(0 0 0 / 0%), rgb(0 0 0));
     z-index: 2;
   }
 `;

@@ -230,4 +230,9 @@ footer {
   color: red;
 }
 
+.error-text {
+  color: red;
+  font-weight:500;
+}
+
 `;

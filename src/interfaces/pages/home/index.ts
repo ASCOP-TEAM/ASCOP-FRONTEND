@@ -116,5 +116,6 @@ export interface Bloco3 {
   id: number;
   titulo: string;
   descricao: string;
+  quando: string;
   cards?: Bloco3[];
 }

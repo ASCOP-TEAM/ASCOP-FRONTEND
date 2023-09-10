@@ -43,4 +43,22 @@ export const Container = styled.div`
       }
     }
   }
+
+  .error-qr {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .loader {
+      width: 180px;
+      height: 180px;
+      background-color: #fdfefe;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      box-shadow: 4px 4px 20px #bebebe, -6px -6px 12px #ffffff;
+    }
+  }
 `;

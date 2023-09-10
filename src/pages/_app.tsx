@@ -4,16 +4,18 @@ import { ThemeProvider } from 'styled-components';
 
 import { GlobalStyle, ResetStyles, theme } from '@styles';
 
-import { CartProvider } from '@contexts';
+import { CartProvider, ONGProvider } from '@contexts';
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
   return (
     <ThemeProvider theme={theme}>
-      <CartProvider>
-        <ResetStyles />
-        <GlobalStyle />
-        <Component {...pageProps} />
-      </CartProvider>
+      <ResetStyles />
+      <GlobalStyle />
+      <ONGProvider>
+        <CartProvider>
+          <Component {...pageProps} />
+        </CartProvider>
+      </ONGProvider>
     </ThemeProvider>
   );
 };

@@ -20,7 +20,7 @@ export const Container = styled.div`
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to bottom, rgb(0 0 0 / 0%), rgb(0 0 0 / 52%));
+    background: linear-gradient(1deg, rgb(0 0 0 / 35%), rgb(0 0 0 / 30%));
     z-index: 2;
   }
 `;

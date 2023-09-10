@@ -3,10 +3,6 @@ import styled from 'styled-components';
 export const Root = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-  @media (max-width: 575.98px) {
-    gap: 1rem;
-  }
 `;
 
 export const Title = styled.div`

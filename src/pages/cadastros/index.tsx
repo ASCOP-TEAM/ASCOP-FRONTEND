@@ -29,11 +29,11 @@ const Cadastros: NextPage<CadastrosProps> = ({ cadastrosData }) => {
         <Container>
           <SectionContent>
             {bloco1 && (
-              <Col xs={12} lg={5} className="box dark">
-                <div className="my-4">
+              <Col xs={12} lg={5} md={7} className="box dark">
+                <div>
                   <h1>{bloco1.blockSumary.titulo}</h1>
                 </div>
-                <div className="mb-4">
+                <div>
                   <p>{bloco1.blockSumary.descricao}</p>
                 </div>
                 <div>
@@ -47,11 +47,11 @@ const Cadastros: NextPage<CadastrosProps> = ({ cadastrosData }) => {
             )}
 
             {bloco2 && (
-              <Col xs={12} lg={5} className="box light">
-                <div className="my-4">
+              <Col xs={12} lg={5} md={7} className="box light">
+                <div>
                   <h1>{bloco2.blockSumary.titulo}</h1>
                 </div>
-                <div className="mb-4">
+                <div>
                   <p>{bloco2.blockSumary.descricao}</p>
                 </div>
                 <div>

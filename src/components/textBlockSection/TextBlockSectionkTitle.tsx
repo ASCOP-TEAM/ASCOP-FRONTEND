@@ -1,13 +1,15 @@
 import { Title } from './styles';
 
 type TextBlockSectionTitleProps = {
-  title: string;
+  children: React.ReactNode;
 };
 
-export function TextBlockSectionkTitle({ title }: TextBlockSectionTitleProps) {
+export function TextBlockSectionkTitle({
+  children,
+}: TextBlockSectionTitleProps) {
   return (
     <Title>
-      <div className="text-wrapper ">{title}</div>
+      <div className="text-wrapper ">{children}</div>
     </Title>
   );
 }
