@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import React from 'react';
 import styled from 'styled-components';
 
@@ -37,6 +38,17 @@ const ErrorText = styled.div`
 `;
 
 const Error505: React.FC = () => {
+  const router = useRouter();
+
+  React.useEffect(() => {
+    const redirectTime = 5000;
+
+    const timer = setTimeout(() => {
+      router.push('/');
+    }, redirectTime);
+
+    return () => clearTimeout(timer);
+  }, [router]);
   return (
     <>
       <Head>

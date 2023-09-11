@@ -7,3 +7,7 @@ export { renderCheckoutButton } from './loaderMErcadoPago/renderCheckButton';
 export { default as useScreenWidth } from './useScreenWidth';
 export { formatDescriptionToParagraphs } from './formatDescriptionToParagraphs';
 export { formatPhoneNumber } from './formatPhoneNumber';
+export { stringToHexColor } from './stringToHexColor';
+export { filterUniqueSizesAndColors } from './filterUniqueSizesAndColors';
+export { filterProductsByPriceAndCategory } from './filterProductsByPriceAndCategory';
+export { generateOrderMessage } from './generateOrderMessage';

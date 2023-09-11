@@ -1,13 +1,19 @@
 import { Item, Payer } from '@interfaces';
+import { generateOrderMessage } from '@utils';
 import nodemailer from 'nodemailer';
 
 export function OrderConfirmationMailOptions(
-  email: string | null, // Email do destinatário
-  title: string, // Título do email
+  email: string | null,
+  title: string,
   ordenId: number,
+  phoneNumber: number,
   items: Item[],
   payer: Payer,
 ): nodemailer.SendMailOptions {
+  const message = generateOrderMessage(items, payer);
+  const encodedMessage = encodeURIComponent(message);
+  const whatsappURL = `https://api.whatsapp.com/send?phone=55${phoneNumber}&text=${encodedMessage}`;
+
   const orderItemsHTML = items
     .map(
       (item, index) => `
@@ -16,6 +22,8 @@ export function OrderConfirmationMailOptions(
      <td>${item.title}</td>
      <td>${item.quantity}</td>
      <td>R$ ${item.unit_price.toFixed(2)}</td>
+     <td>${item.variation?.size || ''}</td>
+     <td>${item.variation?.color || ''}</td>
    </tr>
  `,
     )
@@ -25,16 +33,18 @@ export function OrderConfirmationMailOptions(
 
   const greetingMessage = email
     ? `
-    <h2>${title} - ${ordenId}</h2>
+    <h2>${title} - ID ${ordenId}</h2>
     <p>Prezado(a) ${payerName},</p>
     <p>Agradecemos por escolher nossos produtos. Abaixo estão os detalhes do seu pedido:</p>
-    <p>pedido de orden: ${ordenId}</p>
+    <p>Número de Identificação do Pedido: <strong>ID ${ordenId}</strong></p>
+
+    <p>Caso você não tenha sido redirecionado para o nosso WhatsApp, por favor, <a class="button-link" href="${whatsappURL}" target="_blank">clique aqui</a> e envie a mensagem predefinida. Isso nos ajudará a processar o seu pedido e calcular o custo de frete.</p>
     `
     : `
-    <h2>${title} - ${ordenId}</h2>
+    <h2>${title} - ID ${ordenId}</h2>
     <p>Olá equipe da ASCOP,</p>
     <p>O cliente ${payerName} acabou de fazer um pedido. Abaixo estão os detalhes do pedido e os dados de contato do cliente:</p>
-    <p>pedido de orden: ${ordenId}</p>
+    <p>Número de Identificação do Pedido: <strong>ID ${ordenId}</strong></p>
   `;
 
   const deliveryAddressTable = `
@@ -62,7 +72,11 @@ export function OrderConfirmationMailOptions(
 </tr>
 <tr>
   <td>Telefone:</td>
-  <td>${payer.phone.area_code} ${payer.phone.number}</td>
+  <td>
+   <a href="https://api.whatsapp.com/send?phone=55${payer.phone.area_code}${payer.phone.number}" target="_blank">
+    ${payer.phone.area_code} ${payer.phone.number}
+  </a>
+</td>
 </tr>
 <tr>
   <td>Email:</td>
@@ -87,6 +101,16 @@ export function OrderConfirmationMailOptions(
          th {
            background-color: #f2f2f2;
          }
+
+         .button-link {
+          display: inline-block;
+          color: #007bff;
+          text-decoration: none;
+          border-radius: 5px;
+          font-weight: bold;
+          transition: background-color 0.3s;
+          }
+
        </style>
      </head>
      <body>
@@ -98,6 +122,8 @@ export function OrderConfirmationMailOptions(
            <th>Nome do Produto</th>
            <th>Quantidade</th>
            <th>Preço Unitário</th>
+           <th>Tamanho</th>
+           <th>Cor</th>
          </tr>
          ${orderItemsHTML}
        </table>

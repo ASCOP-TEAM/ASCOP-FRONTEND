@@ -9,7 +9,7 @@ import { Alert, Button } from '@components';
 import { Cart, Container } from './styles';
 import { useRouter } from 'next/router';
 
-const CartShop: React.FC = () => {
+export const CartView: React.FC = () => {
   const router = useRouter();
   const [isCartOpen, setCartOpen] = React.useState(false);
   const context = React.useContext(CartContext);
@@ -60,7 +60,7 @@ const CartShop: React.FC = () => {
               <Col xs={12} className="p-0">
                 <ul className="product-list">
                   {context?.cartItems.map((product) => (
-                    <li key={product.item.id} className="product d-flex ">
+                    <li key={product.id} className="product d-flex ">
                       <div className="img-product ">
                         <Image
                           width={100}
@@ -87,8 +87,10 @@ const CartShop: React.FC = () => {
                             <strong>
                               {product.size != null
                                 ? product.size
-                                : product.item.attributes.sizes.length === 1
-                                ? product.item.attributes.sizes[0].variations
+                                : product.item.attributes.variantes.length === 1
+                                ? product.item.attributes.variantes.map(
+                                    (size) => size.size.tamanho,
+                                  )
                                 : 'Não Selecionado'}
                             </strong>
                           </p>
@@ -146,5 +148,3 @@ const CartShop: React.FC = () => {
     </>
   );
 };
-
-export default CartShop;

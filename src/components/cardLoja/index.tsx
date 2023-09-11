@@ -1,14 +1,13 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import { Row } from 'react-bootstrap';
 import { Plus } from 'lucide-react';
+import { useRouter } from 'next/router';
 
 import { ProductData } from '@interfaces';
-import { Button } from '@components';
+import { Button, HeartCardShop, ColorIcon } from '@components';
 import { Container } from './styles';
-import { CartContext } from '@contexts';
-import CustomCheckbox from '../customCheckbox';
-import { useRouter } from 'next/router';
+import { filterUniqueSizesAndColors, stringToHexColor } from '@utils';
 
 interface CardLojaProps {
   produto: ProductData;
@@ -16,26 +15,45 @@ interface CardLojaProps {
 }
 
 const CardLoja: React.FC<CardLojaProps> = ({ produto, onAddToCart }) => {
+  const [uniqueSizes, setUniqueSizes] = React.useState<string[]>([]);
+  const [uniqueColors, setUniqueColors] = React.useState<string[]>([]);
   const router = useRouter();
-  const context = useContext(CartContext);
-
-  const isProductInCart = context?.cartItems.some(
-    (item) => item.item.id === produto.id,
-  );
 
   const handleBuyClick = () => {
     const param = encodeURIComponent(JSON.stringify(produto));
     router.push(`/loja/product/${produto.id}?produto=${param}`);
   };
 
+  function lookForTheColor(colorName: string): string {
+    const colorImg = produto.attributes.colors_imgs.find(
+      (color) => color.color_name.cor === colorName,
+    );
+
+    if (colorImg) {
+      return colorImg.color_code;
+    }
+
+    return stringToHexColor(colorName);
+  }
+
+  React.useEffect(() => {
+    if (!produto.attributes.variantes) return;
+
+    const { uniqueSizes, uniqueColors } = filterUniqueSizesAndColors(
+      produto.attributes.variantes,
+      (variant) => variant.size.tamanho,
+      (variant) => variant.color.cor,
+    );
+    setUniqueSizes(uniqueSizes);
+    setUniqueColors(uniqueColors);
+  }, [produto]);
+
   return (
     <Container>
       <Row>
         <div className="cart">
           <button onClick={onAddToCart}>
-            <CustomCheckbox
-              checked={isProductInCart ? isProductInCart : false}
-            />
+            <HeartCardShop productId={produto.id} />
           </button>
         </div>
         <div className="thumbnail">
@@ -49,26 +67,49 @@ const CardLoja: React.FC<CardLojaProps> = ({ produto, onAddToCart }) => {
           }
         </div>
         <div className="title">
-          <h4> {produto.attributes.title}</h4>
+          <h4 className="m-0"> {produto.attributes.title}</h4>
         </div>
-        <div className="price my-2">
-          <div className="sizes">
-            {produto.attributes.sizes && (
-              <ul>
-                {produto.attributes.sizes.slice(0, 4).map((size, index) => (
-                  <li key={index}>
-                    <p>{size.variations}</p>
-                  </li>
-                ))}
 
-                {produto.attributes.sizes.length > 4 && (
-                  <li>
-                    <Plus className="plus" />
-                  </li>
-                )}
-              </ul>
-            )}
-          </div>
+        <div className="sizes my-2">
+          {produto.attributes.variantes && (
+            <ul>
+              {uniqueSizes.slice(0, 4).map((size) => (
+                <li key={size}>
+                  <p>{size}</p>
+                </li>
+              ))}
+
+              {produto.attributes.variantes.length > 4 && (
+                <li>
+                  <Plus className="plus" />
+                </li>
+              )}
+            </ul>
+          )}
+        </div>
+
+        <div className="colors my-2">
+          {uniqueColors.length > 1 && (
+            <ul>
+              {uniqueColors.slice(0, 4).map((color) => (
+                <li key={color}>
+                  <ColorIcon
+                    color={lookForTheColor(color)}
+                    view="small"
+                    isSelected
+                  />
+                </li>
+              ))}
+
+              {produto.attributes.colors_imgs?.length > 4 && (
+                <li>
+                  <Plus className="plus" />
+                </li>
+              )}
+            </ul>
+          )}
+        </div>
+        <div className="price ">
           <h5>R${produto.attributes.price}</h5>
         </div>
         <div className="submit">

@@ -14,14 +14,13 @@ interface CadastrosProps {
 
 const Cadastros: NextPage<CadastrosProps> = ({ cadastrosData }) => {
   const router = useRouter();
+  const { background, bloco1, bloco2 } = cadastrosData?.data.attributes || {};
 
   React.useEffect(() => {
     if (!cadastrosData) {
       router.push('/505');
     }
   }, [cadastrosData, router]);
-
-  const { background, bloco1, bloco2 } = cadastrosData?.data.attributes || {};
 
   return (
     <>
@@ -31,10 +30,10 @@ const Cadastros: NextPage<CadastrosProps> = ({ cadastrosData }) => {
             {bloco1 && (
               <Col xs={12} lg={5} md={7} className="box dark">
                 <div>
-                  <h1>{bloco1.blockSumary.titulo}</h1>
+                  <h1>{bloco1.blockSumary?.titulo}</h1>
                 </div>
                 <div>
-                  <p>{bloco1.blockSumary.descricao}</p>
+                  <p>{bloco1.blockSumary?.descricao}</p>
                 </div>
                 <div>
                   {bloco1.button && (
@@ -49,10 +48,10 @@ const Cadastros: NextPage<CadastrosProps> = ({ cadastrosData }) => {
             {bloco2 && (
               <Col xs={12} lg={5} md={7} className="box light">
                 <div>
-                  <h1>{bloco2.blockSumary.titulo}</h1>
+                  <h1>{bloco2.blockSumary?.titulo}</h1>
                 </div>
                 <div>
-                  <p>{bloco2.blockSumary.descricao}</p>
+                  <p>{bloco2.blockSumary?.descricao}</p>
                 </div>
                 <div>
                   {bloco2.button && (

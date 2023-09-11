@@ -7,4 +7,8 @@ export interface Item {
   category_id: string;
   unit_price: number;
   quantity: number;
+  variation?: {
+    size?: string;
+    color?: string;
+  };
 }

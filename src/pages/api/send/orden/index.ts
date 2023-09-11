@@ -10,9 +10,13 @@ export default async function OrderConfirmation(
 ): Promise<void> {
   try {
     if (req.method === 'POST') {
-      const { items, payer }: { items: Item[]; payer: Payer } = req.body;
+      const {
+        items,
+        payer,
+        phoneNumber,
+      }: { items: Item[]; payer: Payer; phoneNumber: number } = req.body;
 
-      if (!items || !payer) {
+      if (!items || !payer || !phoneNumber) {
         return res.status(400).json({ message: 'Bad request', ok: false });
       }
 
@@ -22,6 +26,7 @@ export default async function OrderConfirmation(
         payer.email,
         `Confirmação de Pedido - ${payer.name + ' ' + payer.surname}`,
         orderId,
+        phoneNumber,
         items,
         payer,
       );
@@ -30,6 +35,7 @@ export default async function OrderConfirmation(
         null,
         'Novo Pedido Recebido - ASCOP',
         orderId,
+        phoneNumber,
         items,
         payer,
       );

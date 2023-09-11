@@ -2,10 +2,12 @@ import { ProductData } from '@interfaces';
 import React, { createContext, useState, useEffect, ReactNode } from 'react';
 
 export interface CartItem {
+  id: string;
   item: ProductData;
-  price: number; // You can replace this with the actual type of your item price
-  quantity: number; // You can replace this with the actual type of your item quantity
+  price: number;
+  quantity: number;
   size: string | null;
+  color: string | null;
 }
 
 interface CartContextProps {
@@ -29,42 +31,59 @@ interface CartProviderProps {
 export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
+  // Função que encontra um produto no carrinho com base no ID do produto
   const getProductById = (id: number): CartItem | undefined => {
-    return cartItems.find((p) => p.item.id === id);
+    return cartItems.find((cartItem) => cartItem.item.id === id);
   };
 
+  // Função para adicionar um produto ao carrinho
   const addToCart = (product: CartItem) => {
+    // Verifica se o produto já está no carrinho
     const isItemInCart = getProductById(product.item.id);
 
+    // Cria uma nova matriz de itens do carrinho
     let newState: CartItem[] = [];
 
+    // Se o produto já está no carrinho
     if (isItemInCart) {
       let updated = false;
 
-      newState = cartItems.map((c) => {
-        if (c.item.id === isItemInCart.item.id && c.size === product.size) {
+      // Percorre todos os itens do carrinho
+      newState = cartItems.map((cartItem) => {
+        // Verifica se o item corresponde ao produto que estamos adicionando
+        if (
+          cartItem.id === product.id &&
+          cartItem.size === product.size &&
+          cartItem.color === product.color
+        ) {
           updated = true;
+          // Atualiza a quantidade, o preço e outros detalhes do item no carrinho
           return {
-            item: c.item,
-            quantity: c.quantity + 1,
-            price: isItemInCart.item.attributes.price * (c.quantity + 1),
-            size: product.size,
+            ...cartItem,
+            quantity: cartItem.quantity + 1,
+            price: isItemInCart.item.attributes.price * (cartItem.quantity + 1),
           };
         }
-        return c;
+        // Mantém o item inalterado se não corresponder ao produto
+        return cartItem;
       });
 
+      // Se o produto não foi atualizado, adiciona um novo item ao carrinho
       if (!updated) {
         newState.push({
+          id: product.id,
           item: isItemInCart.item,
           quantity: product.quantity,
           price: isItemInCart.item.attributes.price * product.quantity,
           size: product.size,
+          color: product.color,
         });
       }
 
+      // Define o estado do carrinho com a nova matriz de itens
       setCartItems(newState);
     } else {
+      // Se o produto não estava no carrinho, simplesmente adiciona-o
       setCartItems([...cartItems, product]);
     }
   };
@@ -98,23 +117,26 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   const removeFromCart = (product: CartItem) => {
     const isItemInCart = cartItems.find(
       (cartItem) =>
-        cartItem.item.id === product.item.id && cartItem.size === product.size,
+        cartItem.item.id === product.item.id &&
+        cartItem.size === product.size &&
+        cartItem.color === product.color,
     );
 
-    if (isItemInCart && isItemInCart.quantity === 1) {
-      setCartItems(
-        cartItems.filter(
+    if (isItemInCart && product.quantity === 1) {
+      setCartItems((prevCartItems) => {
+        const updatedCartItems = prevCartItems.filter(
           (cartItem) =>
-            !(
-              cartItem.item.id === product.item.id &&
-              cartItem.size === product.size
-            ),
-        ),
-      );
+            cartItem.id !== product.id ||
+            (cartItem.id === product.id &&
+              cartItem.size !== product.size &&
+              cartItem.color !== product.color),
+        );
+        return updatedCartItems;
+      });
     } else if (isItemInCart) {
       setCartItems(
         cartItems.map((cartItem) =>
-          cartItem.item.id === product.item.id && cartItem.size === product.size
+          cartItem.id === product.id && cartItem.size === product.size
             ? {
                 ...cartItem,
                 quantity: cartItem.quantity - 1,

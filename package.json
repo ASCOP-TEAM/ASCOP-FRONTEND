@@ -30,7 +30,8 @@
     "react-icons": "^4.10.1",
     "strapi-react": "^0.0.1",
     "styled-components": "^5.3.6",
-    "swiper": "^10.2.0"
+    "swiper": "^10.2.0",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@types/google.maps": "^3.54.0",
@@ -40,6 +41,7 @@
     "@types/react": "18.0.15",
     "@types/react-bootstrap": "^0.32.32",
     "@types/styled-components": "^5.1.26",
+    "@types/uuid": "^9.0.3",
     "@typescript-eslint/eslint-plugin": "^5.31.0",
     "babel-plugin-styled-components": "^2.0.7",
     "eslint": "8.21.0",

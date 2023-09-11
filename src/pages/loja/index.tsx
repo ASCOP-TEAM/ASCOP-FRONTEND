@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
+import { v4 as uuidv4 } from 'uuid';
 
 import type { GetServerSideProps, NextPage } from 'next';
 
@@ -9,7 +10,7 @@ import {
   CardLoja,
   ProductFilter,
   TopBlockSection,
-  CartShop,
+  CartView,
   List,
   ErrorDataNotLoaded,
 } from '@components';
@@ -17,7 +18,7 @@ import {
 import Layout from '@layout';
 import { CartContext } from '@contexts';
 import { SwiperSlide } from 'swiper/react';
-import { BASEURL } from '@utils';
+import { BASEURL, filterProductsByPriceAndCategory } from '@utils';
 import { useRouter } from 'next/router';
 
 interface LojaProps {
@@ -27,6 +28,8 @@ interface LojaProps {
 }
 
 const Loja: NextPage<LojaProps> = ({ produtos, categorias, lojaData }) => {
+  const router = useRouter();
+
   const [category, setCategory] = React.useState<number>(0);
   const [upperValue, setUpperValue] = React.useState<number>(100);
 
@@ -35,47 +38,6 @@ const Loja: NextPage<LojaProps> = ({ produtos, categorias, lojaData }) => {
   const [FilteredProducts, setFilteredProducts] = React.useState<ProductData[]>(
     produtos?.data || null,
   );
-
-  const handleAddToCart = (produtoData: ProductData) => {
-    const isProductInCart = context?.cartItems.find(
-      (item) => item.item.id === produtoData.id,
-    );
-
-    if (isProductInCart) {
-      context?.removeFromCart(isProductInCart);
-    } else {
-      context?.addToCart({
-        item: produtoData,
-        price: produtoData.attributes.price,
-        quantity: 1,
-        size: null,
-      });
-    }
-  };
-
-  function filterProductsByPriceAndCategory(
-    products: Product,
-    upperValue: number,
-    categoryId: number,
-  ) {
-    if (!products || !products?.data) {
-      return null;
-    }
-
-    return products.data.filter((produto) => {
-      const isCategoryMatch =
-        categoryId === 0 ||
-        (produto.attributes.categoria.data != null &&
-          produto.attributes.categoria.data.id === categoryId);
-
-      const isPriceMatch =
-        produto.attributes.price < 50 ||
-        (produto.attributes.price >= 50 &&
-          produto.attributes.price <= upperValue);
-
-      return isCategoryMatch && isPriceMatch;
-    });
-  }
 
   const handleFilterChange = (upperValue: number) => {
     setUpperValue(upperValue);
@@ -98,17 +60,47 @@ const Loja: NextPage<LojaProps> = ({ produtos, categorias, lojaData }) => {
     setFilteredProducts(filteredByCategoryAndPrice || []);
   }
 
-  const topblocksection = lojaData?.data.attributes.topblocksection;
+  const hasValidVariations = (product: ProductData) => {
+    const hasSizeVariation = product.attributes.variantes.length === 1;
+    const hasColorVariation = product.attributes.colors_imgs.length === 1;
+    return hasSizeVariation && hasColorVariation;
+  };
 
-  const backgroudBlockSection = topblocksection?.background.data.attributes.url;
+  const handleAddToCart = (produtoData: ProductData) => {
+    const isProductInCart = context?.cartItems.find(
+      (item) => item.item.id === produtoData.id,
+    );
 
-  const router = useRouter();
+    const isValidProduct = hasValidVariations(produtoData);
+
+    if (!isValidProduct) {
+      const param = encodeURIComponent(JSON.stringify(produtoData));
+      router.push(`/loja/product/${produtoData.id}?produto=${param}`);
+    } else if (isProductInCart) {
+      context?.removeFromCart(isProductInCart);
+    } else {
+      const size = produtoData.attributes.variantes[0].size.tamanho;
+      const color = produtoData.attributes.colors_imgs[0].color_name.cor;
+      context?.addToCart({
+        id: uuidv4(),
+        item: produtoData,
+        price: produtoData.attributes.price,
+        quantity: 1,
+        size: size,
+        color: color,
+      });
+    }
+  };
 
   React.useEffect(() => {
     if (!lojaData) {
       router.push('/505');
     }
   }, [lojaData, router]);
+
+  const topblocksection = lojaData?.data.attributes.topblocksection;
+
+  const backgroudBlockSection = topblocksection?.background.data.attributes.url;
 
   return (
     <>
@@ -138,7 +130,7 @@ const Loja: NextPage<LojaProps> = ({ produtos, categorias, lojaData }) => {
                     />
                   </Col>
 
-                  <CartShop />
+                  <CartView />
                 </Row>
                 <Col xs={12} className="d-lg-none">
                   <ProductFilter
@@ -155,7 +147,7 @@ const Loja: NextPage<LojaProps> = ({ produtos, categorias, lojaData }) => {
                   {FilteredProducts.some(
                     (item) => item.attributes.highlight,
                   ) && (
-                    <div className="main-card">
+                    <div className="main-card my-3">
                       <Col xs={'auto'}>
                         <h2> Produtos em Destaque</h2>
                       </Col>
@@ -164,7 +156,10 @@ const Loja: NextPage<LojaProps> = ({ produtos, categorias, lojaData }) => {
                         {FilteredProducts.filter(
                           (item) => item.attributes.highlight,
                         ).map((produto) => (
-                          <SwiperSlide key={produto.id}>
+                          <SwiperSlide
+                            key={produto.id}
+                            className="justify-content-center"
+                          >
                             <CardLoja
                               key={produto.id}
                               produto={produto}
@@ -176,12 +171,15 @@ const Loja: NextPage<LojaProps> = ({ produtos, categorias, lojaData }) => {
                     </div>
                   )}
 
-                  <Col xs={'auto'}>
+                  <Col xs={'auto'} className="my-3">
                     <h2> Todos os produtos</h2>
                   </Col>
                   <List>
                     {FilteredProducts.map((produto) => (
-                      <SwiperSlide key={produto.id}>
+                      <SwiperSlide
+                        key={produto.id}
+                        className="justify-content-center"
+                      >
                         <CardLoja
                           key={produto.id}
                           produto={produto}
@@ -200,7 +198,7 @@ const Loja: NextPage<LojaProps> = ({ produtos, categorias, lojaData }) => {
                     <p>
                       Não encontramos produtos na categoria{' '}
                       <strong>
-                        {categorias.data &&
+                        {categorias &&
                           categorias.data.map(
                             (cat) => cat.id === category && cat.attributes.name,
                           )}{' '}
@@ -242,7 +240,9 @@ export const getServerSideProps: GetServerSideProps<LojaProps> = async () => {
     }
 
     const [resProducts, resCategorys, reslojaData] = await Promise.all([
-      fetch(`${BASEURL}/api/produtos?populate=*`),
+      fetch(
+        `${BASEURL}/api/produtos/?populate[thumbnail][populate]=*&populate[gallery][populate]=*&populate[variantes][populate]=*&populate[colors_imgs][populate]=*&populate[categoria]populate=*`,
+      ),
       fetch(`${BASEURL}/api/categorias`),
       fetch(`${BASEURL}/api/loja?populate[topblocksection][populate]=*`),
     ]);
