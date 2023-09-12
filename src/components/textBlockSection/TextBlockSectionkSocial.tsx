@@ -62,7 +62,7 @@ export function TextBlockSectionkSocial(props: TextBlockSectionkSocialProps) {
         <ul>
           {ongData?.data.attributes.redesSociais.map((redes) => (
             <li key={redes.id}>
-              <a href={redes.url}>
+              <a href={redes.url} aria-label={redes.titulo}>
                 <span>{selectIcon(redes.titulo)}</span>
               </a>
             </li>

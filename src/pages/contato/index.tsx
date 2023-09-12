@@ -61,6 +61,7 @@ const Contato: NextPage<ContatoProps> = ({ contatoData }) => {
             )}
             <div className="maps d-none d-lg-block">
               <iframe
+                title="google maps ascop"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3534.8151991782693!2d-48.525583372192!3d-27.630239581039874!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9527399b4e636325%3A0x57046c191a8812e6!2sASCOP%20-%20Associa%C3%A7%C3%A3o%20dos%20Skatistas%20da%20Costeira%20do%20Pirajuba%C3%A9.!5e0!3m2!1spt-BR!2sbr!4v1694041863851!5m2!1spt-BR!2sbr"
                 width="100%"
                 height="100%"

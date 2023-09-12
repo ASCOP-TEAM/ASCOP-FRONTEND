@@ -84,9 +84,9 @@ export function FooterContent({ isMobileView = false }: FooterContentProps) {
           </Col>
 
           <Col className="block-contact d-none d-xl-flex" xs={3}>
-            <Row className="flex-column">
-              {ongData && ongData?.data.attributes.contato ? (
-                <>
+            {ongData && ongData?.data.attributes.contato ? (
+              <Row className="flex-column">
+                <ul style={{ listStyle: 'none' }} className="m-0 p-0">
                   <Col className="mb-3">
                     <LinkBlockSection.Root contectMode>
                       <LinkBlockSection.Icon icon={Mail} />
@@ -120,13 +120,13 @@ export function FooterContent({ isMobileView = false }: FooterContentProps) {
                       />
                     </LinkBlockSection.Root>
                   </Col>
-                </>
-              ) : (
-                <div className="error-text">
-                  <p>Não foi possível obter os dados.</p>
-                </div>
-              )}
-            </Row>
+                </ul>
+              </Row>
+            ) : (
+              <div className="error-text">
+                <p>Não foi possível obter os dados.</p>
+              </div>
+            )}
           </Col>
         </Row>
         <Rodape>
