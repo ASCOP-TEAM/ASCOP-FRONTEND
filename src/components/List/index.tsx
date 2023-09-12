@@ -1,6 +1,8 @@
 import { Swiper } from 'swiper/react';
+import { Navigation } from 'swiper';
+
 import { Container } from './style';
-import { Navigation } from 'swiper/modules';
+
 import { ArrowRight } from 'lucide-react';
 
 import { useScreenWidth } from '@utils';
@@ -40,7 +42,7 @@ const List: React.FC<ListProps> = ({ children }) => {
         modules={[Navigation]}
         spaceBetween={spaceBetween}
         slidesPerView={slidesPerView}
-        loop={true}
+        loop={false}
         navigation={{
           nextEl: '.arrowRight',
         }}

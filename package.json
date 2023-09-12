@@ -7,12 +7,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next eslint ."
+    "lint": "next lint ."
   },
   "dependencies": {
     "@mercadopago/sdk-react": "^0.0.14",
     "@types/bootstrap": "^5.2.6",
     "@types/gsap": "^3.0.0",
+    "@types/swiper": "^6.0.0",
     "bootstrap": "^5.2.2",
     "google-maps-react": "^2.0.6",
     "gsap": "^3.12.2",
@@ -30,7 +31,7 @@
     "react-icons": "^4.10.1",
     "strapi-react": "^0.0.1",
     "styled-components": "^5.3.6",
-    "swiper": "^10.2.0",
+    "swiper": "8.3.2",
     "uuid": "^9.0.0"
   },
   "devDependencies": {

@@ -6,7 +6,7 @@ import type { NextPage } from 'next';
 
 import Layout from '@layout';
 import { CartContext } from '@contexts';
-import { Section } from './styles';
+import { Section } from '@styles/pages/loja/cliente/carrinho';
 import { CartItems, CartTotal, Alert } from '@components';
 import { useRouter } from 'next/router';
 

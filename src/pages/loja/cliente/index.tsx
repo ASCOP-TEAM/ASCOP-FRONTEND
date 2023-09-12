@@ -5,7 +5,7 @@ import { Col, Container, Row } from 'react-bootstrap';
 import type { NextPage } from 'next';
 import Layout from '@layout';
 
-import { Section } from './style';
+import { Section } from '@styles/pages/loja/cliente';
 
 import { Payment, CheckoutForm, Alert } from '@components';
 import { useScreenWidth } from '@utils';

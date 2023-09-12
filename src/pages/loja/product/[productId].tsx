@@ -8,7 +8,7 @@ import type { NextPage } from 'next';
 import { ProductData } from '@interfaces';
 import { CartView, ProducInfo, ProductView } from '@components';
 import Layout from '@layout';
-import { Section } from './styles';
+import { Section } from '@styles/pages/loja/product';
 
 const Producto: NextPage = () => {
   const router = useRouter();

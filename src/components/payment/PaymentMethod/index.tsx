@@ -3,14 +3,11 @@ import { IDadosCliente, Item, Payer } from '@interfaces';
 import { Alert, Button } from '@components';
 import { CartContext, ONGContext } from '@contexts';
 import { BiLogoWhatsapp } from 'react-icons/bi';
-import { ButtonMercadoLivreFake } from '../styles';
-import Image from 'next/image';
+
 import {
   extrairCodigoENumero,
   generateOrderMessage,
   getDefaultPayer,
-  loadMercadoPago,
-  renderCheckoutButton,
 } from '@utils';
 import { useRouter } from 'next/router';
 
@@ -33,7 +30,7 @@ const PaymentMethod: React.FC<PaymentMethodProps> = ({
   );
 
   const [isLoading, setIsLoading] = React.useState(false);
-  const [preferenceId, setPreferenceId] = React.useState<string | null>(null);
+
   const context = React.useContext(CartContext);
   const router = useRouter();
 
@@ -163,77 +160,11 @@ const PaymentMethod: React.FC<PaymentMethodProps> = ({
     }
   };
 
-  React.useEffect(() => {
-    const fetchData = async () => {
-      if (checkoutType === 'MercadoPago') {
-        if (formData == null) {
-          setAlertType('error');
-          setAlertMessage('Dados de entrega indisponível ou Incorretos');
-          setShowAlert(true);
-          return;
-        }
-
-        const { items, payer } = fillItemsAndPayer(formData);
-
-        try {
-          const response = await fetch('/api/create_preference', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ items, payer }),
-          });
-
-          if (!response.ok) {
-            setAlertType('error');
-            setAlertMessage(
-              'Erro ao criar preferência de pagamento, tente mais tarde!',
-            );
-            setShowAlert(true);
-            router.push('/loja');
-            return;
-          }
-
-          const preference = await response.json();
-
-          setPreferenceId(preference.id);
-        } catch (error) {
-          setAlertType('error');
-          setAlertMessage('Erro ao processar pedido, tente mais tarde!');
-          setShowAlert(true);
-          setPreferenceId(null);
-          console.error('Erro ao processar pedido:', error);
-        }
-
-        loadMercadoPago();
-      }
-    };
-
-    fetchData();
-  }, [checkoutType, formData]);
-
   return (
     <>
       <div>
         {checkoutType === 'MercadoPago' ? (
-          preferenceId ? (
-            renderCheckoutButton(preferenceId)
-          ) : (
-            <ButtonMercadoLivreFake disabled={disableButton}>
-              <div>
-                <Image
-                  src={'/logomercadopago.png'}
-                  width={30}
-                  height={30}
-                  loading="lazy"
-                  alt="mercado pago logo"
-                />
-              </div>
-              <span className="text-1XN644 svelte-16x6ay9">
-                Pay with Mercado Pago
-              </span>
-            </ButtonMercadoLivreFake>
-          )
+          <p>ative a implementação no código</p>
         ) : (
           <div className="wpp-checkout">
             <Button

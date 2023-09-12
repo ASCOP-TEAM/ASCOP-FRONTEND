@@ -3,7 +3,7 @@ import { Col, Container, Pagination, Row } from 'react-bootstrap';
 import { GetServerSideProps, NextPage } from 'next';
 
 import Layout from '@layout';
-import { SectionContent } from './styles';
+import { SectionContent } from '@styles/pages/transparencia';
 import { CardReport, ErrorDataNotLoaded, TopBlockSection } from '@components';
 import { BASEURL } from '@utils';
 import { Relatorios, ITransparencia } from '@interfaces';

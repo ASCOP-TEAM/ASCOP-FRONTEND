@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import type { GetServerSideProps, NextPage } from 'next';
 
 import { Category, ILoja, Product, ProductData } from '@interfaces';
+
 import {
   BarCategorys,
   CardLoja,

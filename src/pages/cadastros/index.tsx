@@ -2,7 +2,7 @@ import React from 'react';
 import Layout from '@layout';
 import { GetServerSideProps, NextPage } from 'next';
 import { Col, Container } from 'react-bootstrap';
-import { ImageContainer, SectionContent } from './styles';
+import { ImageContainer, SectionContent } from '@styles/pages/cadastros';
 import { ActiveLink, Button } from '@components';
 import { BASEURL } from '@utils';
 import { ICadastros } from '@interfaces';

@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
+    "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -15,11 +15,13 @@
     "jsx": "preserve",
     "incremental": true,
     "baseUrl": ".",
+    "typeRoots": ["./types", "./node_modules/@types"],
     "paths": {
       "@/*": ["./"],
       "@utils": ["src/utils"],
       "@layout": ["src/layout"],
-      "@styles": ["src/styles"],
+      "@styles/*": ["src/styles/*"],
+      "@styles": ["src/styles/"],
       "@img": ["./public/images/"],
       "@contexts": ["src/contexts"],
       "@templates": ["src/templates"],
@@ -28,6 +30,6 @@
       "@pages": ["src/components/pages"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "swiper/*"],
   "exclude": ["node_modules"]
 }

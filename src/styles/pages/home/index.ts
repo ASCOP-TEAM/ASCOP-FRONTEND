@@ -162,3 +162,7 @@ export const SectionFind = styled(BaseSection)`
     width: 100%;
   }
 `;
+
+export const styleHome = {
+  SectionFind,
+};

@@ -6,7 +6,8 @@ import {
   SectionBecause,
   SectionFind,
   SectionValues,
-} from './style';
+} from '@styles/pages/home';
+
 import {
   Button,
   TextBlockSection,

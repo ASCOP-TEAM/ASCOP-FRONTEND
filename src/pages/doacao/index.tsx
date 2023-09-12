@@ -2,7 +2,7 @@ import React from 'react';
 import Layout from '@layout';
 import { GetServerSideProps, NextPage } from 'next';
 import { Col, Container } from 'react-bootstrap';
-import { Section } from './styles';
+import { Section } from '@styles/pages/doacao';
 import { QrCode, TextBlockSection, TopBlockSection } from '@components';
 import { BASEURL } from '@utils';
 import { IDoacao } from '@interfaces';

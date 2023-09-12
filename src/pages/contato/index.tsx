@@ -3,7 +3,7 @@ import { Col, Container } from 'react-bootstrap';
 import { GetServerSideProps, NextPage } from 'next';
 
 import Layout from '@layout';
-import { SectionContent } from './styles';
+import { SectionContent } from '@styles/pages/contato';
 import { TopBlockSection, ContactForm } from '@components';
 import { IContato } from '@interfaces';
 import { BASEURL } from '@utils';
