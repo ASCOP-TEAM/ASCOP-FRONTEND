@@ -5,17 +5,17 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { Alert, Button } from '@components';
 import { IDadosCliente } from '@interfaces';
 
-interface CheckoutFormProps {
-  onSubmit: SubmitHandler<IDadosCliente>;
-}
-
 interface IEndereco {
   address: string;
   city: string;
   state: string;
 }
 
-export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSubmit }) => {
+interface CheckoutFormProps {
+  onSubmit: SubmitHandler<IDadosCliente>;
+}
+
+const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSubmit }) => {
   const [endereco, setEndereco] = React.useState<IEndereco>();
   const [cepEncontrado, setCepEncontrado] = React.useState(false);
   const [editMode, setEditMode] = React.useState(true);
@@ -346,3 +346,5 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSubmit }) => {
     </>
   );
 };
+
+export default CheckoutForm;

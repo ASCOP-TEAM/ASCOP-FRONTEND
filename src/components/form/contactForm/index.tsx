@@ -4,7 +4,7 @@ import { Col, Form, Row } from 'react-bootstrap';
 import { Alert, Button } from '@components';
 import { IEmail } from '@interfaces';
 
-export const ContactForm: React.FC = () => {
+const ContactForm: React.FC = () => {
   const [isLoading, setIsLoading] = React.useState(false);
 
   const [showAlert, setShowAlert] = React.useState(false);
@@ -16,7 +16,6 @@ export const ContactForm: React.FC = () => {
   const {
     handleSubmit,
     register,
-    /*   watch, */
     formState: { errors },
     reset,
   } = useForm<IEmail>();
@@ -202,3 +201,5 @@ export const ContactForm: React.FC = () => {
     </>
   );
 };
+
+export default ContactForm;
