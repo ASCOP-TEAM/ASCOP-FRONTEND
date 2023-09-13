@@ -65,7 +65,7 @@ export function Menu({ bgColor, txColor, staticmenu = false }: MenuProps) {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, []);
+  }, [staticmenu]);
 
   return (
     <Container
