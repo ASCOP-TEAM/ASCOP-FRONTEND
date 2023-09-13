@@ -7,3 +7,5 @@ export const ErrorDataNotLoaded = {
   Title: TitleDataNotLoaded,
   Content: ContentDataNotLoaded,
 };
+
+export { DataNotLoaded } from './DataNotLoaded';

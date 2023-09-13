@@ -19,8 +19,14 @@ export { default as Alert } from './alert';
 export { CheckoutForm, ContactForm } from './form';
 export { default as Payment } from './payment';
 export { List } from './List';
+export { PaginationPage } from './pagination';
 export { BackgroundCarousel } from './BackgroundCarousel';
-export { ErrorDataNotLoaded } from './errorDataNotLoaded';
+export { ErrorDataNotLoaded, DataNotLoaded } from './errorDataNotLoaded';
 export { CartItems, CartTotal, HeartCardShop, CartView } from './cart';
-export { ProducInfo, ProductView } from './product';
+export {
+  ProducInfo,
+  ProductView,
+  ProductList,
+  ProductDefault,
+} from './product';
 export { ColorIcon } from './color';

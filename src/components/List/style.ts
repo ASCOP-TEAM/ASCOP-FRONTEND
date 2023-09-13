@@ -29,7 +29,7 @@ const Container = styled.div`
     display: flex;
     flex-direction: row;
 
-    padding: 10px;
+    padding: 1rem;
 
     overflow-x: scroll;
     -ms-overflow-style: none;

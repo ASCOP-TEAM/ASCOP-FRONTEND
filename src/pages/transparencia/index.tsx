@@ -1,10 +1,15 @@
 import React from 'react';
-import { Col, Container, Pagination, Row } from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 import { GetServerSideProps, NextPage } from 'next';
 
 import Layout from '@layout';
 import { SectionContent } from '@styles/pages/transparencia';
-import { CardReport, ErrorDataNotLoaded, TopBlockSection } from '@components';
+import {
+  CardReport,
+  DataNotLoaded,
+  PaginationPage,
+  TopBlockSection,
+} from '@components';
 import { BASEURL } from '@utils';
 import { Relatorios, ITransparencia } from '@interfaces';
 import { useRouter } from 'next/router';
@@ -86,66 +91,20 @@ const Transparencia: NextPage<TransparenciaProps> = ({
                           );
                         })}
 
-                        <div className="pages my-5">
-                          <Pagination>
-                            <Pagination.First
-                              onClick={() => handlePageChange(1)}
-                            />
-                            <Pagination.Prev
-                              onClick={() => handlePageChange(currentPage - 1)}
-                            />
-                            {[
-                              ...Array(reportData.meta.pagination.pageCount),
-                            ].map((_, index) => (
-                              <Pagination.Item
-                                key={index + 1}
-                                active={index + 1 === currentPage}
-                                onClick={() => handlePageChange(index + 1)}
-                              >
-                                {index + 1}
-                              </Pagination.Item>
-                            ))}
-                            <Pagination.Next
-                              onClick={() => handlePageChange(currentPage + 1)}
-                            />
-                            <Pagination.Last
-                              onClick={() =>
-                                handlePageChange(
-                                  reportData.meta.pagination.pageCount,
-                                )
-                              }
-                            />
-                          </Pagination>
+                        <div className="my-5">
+                          <PaginationPage
+                            currentPage={currentPage}
+                            dataPage={reportData}
+                            handlePageChange={handlePageChange}
+                          />
                         </div>
                       </>
                     ) : (
-                      <ErrorDataNotLoaded.Root>
-                        <ErrorDataNotLoaded.Title>
-                          Dados não Carregados
-                        </ErrorDataNotLoaded.Title>
-                        <ErrorDataNotLoaded.Content>
-                          Parece que não conseguimos carregar os dados
-                          necessários para exibir esta página. Isso pode ser
-                          devido a um problema temporário. Por favor, tente
-                          novamente mais tarde.
-                        </ErrorDataNotLoaded.Content>
-                      </ErrorDataNotLoaded.Root>
+                      <DataNotLoaded />
                     )}
                   </>
 
-                  {!reportData && (
-                    <ErrorDataNotLoaded.Root>
-                      <ErrorDataNotLoaded.Title>
-                        Dados não Carregados
-                      </ErrorDataNotLoaded.Title>
-                      <ErrorDataNotLoaded.Content>
-                        Parece que não conseguimos carregar os dados necessários
-                        para exibir esta página. Isso pode ser devido a um
-                        problema temporário. Por favor, tente novamente mais
-                        tarde.
-                      </ErrorDataNotLoaded.Content>
-                    </ErrorDataNotLoaded.Root>
-                  )}
+                  {!reportData && <DataNotLoaded />}
                 </Row>
               </Col>
             </Row>

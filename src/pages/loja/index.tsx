@@ -8,17 +8,18 @@ import { Category, ILoja, Product, ProductData } from '@interfaces';
 
 import {
   BarCategorys,
-  CardLoja,
   ProductFilter,
   TopBlockSection,
   CartView,
-  List,
-  ErrorDataNotLoaded,
+  ProductList,
+  ProductDefault,
+  DataNotLoaded,
+  PaginationPage,
 } from '@components';
 
 import Layout from '@layout';
 import { CartContext } from '@contexts';
-import { SwiperSlide } from 'swiper/react';
+
 import { BASEURL, filterProductsByPriceAndCategory } from '@utils';
 import { useRouter } from 'next/router';
 
@@ -33,8 +34,20 @@ const Loja: NextPage<LojaProps> = ({ produtos, categorias, lojaData }) => {
 
   const [category, setCategory] = React.useState<number>(0);
   const [upperValue, setUpperValue] = React.useState<number>(100);
+  const [currentPage, setCurrentPage] = React.useState(1);
 
   const context = useContext(CartContext);
+
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+    router.replace(
+      {
+        pathname: router.pathname,
+        query: { ...router.query, page: newPage },
+      },
+      undefined,
+    );
+  };
 
   const [FilteredProducts, setFilteredProducts] = React.useState<ProductData[]>(
     produtos?.data || null,
@@ -144,87 +157,39 @@ const Loja: NextPage<LojaProps> = ({ produtos, categorias, lojaData }) => {
 
             {FilteredProducts !== null &&
               (FilteredProducts.length > 0 ? (
-                <div className="main-card py-4">
-                  {FilteredProducts.some(
-                    (item) => item.attributes.highlight,
-                  ) && (
-                    <div className="main-card my-3">
-                      <Col xs={'auto'}>
-                        <h2> Produtos em Destaque</h2>
-                      </Col>
-
-                      <List>
-                        {FilteredProducts.filter(
-                          (item) => item.attributes.highlight,
-                        ).map((produto) => (
-                          <SwiperSlide
-                            key={produto.id}
-                            className="justify-content-center"
-                          >
-                            <CardLoja
-                              key={produto.id}
-                              produto={produto}
-                              onAddToCart={() => handleAddToCart(produto)}
-                            />
-                          </SwiperSlide>
-                        ))}
-                      </List>
+                <>
+                  <div>
+                    <ProductList
+                      produtos={FilteredProducts}
+                      handleAddToCart={handleAddToCart}
+                      title="Produtos em Destaque"
+                      highlight
+                    />
+                    <ProductList
+                      produtos={FilteredProducts}
+                      handleAddToCart={handleAddToCart}
+                      title="Todos os Produtos"
+                    />
+                  </div>
+                  <div>
+                    <div className="my-4">
+                      <PaginationPage
+                        currentPage={currentPage}
+                        dataPage={produtos}
+                        handlePageChange={handlePageChange}
+                      />
                     </div>
-                  )}
-
-                  <Col xs={'auto'} className="my-3">
-                    <h2> Todos os produtos</h2>
-                  </Col>
-                  <List>
-                    {FilteredProducts.map((produto) => (
-                      <SwiperSlide
-                        key={produto.id}
-                        className="justify-content-center"
-                      >
-                        <CardLoja
-                          key={produto.id}
-                          produto={produto}
-                          onAddToCart={() => handleAddToCart(produto)}
-                        />
-                      </SwiperSlide>
-                    ))}
-                  </List>
-                </div>
+                  </div>
+                </>
               ) : (
-                <ErrorDataNotLoaded.Root>
-                  <ErrorDataNotLoaded.Title>
-                    <h2 className="m-0">Produto não encontrado</h2>
-                  </ErrorDataNotLoaded.Title>
-                  <ErrorDataNotLoaded.Content>
-                    <p>
-                      Não encontramos produtos na categoria{' '}
-                      <strong>
-                        {categorias &&
-                          categorias.data.map(
-                            (cat) => cat.id === category && cat.attributes.name,
-                          )}{' '}
-                      </strong>
-                      com valores abaixo de
-                      <strong> R${upperValue}</strong>. Verifique se há produtos
-                      disponíveis para essa categoria com um valor superiore a
-                      R${upperValue}.
-                    </p>
-                  </ErrorDataNotLoaded.Content>
-                </ErrorDataNotLoaded.Root>
+                <ProductDefault
+                  categorias={categorias}
+                  categoryid={category}
+                  upperValue={upperValue}
+                />
               ))}
 
-            {!FilteredProducts && (
-              <ErrorDataNotLoaded.Root>
-                <ErrorDataNotLoaded.Title>
-                  Dados não Carregados
-                </ErrorDataNotLoaded.Title>
-                <ErrorDataNotLoaded.Content>
-                  Parece que não conseguimos carregar os dados necessários para
-                  exibir esta página. Isso pode ser devido a um problema
-                  temporário. Por favor, tente novamente mais tarde.
-                </ErrorDataNotLoaded.Content>
-              </ErrorDataNotLoaded.Root>
-            )}
+            {!FilteredProducts && <DataNotLoaded />}
           </section>
         </Container>
       </Layout>
@@ -232,7 +197,9 @@ const Loja: NextPage<LojaProps> = ({ produtos, categorias, lojaData }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps<LojaProps> = async () => {
+export const getServerSideProps: GetServerSideProps<LojaProps> = async (
+  context,
+) => {
   try {
     if (!BASEURL) {
       throw new Error(
@@ -240,9 +207,11 @@ export const getServerSideProps: GetServerSideProps<LojaProps> = async () => {
       );
     }
 
+    const pageNumber = context.query.page || 1;
+
     const [resProducts, resCategorys, reslojaData] = await Promise.all([
       fetch(
-        `${BASEURL}/api/produtos/?populate[thumbnail][populate]=*&populate[gallery][populate]=*&populate[variantes][populate]=*&populate[colors_imgs][populate]=*&populate[categoria]populate=*`,
+        `${BASEURL}/api/produtos/?populate[thumbnail][populate]=*&populate[gallery][populate]=*&populate[variantes][populate]=*&populate[colors_imgs][populate]=*&populate[categoria]populate=*&pagination[page]=${pageNumber}`,
       ),
       fetch(`${BASEURL}/api/categorias`),
       fetch(`${BASEURL}/api/loja?populate[topblocksection][populate]=*`),

@@ -1,3 +1,4 @@
+import React from 'react';
 import { Swiper } from 'swiper/react';
 import { Navigation } from 'swiper';
 
@@ -13,6 +14,7 @@ interface ListProps {
 
 const List: React.FC<ListProps> = ({ children }) => {
   const width = useScreenWidth();
+  const [showArrow, setShowArrow] = React.useState(false);
 
   const spaceBetween =
     width >= 1440
@@ -36,6 +38,11 @@ const List: React.FC<ListProps> = ({ children }) => {
       ? 2
       : 1;
 
+  React.useEffect(() => {
+    const productCount = React.Children.count(children);
+    setShowArrow(productCount > 4);
+  }, [children]);
+
   return (
     <Container>
       <Swiper
@@ -50,9 +57,11 @@ const List: React.FC<ListProps> = ({ children }) => {
         {children}
       </Swiper>
 
-      <div className="arrow arrowRight">
-        <ArrowRight />
-      </div>
+      {showArrow && (
+        <div className="arrow arrowRight">
+          <ArrowRight />
+        </div>
+      )}
     </Container>
   );
 };

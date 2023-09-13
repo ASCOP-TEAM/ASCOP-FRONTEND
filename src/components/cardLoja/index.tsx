@@ -11,7 +11,7 @@ import { filterUniqueSizesAndColors, stringToHexColor } from '@utils';
 
 interface CardLojaProps {
   produto: ProductData;
-  onAddToCart: () => void;
+  onAddToCart: (produto: ProductData) => void;
 }
 
 const CardLoja: React.FC<CardLojaProps> = ({ produto, onAddToCart }) => {
@@ -52,7 +52,7 @@ const CardLoja: React.FC<CardLojaProps> = ({ produto, onAddToCart }) => {
     <Container>
       <Row>
         <div className="cart">
-          <button onClick={onAddToCart}>
+          <button onClick={() => onAddToCart(produto)}>
             <HeartCardShop productId={produto.id} />
           </button>
         </div>
