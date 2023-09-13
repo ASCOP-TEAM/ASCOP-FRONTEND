@@ -15,7 +15,7 @@ interface IEndereco {
   state: string;
 }
 
-const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSubmit }) => {
+export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSubmit }) => {
   const [endereco, setEndereco] = React.useState<IEndereco>();
   const [cepEncontrado, setCepEncontrado] = React.useState(false);
   const [editMode, setEditMode] = React.useState(true);
@@ -346,5 +346,3 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSubmit }) => {
     </>
   );
 };
-
-export default CheckoutForm;
