@@ -4,7 +4,7 @@ import { Col, Form, Row } from 'react-bootstrap';
 import { Alert, Button } from '@components';
 import { IEmail } from '@interfaces';
 
-const ContactForm = () => {
+export function ContactForm() {
   const [isLoading, setIsLoading] = React.useState(false);
 
   const [showAlert, setShowAlert] = React.useState(false);
@@ -200,6 +200,4 @@ const ContactForm = () => {
       )}
     </>
   );
-};
-
-export default ContactForm;
+}

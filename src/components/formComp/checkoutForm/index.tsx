@@ -15,7 +15,7 @@ interface CheckoutFormProps {
   onSubmit: SubmitHandler<IDadosCliente>;
 }
 
-const CheckoutForm = ({ onSubmit }: CheckoutFormProps) => {
+export function CheckoutForm({ onSubmit }: CheckoutFormProps) {
   const [endereco, setEndereco] = React.useState<IEndereco>();
   const [cepEncontrado, setCepEncontrado] = React.useState(false);
   const [editMode, setEditMode] = React.useState(true);
@@ -26,12 +26,12 @@ const CheckoutForm = ({ onSubmit }: CheckoutFormProps) => {
     setValue,
     getValues,
     trigger,
-    /*     watch, */
+
     formState: { errors },
   } = useForm<IDadosCliente>();
 
   const toggleEditMode = () => {
-    setEditMode(!editMode); // Alterna entre os modos de edição
+    setEditMode(!editMode);
   };
 
   const handleEditButtonClick = () => {
@@ -43,7 +43,7 @@ const CheckoutForm = ({ onSubmit }: CheckoutFormProps) => {
       trigger().then((isValid) => {
         if (isValid) {
           onSubmit(getValues());
-          setEditMode(false); // Desativar o modo de edição
+          setEditMode(false);
         }
       });
     }
@@ -345,6 +345,4 @@ const CheckoutForm = ({ onSubmit }: CheckoutFormProps) => {
       )}
     </>
   );
-};
-
-export default CheckoutForm;
+}
