@@ -1,2 +1,4 @@
-export { default as CheckoutForm } from './checkoutForm';
-export { default as ContactForm } from './contactForm';
+import CheckoutForm from './checkoutForm';
+import ContactForm from './contactForm';
+
+export { CheckoutForm, ContactForm };
