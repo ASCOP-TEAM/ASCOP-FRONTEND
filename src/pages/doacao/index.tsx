@@ -6,7 +6,6 @@ import { Section } from '@styles/pages/doacao';
 import { QrCode, TextBlockSection, TopBlockSection } from '@components';
 import { BASEURL } from '@utils';
 import { IDoacao } from '@interfaces';
-import { useRouter } from 'next/router';
 import { ONGContext } from '@contexts';
 
 interface DoacaoProps {
@@ -14,18 +13,10 @@ interface DoacaoProps {
 }
 
 const Doacao: NextPage<DoacaoProps> = ({ donateData }) => {
-  const router = useRouter();
-
   const ongData = React.useContext(ONGContext);
 
   const { agencia, banco, conta } =
     ongData?.data?.attributes.dadosBancarios || {};
-
-  React.useEffect(() => {
-    if (!donateData) {
-      router.push('/505');
-    }
-  }, [donateData, router]);
 
   const { bloco1, topblocksection } = donateData?.data.attributes || {};
 
@@ -121,6 +112,20 @@ export const getServerSideProps: GetServerSideProps<DoacaoProps> = async () => {
         `${BASEURL}/api/doacao?populate[topblocksection][populate]=*&populate[bloco1][populate]=*`,
       ),
     ]);
+
+    if (resDonateData.status != 200) {
+      console.error(
+        'Erro ao buscar dados da API - page doacao:',
+        resDonateData.statusText,
+      );
+
+      return {
+        redirect: {
+          destination: '/505',
+          permanent: false,
+        },
+      };
+    }
 
     const donateData = await resDonateData.json();
 

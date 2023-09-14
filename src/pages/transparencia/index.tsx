@@ -25,12 +25,6 @@ const Transparencia: NextPage<TransparenciaProps> = ({
 }) => {
   const router = useRouter();
 
-  React.useEffect(() => {
-    if (!trasparenciaData) {
-      router.push('/505');
-    }
-  }, [trasparenciaData, router]);
-
   const [currentPage, setCurrentPage] = React.useState(1);
 
   const handlePageChange = (newPage: number) => {
@@ -135,6 +129,20 @@ export const getServerSideProps: GetServerSideProps<
       ),
       fetch(`${BASEURL}/api/relatorios?pagination[page]=${pageNumber}`),
     ]);
+
+    if (resTransparencyData.status != 200) {
+      console.error(
+        'Erro ao buscar dados da API - page transparencia:',
+        resTransparencyData.statusText,
+      );
+
+      return {
+        redirect: {
+          destination: '/505',
+          permanent: false,
+        },
+      };
+    }
 
     const trasparenciaData = await resTransparencyData.json();
     const reportData = await resReportData.json();

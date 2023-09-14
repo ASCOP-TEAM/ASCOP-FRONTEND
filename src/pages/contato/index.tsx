@@ -7,21 +7,12 @@ import { SectionContent } from '@styles/pages/contato';
 import { TopBlockSection, ContactForm } from '@components';
 import { IContato } from '@interfaces';
 import { BASEURL } from '@utils';
-import { useRouter } from 'next/router';
 
 interface ContatoProps {
   contatoData: IContato | null;
 }
 
 const Contato: NextPage<ContatoProps> = ({ contatoData }) => {
-  const router = useRouter();
-
-  React.useEffect(() => {
-    if (!contatoData) {
-      router.push('/505');
-    }
-  }, [contatoData, router]);
-
   const { bloco1, bloco2, topblocksection } =
     contatoData?.data.attributes || {};
 
@@ -90,6 +81,20 @@ export const getServerSideProps: GetServerSideProps<
     const response = await fetch(
       `${BASEURL}/api/contato/?populate[topblocksection][populate]=*&populate[bloco1][populate]=*&populate[bloco2][populate]=*`,
     );
+
+    if (response.status != 200) {
+      console.error(
+        'Erro ao buscar dados da API - page loja:',
+        response.statusText,
+      );
+
+      return {
+        redirect: {
+          destination: '/505',
+          permanent: false,
+        },
+      };
+    }
 
     const contatoData = await response.json();
 

@@ -7,20 +7,13 @@ import { ActiveLink, Button } from '@components';
 import { BASEURL } from '@utils';
 import { ICadastros } from '@interfaces';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
+
 interface CadastrosProps {
   cadastrosData: ICadastros | null;
 }
 
 const Cadastros: NextPage<CadastrosProps> = ({ cadastrosData }) => {
-  const router = useRouter();
   const { background, bloco1, bloco2 } = cadastrosData?.data.attributes || {};
-
-  React.useEffect(() => {
-    if (!cadastrosData) {
-      router.push('/505');
-    }
-  }, [cadastrosData, router]);
 
   return (
     <>
@@ -96,6 +89,20 @@ export const getServerSideProps: GetServerSideProps<
     const response = await fetch(
       `${BASEURL}/api/cadastro/?populate[background][populate]=*&populate[bloco1][populate]=*&populate[bloco2][populate]=*`,
     );
+
+    if (response.status != 200) {
+      console.error(
+        'Erro ao buscar dados da API - page cadastro:',
+        response.statusText,
+      );
+
+      return {
+        redirect: {
+          destination: '/505',
+          permanent: false,
+        },
+      };
+    }
 
     const cadastrosData = await response.json();
 

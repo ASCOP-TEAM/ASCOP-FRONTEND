@@ -24,7 +24,6 @@ import {
 } from '@utils';
 import { IHome } from '@interfaces';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
 import { ONGContext } from '@contexts';
 
 interface HomePros {
@@ -46,14 +45,6 @@ const Home: NextPage<HomePros> = ({ homeData }) => {
   const imageAbout = bloco2?.photo?.data.attributes.url;
 
   const imageBecause = bloco4?.photo?.data.attributes.url;
-
-  const router = useRouter();
-
-  React.useEffect(() => {
-    if (!homeData) {
-      router.push('/505');
-    }
-  }, [homeData, router]);
 
   return (
     <Layout bgColor="black" txColor="white">
@@ -237,7 +228,7 @@ const Home: NextPage<HomePros> = ({ homeData }) => {
 
 export default Home;
 
-export const getServerSideProps: GetServerSideProps<HomePros> = async () => {
+export const getServerSideProps: GetServerSideProps<HomePros> = async ({}) => {
   try {
     if (!BASEURL) {
       throw new Error(
@@ -248,6 +239,20 @@ export const getServerSideProps: GetServerSideProps<HomePros> = async () => {
     const response = await fetch(
       `${BASEURL}/api/home/?populate[background][populate]=*&populate[bloco1][populate]=*&populate[bloco2][populate]=*&populate[bloco3][populate]=*&populate[bloco4][populate]=*&populate[bloco5][populate]=*`,
     );
+
+    if (response.status != 200) {
+      console.error(
+        'Erro ao buscar dados da API - page home:',
+        response.statusText,
+      );
+
+      return {
+        redirect: {
+          destination: '/505',
+          permanent: false,
+        },
+      };
+    }
 
     const homeData: IHome = await response.json();
 

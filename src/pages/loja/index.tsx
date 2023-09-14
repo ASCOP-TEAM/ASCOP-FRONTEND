@@ -106,12 +106,6 @@ const Loja: NextPage<LojaProps> = ({ produtos, categorias, lojaData }) => {
     }
   };
 
-  React.useEffect(() => {
-    if (!lojaData) {
-      router.push('/505');
-    }
-  }, [lojaData, router]);
-
   const topblocksection = lojaData?.data.attributes.topblocksection;
 
   const backgroudBlockSection = topblocksection?.background.data.attributes.url;
@@ -216,6 +210,20 @@ export const getServerSideProps: GetServerSideProps<LojaProps> = async (
       fetch(`${BASEURL}/api/categorias`),
       fetch(`${BASEURL}/api/loja?populate[topblocksection][populate]=*`),
     ]);
+
+    if (reslojaData.status != 200) {
+      console.error(
+        'Erro ao buscar dados da API - page loja:',
+        reslojaData.statusText,
+      );
+
+      return {
+        redirect: {
+          destination: '/505',
+          permanent: false,
+        },
+      };
+    }
 
     const [repoProducts, repoCategorys, lojaData] = await Promise.all([
       resProducts.json(),
