@@ -1,32 +1,15 @@
 import React from 'react';
-import { BASEURL } from '@utils';
 import { ONG } from '@interfaces';
 
 export const ONGContext = React.createContext<ONG | undefined>(undefined);
 
 interface ONGProps {
+  initialData: ONG | undefined;
   children: React.ReactNode;
 }
 
-export const ONGProvider: React.FC<ONGProps> = ({ children }) => {
-  const [data, setData] = React.useState<ONG | undefined>(undefined);
-
-  React.useEffect(() => {
-    const getData = async () => {
-      try {
-        const response = await fetch(
-          `${BASEURL}/api/ong/?populate[redesSociais][populate]=*&populate[dadosBancarios][populate]=*&populate[contato][populate]=*&populate[pixDados][populate]=*`,
-        );
-        const ongData: ONG = await response.json();
-        setData(ongData);
-      } catch (error) {
-        console.error('Erro ao obter dados da ONG:', error);
-        setData(undefined);
-      }
-    };
-
-    getData();
-  }, []);
+export const ONGProvider: React.FC<ONGProps> = ({ children, initialData }) => {
+  const [data /* setData */] = React.useState<ONG | undefined>(initialData);
 
   return <ONGContext.Provider value={data}>{children}</ONGContext.Provider>;
 };
