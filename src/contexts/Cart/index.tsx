@@ -152,7 +152,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
 
   const clearCart = () => {
     setCartItems([]);
-    localStorage.setItem('cartItems', JSON.stringify([]));
+    localStorage.removeItem('cartItems');
   };
 
   const getCartTotal = () => {
@@ -180,7 +180,9 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
           const parsedCartItems = JSON.parse(storedCartItems);
 
           if (Array.isArray(parsedCartItems)) {
-            setCartItems(parsedCartItems);
+            if (cartItems.length === 0) {
+              setCartItems(parsedCartItems);
+            }
           } else {
             localStorage.removeItem('cartItems');
           }

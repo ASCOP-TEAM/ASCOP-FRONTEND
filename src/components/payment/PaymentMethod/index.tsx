@@ -147,6 +147,7 @@ const PaymentMethod: React.FC<PaymentMethodProps> = ({
       if (phoneNumber && encodedMessage) {
         const whatsappURL = `https://api.whatsapp.com/send?phone=55${phoneNumber}&text=${encodedMessage}`;
         setIsLoading(false);
+        context?.clearCart();
         router.push(whatsappURL);
       }
     } catch (error) {
