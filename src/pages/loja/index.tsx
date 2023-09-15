@@ -152,12 +152,14 @@ const Loja: NextPage<LojaProps> = ({ produtos, categorias, lojaData }) => {
               (FilteredProducts.length > 0 ? (
                 <>
                   <div>
-                    <ProductList
-                      produtos={FilteredProducts}
-                      handleAddToCart={handleAddToCart}
-                      title="Produtos em Destaque"
-                      highlight
-                    />
+                    {category === 0 && (
+                      <ProductList
+                        produtos={FilteredProducts}
+                        handleAddToCart={handleAddToCart}
+                        title="Produtos em Destaque"
+                        highlight
+                      />
+                    )}
                     <ProductList
                       produtos={FilteredProducts}
                       handleAddToCart={handleAddToCart}
