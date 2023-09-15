@@ -33,24 +33,37 @@ export const ProductList = ({
     start += maxProductsPerList;
   }
 
+  console.log(productLists.length);
+
+  const filteredProdutos = produtos.filter((item) =>
+    highlight ? item.attributes.highlight : true,
+  );
+
   return (
-    <div className="main-card my-3">
-      <Col xs={'auto'} className="my-2">
-        <h2>{title}</h2>
-      </Col>
-      <List>
-        {produtos
-          .filter((item) => (highlight ? item.attributes.highlight : item))
-          .map((produto) => (
-            <SwiperSlide key={produto.id} className="justify-content-center">
-              <CardLoja
-                key={produto.id}
-                produto={produto}
-                onAddToCart={handleAddToCart}
-              />
-            </SwiperSlide>
-          ))}
-      </List>
-    </div>
+    <>
+      {filteredProdutos.length ? (
+        <div className="main-card my-3">
+          <Col xs={'auto'} className="my-2">
+            <h2>{title}</h2>
+          </Col>
+          <List>
+            {filteredProdutos
+              .filter((item) => (highlight ? item.attributes.highlight : item))
+              .map((produto) => (
+                <SwiperSlide
+                  key={produto.id}
+                  className="justify-content-center"
+                >
+                  <CardLoja
+                    key={produto.id}
+                    produto={produto}
+                    onAddToCart={handleAddToCart}
+                  />
+                </SwiperSlide>
+              ))}
+          </List>
+        </div>
+      ) : null}
+    </>
   );
 };
