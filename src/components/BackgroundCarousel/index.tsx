@@ -27,7 +27,7 @@ export const BackgroundCarousel: React.FC<BackgroundCarouselProps> = ({
   return (
     <Container>
       <Swiper
-        spaceBetween={5}
+        spaceBetween={1}
         centeredSlides={true}
         autoplay={{
           delay: 6000,
