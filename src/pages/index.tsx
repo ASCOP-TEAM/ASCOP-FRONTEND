@@ -13,7 +13,6 @@ import {
   TextBlockSection,
   Card,
   BackgroundCarousel,
-  ActiveLink,
 } from '@components';
 import { Col, Container, Row } from 'react-bootstrap';
 import { BookOpen, Users2, Laugh } from 'lucide-react';
@@ -25,6 +24,7 @@ import {
 import { IHome } from '@interfaces';
 import Image from 'next/image';
 import { ONGContext } from '@contexts';
+import Link from 'next/link';
 
 interface HomePros {
   homeData: IHome | null;
@@ -60,9 +60,9 @@ const Home: NextPage<HomePros> = ({ homeData }) => {
 
             <div>
               {bloco1.botao && (
-                <ActiveLink href={bloco1.botao.url}>
+                <Link href={bloco1.botao.url}>
                   <Button text={bloco1.botao.titulo} theme="secundary" />
-                </ActiveLink>
+                </Link>
               )}
             </div>
           </div>
@@ -153,9 +153,9 @@ const Home: NextPage<HomePros> = ({ homeData }) => {
               </Col>
               <Col>
                 {bloco4.botao && (
-                  <ActiveLink href={bloco4.botao.url}>
+                  <Link href={bloco4.botao.url}>
                     <Button text={bloco4.botao.titulo} />
-                  </ActiveLink>
+                  </Link>
                 )}
               </Col>
             </Col>

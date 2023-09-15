@@ -20,18 +20,15 @@ export const Container = styled.nav<{
     align-items: center;
     border: 0px none;
 
-    a {
-      text-decoration: none;
-
-      .text-wrapper {
-        color: ${(props) => (!props.txColor ? 'white' : props.txColor)};
-        font-family: 'Inter-Bold', Helvetica;
-        font-size: 30px;
-        font-weight: 700;
-        letter-spacing: 0;
-        line-height: normal;
-        white-space: nowrap;
-      }
+    .text-wrapper-logo {
+      cursor: pointer;
+      color: ${(props) => (!props.txColor ? 'white' : props.txColor)};
+      font-family: 'Inter-Bold', Helvetica;
+      font-size: 30px;
+      font-weight: 700;
+      letter-spacing: 0;
+      line-height: normal;
+      white-space: nowrap;
     }
   }
 

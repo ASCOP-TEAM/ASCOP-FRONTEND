@@ -1,7 +1,7 @@
 import React from 'react';
-import { ActiveLink } from '@components';
 import { Container } from './style';
 import { MenuMobile } from './menuMobile';
+import Link from 'next/link';
 
 interface MenuProps {
   bgColor?: string;
@@ -74,9 +74,9 @@ export function Menu({ bgColor, txColor, staticmenu = false }: MenuProps) {
       scrolled={scrolled || isMenuOpen || staticmenu}
     >
       <div className="navbar__left label">
-        <ActiveLink href={'/'}>
-          <div className="text-wrapper"> ASCOP</div>
-        </ActiveLink>
+        <Link href={'/'}>
+          <div className="text-wrapper-logo"> ASCOP</div>
+        </Link>
       </div>
 
       <div className="navbar__right ">
@@ -84,7 +84,7 @@ export function Menu({ bgColor, txColor, staticmenu = false }: MenuProps) {
           <ul>
             {routers.map((route) => (
               <li key={route.id}>
-                <ActiveLink href={route.path}>{route.name}</ActiveLink>
+                <Link href={route.path}>{route.name}</Link>
               </li>
             ))}
           </ul>

@@ -1,7 +1,7 @@
 import { IRouters } from '@interfaces';
-import { ActiveLink } from 'src/components/link';
 import { ContainerMenuLinks } from './styles';
 import { Offcanvas } from 'react-bootstrap';
+import Link from 'next/link';
 
 type MenuLinksProps = {
   routers: IRouters[];
@@ -31,7 +31,7 @@ export function MenuLinks({
           <ul className={isMenuOpen ? 'is-Active' : ''}>
             {routers.map((route) => (
               <li key={route.id}>
-                <ActiveLink href={route.path}>{route.name}</ActiveLink>
+                <Link href={route.path}>{route.name}</Link>
               </li>
             ))}
           </ul>
