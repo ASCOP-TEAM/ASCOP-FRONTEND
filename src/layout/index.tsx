@@ -17,7 +17,9 @@ const Layout: React.FC<layoutProps> = (props) => {
     <>
       <Header>
         <Head>
-          <title>{!props.title ? 'Home' : props.title}</title>
+          <title>
+            {!props.title ? 'Home' : props.title} {'- ASCOP'}
+          </title>
           <meta
             name={!props.metaName ? 'description' : props.metaName}
             content={
