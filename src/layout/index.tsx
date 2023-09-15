@@ -28,6 +28,13 @@ const Layout: React.FC<layoutProps> = (props) => {
                 : props.metaContent
             }
           />
+
+          <meta property="og:title" content="ASCOP" />
+          <meta
+            property="og:description"
+            content="ASSOCIAÇÃO DE SKATISTAS DA COSTEIRA DO PIRAJUBAÉ"
+          />
+          <meta property="og:image" content="/logowhite.png" />
         </Head>
         <Menu
           bgColor={props.bgColor}
