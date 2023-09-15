@@ -94,26 +94,31 @@ export const ProductView: React.FC<ProductViewProps> = ({ produto }) => {
       >
         <Carousel data-bs-theme="dark">
           {produto.attributes.gallery.data ? (
-            <>
-              {produto.attributes.gallery.data.map((image) => (
-                <Carousel.Item key={image.id}>
-                  <Image
-                    width={350}
-                    height={350}
-                    src={image.attributes.url}
-                    alt={'foto:' + image.attributes.name}
-                  />
-                </Carousel.Item>
-              ))}
-            </>
-          ) : (
+            produto.attributes.gallery.data.map((image) => (
+              <Carousel.Item key={image.id}>
+                <Image
+                  width={350}
+                  height={350}
+                  src={image.attributes.url}
+                  alt={`foto: ${image.attributes.name}`}
+                />
+              </Carousel.Item>
+            ))
+          ) : produto.attributes.thumbnail.data ? (
             <Carousel.Item key={produto.id}>
               <Image
                 width={350}
                 height={350}
-                src={produto.attributes.thumbnail?.data.attributes?.url}
-                alt={'foto:' + produto.attributes.title}
+                src={
+                  produto.attributes.thumbnail?.data.attributes?.url ||
+                  'URL_DA_IMAGEM_PADRÃO_AQUI'
+                }
+                alt={`foto: ${produto.attributes.title}`}
               />
+            </Carousel.Item>
+          ) : (
+            <Carousel.Item>
+              <p>Nenhuma imagem disponível</p>
             </Carousel.Item>
           )}
         </Carousel>
