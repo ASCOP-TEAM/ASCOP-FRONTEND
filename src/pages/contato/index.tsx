@@ -13,18 +13,18 @@ interface ContatoProps {
 }
 
 const Contato: NextPage<ContatoProps> = ({ contatoData }) => {
+  console.log(contatoData);
+
   const { bloco1, bloco2, topblocksection } =
     contatoData?.data.attributes || {};
 
   const backgroudBlockSection =
-    topblocksection?.background?.data.attributes.url;
+    topblocksection?.background?.data?.attributes?.url || '/backgroud.jpg';
 
   return (
     <Layout bgColor={'white'} txColor="black" title="Contato">
       {topblocksection && backgroudBlockSection && (
-        <TopBlockSection.Root
-          imageUrl={backgroudBlockSection || './backgroud.jpg'}
-        >
+        <TopBlockSection.Root imageUrl={backgroudBlockSection}>
           <TopBlockSection.Title title={topblocksection.titulo} />
           <TopBlockSection.Paragrap paragrap={topblocksection.descricao} />
         </TopBlockSection.Root>
@@ -73,9 +73,15 @@ export const getServerSideProps: GetServerSideProps<
 > = async () => {
   try {
     if (!BASEURL) {
-      throw new Error(
+      console.error(
         'A api não está definida corretamente nas variaveis de ambiente. - contato',
       );
+      return {
+        redirect: {
+          destination: '/505',
+          permanent: false,
+        },
+      };
     }
 
     const response = await fetch(
@@ -97,6 +103,17 @@ export const getServerSideProps: GetServerSideProps<
     }
 
     const contatoData = await response.json();
+
+    if (!contatoData || !contatoData.data || !contatoData.data.attributes) {
+      console.error('Dados da API estão ausentes ou vazios.');
+
+      return {
+        redirect: {
+          destination: '/505',
+          permanent: false,
+        },
+      };
+    }
 
     return {
       props: {

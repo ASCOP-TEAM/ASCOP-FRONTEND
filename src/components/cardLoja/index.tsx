@@ -66,11 +66,11 @@ const CardLoja: React.FC<CardLojaProps> = ({ produto, onAddToCart }) => {
             />
           }
         </div>
-        <div className="title">
+        <div className="title my-1">
           <h4 className="m-0"> {produto.attributes.title}</h4>
         </div>
 
-        <div className="sizes my-2">
+        <div className="sizes my-1">
           {produto.attributes.variantes && (
             <ul>
               {uniqueSizes.slice(0, 4).map((size) => (
@@ -88,7 +88,7 @@ const CardLoja: React.FC<CardLojaProps> = ({ produto, onAddToCart }) => {
           )}
         </div>
 
-        <div className="colors my-2">
+        <div className="colors my-1">
           {uniqueColors.length > 1 && (
             <ul>
               {uniqueColors.slice(0, 4).map((color) => (

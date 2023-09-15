@@ -15,6 +15,9 @@ interface CadastrosProps {
 const Cadastros: NextPage<CadastrosProps> = ({ cadastrosData }) => {
   const { background, bloco1, bloco2 } = cadastrosData?.data.attributes || {};
 
+  const backgroudImage =
+    background?.data?.attributes?.url || '/cadastrosbg.jpeg';
+
   return (
     <>
       <Layout bgColor={'white'} txColor="black" title="Cadastros">
@@ -29,9 +32,9 @@ const Cadastros: NextPage<CadastrosProps> = ({ cadastrosData }) => {
                   <p>{bloco1.blockSumary?.descricao}</p>
                 </div>
                 <div>
-                  {bloco1.button && (
-                    <ActiveLink href={bloco1.button.url}>
-                      <Button text={bloco1.button.titulo} theme={'secundary'} />
+                  {bloco1.botao && (
+                    <ActiveLink href={bloco1.botao.url}>
+                      <Button text={bloco1.botao.titulo} theme={'secundary'} />
                     </ActiveLink>
                   )}
                 </div>
@@ -39,33 +42,35 @@ const Cadastros: NextPage<CadastrosProps> = ({ cadastrosData }) => {
             )}
 
             {bloco2 && (
-              <Col xs={12} lg={5} md={7} className="box light">
-                <div>
-                  <h1>{bloco2.blockSumary?.titulo}</h1>
-                </div>
-                <div>
-                  <p>{bloco2.blockSumary?.descricao}</p>
-                </div>
-                <div>
-                  {bloco2.button && (
-                    <ActiveLink href={bloco2.button.url}>
-                      <Button text={bloco2.button.titulo} />
-                    </ActiveLink>
-                  )}
-                </div>
-              </Col>
-            )}
+              <>
+                <Col xs={12} lg={5} md={7} className="box light">
+                  <div>
+                    <h1>{bloco2.blockSumary?.titulo}</h1>
+                  </div>
+                  <div>
+                    <p>{bloco2.blockSumary?.descricao}</p>
+                  </div>
+                  <div>
+                    {bloco2.botao && (
+                      <ActiveLink href={bloco2.botao.url}>
+                        <Button text={bloco2.botao.titulo} />
+                      </ActiveLink>
+                    )}
+                  </div>
+                </Col>
 
-            {background && (
-              <ImageContainer>
-                <div className="gradient-overlay"></div>
-                <Image
-                  src={background.data.attributes.url}
-                  alt="Imagem de fundo"
-                  layout="fill"
-                  objectFit="cover"
-                />
-              </ImageContainer>
+                {backgroudImage && (
+                  <ImageContainer>
+                    <div className="gradient-overlay"></div>
+                    <Image
+                      src={backgroudImage}
+                      alt="Imagem de fundo"
+                      layout="fill"
+                      objectFit="cover"
+                    />
+                  </ImageContainer>
+                )}
+              </>
             )}
           </SectionContent>
         </Container>
@@ -81,9 +86,15 @@ export const getServerSideProps: GetServerSideProps<
 > = async () => {
   try {
     if (!BASEURL) {
-      throw new Error(
-        'A api não está definida corretamente nas variaveis de ambiente.',
+      console.error(
+        'A api não está definida corretamente nas variaveis de ambiente - cadastros',
       );
+      return {
+        redirect: {
+          destination: '/505',
+          permanent: false,
+        },
+      };
     }
 
     const response = await fetch(
@@ -92,7 +103,7 @@ export const getServerSideProps: GetServerSideProps<
 
     if (response.status != 200) {
       console.error(
-        'Erro ao buscar dados da API - page cadastro:',
+        'Erro ao buscar dados da API - page cadastros:',
         response.statusText,
       );
 
@@ -105,6 +116,21 @@ export const getServerSideProps: GetServerSideProps<
     }
 
     const cadastrosData = await response.json();
+
+    if (
+      !cadastrosData ||
+      !cadastrosData.data ||
+      !cadastrosData.data.attributes
+    ) {
+      console.error('Dados da API estão ausentes ou vazios.');
+
+      return {
+        redirect: {
+          destination: '/505',
+          permanent: false,
+        },
+      };
+    }
 
     return {
       props: {

@@ -93,7 +93,7 @@ export interface DatumAttributes {
 export interface Bloco {
   id: number;
   blockSumary: BlockSumary;
-  button: Button;
+  botao: Button;
 }
 
 export interface BlockSumary {

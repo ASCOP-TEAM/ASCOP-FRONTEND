@@ -1,3 +1,4 @@
+import { CartContext } from '@contexts';
 import React from 'react';
 import { Form } from 'react-bootstrap';
 
@@ -6,7 +7,6 @@ interface ProductColorsProps {
   isError: boolean;
   selectedSize: string | null;
   selectedColor: string | null;
-
   setSelectedColor: (selectedColor: string | null) => void;
 }
 
@@ -17,21 +17,33 @@ const ProductColors: React.FC<ProductColorsProps> = ({
   selectedColor,
   setSelectedColor,
 }) => {
+  const context = React.useContext(CartContext);
+
   React.useEffect(() => {
     if (isColors.length === 1 && selectedSize != null) {
+      console.log('cor selecionada', isColors);
       setSelectedColor(isColors[0]);
     }
   }, [isColors, selectedSize, setSelectedColor]);
 
+  const availableColors = isColors.filter((color) => {
+    const isColorInCart = context?.cartItems.some(
+      (item) => item.size === selectedSize && item.color === color,
+    );
+    return !isColorInCart;
+  });
+
   return (
     <>
-      {isColors.length === 1 && (
+      {availableColors.length === 1 && (
         <p>
           Cor: <strong>{isColors[0]}</strong>
         </p>
       )}
 
-      {isColors.length > 1 && (
+      {isColors.length === 1 && setSelectedColor(isColors[0])}
+
+      {isColors.length > 1 && selectedSize != null && (
         <Form>
           <Form.Group controlId="productSize">
             <Form.Label>Cor:</Form.Label>

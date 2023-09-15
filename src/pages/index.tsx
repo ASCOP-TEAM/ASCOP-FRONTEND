@@ -40,16 +40,16 @@ const Home: NextPage<HomePros> = ({ homeData }) => {
 
   const carouselImages = bloco1?.sliders?.data.map(
     (imagens) => imagens.attributes.url,
-  );
+  ) || ['/backgroud.jpg'];
 
-  const imageAbout = bloco2?.photo?.data.attributes.url;
+  const imageAbout = bloco2?.photo?.data.attributes?.url;
 
-  const imageBecause = bloco4?.photo?.data.attributes.url;
+  const imageBecause = bloco4?.photo?.data.attributes?.url;
 
   return (
     <Layout bgColor="black" txColor="white">
       {bloco1 && (
-        <BackgroundCarousel images={carouselImages || ['/backgroud.jpg']}>
+        <BackgroundCarousel images={carouselImages}>
           <div className="main">
             <div className="title">
               <h1>{bloco1.titulo} </h1>
@@ -72,9 +72,9 @@ const Home: NextPage<HomePros> = ({ homeData }) => {
       <Container>
         {bloco2 && (
           <SectionAbout>
-            <Col className="text-about" xs={12} lg={5}>
+            <Col className="text-about" xs={12} lg={5} md={7}>
               <div className="title my-4">
-                <h1>{bloco2.titulo}</h1>
+                <h2>{bloco2.titulo}</h2>
               </div>
               <Col xs={12} lg={10} className="text-wrapper ">
                 {formatDescriptionToParagraphs(bloco2.descricao)}
@@ -84,7 +84,7 @@ const Home: NextPage<HomePros> = ({ homeData }) => {
               </div>
             </Col>
 
-            <Col className="image-about" xs={12} lg={5}>
+            <Col className="image-about" xs={12} lg={5} md={3}>
               {imageAbout && bloco2.photo && (
                 <div className="img">
                   <Image
@@ -115,12 +115,10 @@ const Home: NextPage<HomePros> = ({ homeData }) => {
 
             <Col className="cards my-5" xs={12}>
               {bloco3.cards?.length &&
-                bloco3.cards.map((card) => (
+                bloco3.cards.map((card, i) => (
                   <Card
                     key={card.id}
-                    icon={
-                      card.id == 4 ? BookOpen : card.id == 5 ? Users2 : Laugh
-                    }
+                    icon={i == 0 ? BookOpen : i == 1 ? Users2 : Laugh}
                     title={card.titulo}
                     content={card.descricao}
                   />
@@ -131,7 +129,7 @@ const Home: NextPage<HomePros> = ({ homeData }) => {
 
         {bloco4 && (
           <SectionBecause>
-            <Col xs={12} lg={5} className="img-because">
+            <Col xs={12} lg={5} md={3} className="img-because">
               {imageBecause && bloco4.photo && (
                 <div className="img">
                   <Image
@@ -146,8 +144,8 @@ const Home: NextPage<HomePros> = ({ homeData }) => {
                 </div>
               )}
             </Col>
-            <Col xs={12} lg={5} className="text-because">
-              <Col className="title mb-3">
+            <Col xs={12} lg={5} md={7} className="text-because">
+              <Col className="title my-4">
                 <h1 className="m-0">{bloco4.titulo}</h1>
               </Col>
               <Col className="text-wrapper ">
@@ -231,11 +229,16 @@ export default Home;
 export const getServerSideProps: GetServerSideProps<HomePros> = async ({}) => {
   try {
     if (!BASEURL) {
-      throw new Error(
+      console.error(
         'A api não está definida corretamente nas variaveis de ambiente.',
       );
+      return {
+        redirect: {
+          destination: '/505',
+          permanent: false,
+        },
+      };
     }
-
     const response = await fetch(
       `${BASEURL}/api/home/?populate[background][populate]=*&populate[bloco1][populate]=*&populate[bloco2][populate]=*&populate[bloco3][populate]=*&populate[bloco4][populate]=*&populate[bloco5][populate]=*`,
     );
@@ -255,6 +258,16 @@ export const getServerSideProps: GetServerSideProps<HomePros> = async ({}) => {
     }
 
     const homeData: IHome = await response.json();
+
+    if (!homeData || !homeData.data || !homeData.data.attributes) {
+      console.error('Dados da API estão ausentes ou vazios.');
+      return {
+        redirect: {
+          destination: '/505',
+          permanent: false,
+        },
+      };
+    }
 
     return {
       props: {

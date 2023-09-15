@@ -23,6 +23,7 @@ const BarCategorys: React.FC<BarCategorysProps> = ({
       {categorias && (
         <Container
           xs={'auto'}
+          lg={5}
           numberofcategories={categorias.data?.length || 0}
         >
           <ul>

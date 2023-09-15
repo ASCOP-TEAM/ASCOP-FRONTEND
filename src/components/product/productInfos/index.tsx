@@ -54,7 +54,6 @@ export const ProducInfo: React.FC<ProducInfoProps> = ({ produto }) => {
       setQuantity(1);
       setSize(null);
       setColor(null);
-      setColors([]);
       setError(false);
       setSuccess(true);
       return true;
@@ -65,7 +64,6 @@ export const ProducInfo: React.FC<ProducInfoProps> = ({ produto }) => {
     setSize(null);
     setSize(setSizeInfo.tamanho);
     setColors(setSizeInfo.cores);
-    setColor(null);
   };
 
   const handleRedirect = () => {
@@ -106,7 +104,7 @@ export const ProducInfo: React.FC<ProducInfoProps> = ({ produto }) => {
         <ProductInfoSizes
           isError={isError}
           selectedSize={isSize}
-          setSelectedSizeInfo={(e) => handleSetColorsTosize(e)}
+          setSelectedSizeInfo={handleSetColorsTosize}
           {...{ produto }}
         />
       </Col>
@@ -115,7 +113,7 @@ export const ProducInfo: React.FC<ProducInfoProps> = ({ produto }) => {
           isError={isError}
           selectedSize={isSize}
           selectedColor={isColor}
-          setSelectedColor={(e) => setColor(e)}
+          setSelectedColor={setColor}
           {...{ isColors }}
         />
       </div>
@@ -137,7 +135,7 @@ export const ProducInfo: React.FC<ProducInfoProps> = ({ produto }) => {
         </div>
       </div>
       <Row className="buttons justify-content-around">
-        <Col xs={12} lg={'auto'} md={12}>
+        <Col xs={12} lg={'auto'} md={12} ls={12}>
           <Button
             className="mb-3 w-100"
             text="COMPRAR"

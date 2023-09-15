@@ -116,9 +116,15 @@ export const getServerSideProps: GetServerSideProps<
 > = async (context) => {
   try {
     if (!BASEURL) {
-      throw new Error(
-        'A api não está definida corretamente nas variaveis de ambiente. - transparencia',
+      console.error(
+        'A api não está definida corretamente nas variaveis de ambiente.',
       );
+      return {
+        redirect: {
+          destination: '/505',
+          permanent: false,
+        },
+      };
     }
 
     const pageNumber = context.query.page || 1;
@@ -145,6 +151,22 @@ export const getServerSideProps: GetServerSideProps<
     }
 
     const trasparenciaData = await resTransparencyData.json();
+
+    if (
+      !trasparenciaData ||
+      !trasparenciaData.data ||
+      !trasparenciaData.data.attributes
+    ) {
+      console.error('Dados da API estão ausentes ou vazios.');
+
+      return {
+        redirect: {
+          destination: '/505',
+          permanent: false,
+        },
+      };
+    }
+
     const reportData = await resReportData.json();
 
     return {

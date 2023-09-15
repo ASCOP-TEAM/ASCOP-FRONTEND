@@ -21,15 +21,13 @@ const Doacao: NextPage<DoacaoProps> = ({ donateData }) => {
   const { bloco1, topblocksection } = donateData?.data.attributes || {};
 
   const backgroudBlockSection =
-    topblocksection?.background?.data.attributes.url;
+    topblocksection?.background?.data?.attributes?.url || '/backgroud.jpg';
 
   return (
     <>
       <Layout bgColor={'white'} txColor="black" title="Doação">
         {topblocksection && backgroudBlockSection && (
-          <TopBlockSection.Root
-            imageUrl={backgroudBlockSection || './backgroud.jpg'}
-          >
+          <TopBlockSection.Root imageUrl={backgroudBlockSection}>
             <TopBlockSection.Title title={topblocksection.titulo} />
             <TopBlockSection.Paragrap paragrap={topblocksection.descricao} />
           </TopBlockSection.Root>
@@ -102,9 +100,15 @@ export default Doacao;
 export const getServerSideProps: GetServerSideProps<DoacaoProps> = async () => {
   try {
     if (!BASEURL) {
-      throw new Error(
-        'A api não está definida corretamente nas variaveis de ambiente. - page doacao',
+      console.error(
+        'A api não está definida corretamente nas variaveis de ambiente. - contato',
       );
+      return {
+        redirect: {
+          destination: '/505',
+          permanent: false,
+        },
+      };
     }
 
     const [resDonateData] = await Promise.all([
@@ -128,6 +132,17 @@ export const getServerSideProps: GetServerSideProps<DoacaoProps> = async () => {
     }
 
     const donateData = await resDonateData.json();
+
+    if (!donateData || !donateData.data || !donateData.data.attributes) {
+      console.error('Dados da API estão ausentes ou vazios.');
+
+      return {
+        redirect: {
+          destination: '/505',
+          permanent: false,
+        },
+      };
+    }
 
     return {
       props: {

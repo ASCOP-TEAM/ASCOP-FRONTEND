@@ -21,7 +21,7 @@ export const Container = styled(Col)<{ numberofcategories: number }>`
     }
   }
 
-  @media (max-width: 426px) {
+  @media (max-width: 565px) {
     overflow-y: auto;
     max-width: 243px;
     padding: 0 1rem;
@@ -31,12 +31,6 @@ export const Container = styled(Col)<{ numberofcategories: number }>`
     overflow-y: auto;
     max-width: 243px;
     padding: 0 1rem;
-  }
-
-  @media (min-width: 641px) {
-    overflow-y: ${(props) =>
-      props.numberofcategories > 3 ? 'auto' : 'visible'};
-    max-width: ${(props) => (props.numberofcategories > 3 ? '200px' : 'auto')};
   }
 
   ul {

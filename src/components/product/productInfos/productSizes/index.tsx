@@ -7,7 +7,6 @@ interface ProductInfoSizesProps {
   produto: ProductData;
   isError: boolean;
   selectedSize: string | null;
-
   setSelectedSizeInfo: (selectedSizeInfo: ISizeToColors) => void;
 }
 
@@ -33,7 +32,6 @@ const ProductInfoSizes: React.FC<ProductInfoSizesProps> = ({
         const { color } = variante;
         const { tamanho } = variante.size;
 
-        // Verifica se a combinação de tamanho e cor está no carrinho
         const isSizeColorInCart = context?.cartItems.some(
           (item) => item.size === tamanho && item.color === color.cor,
         );
@@ -61,22 +59,25 @@ const ProductInfoSizes: React.FC<ProductInfoSizesProps> = ({
     const selectedSizeInfo = sizeToColorsMap.find(
       (item) => item.tamanho === selectedSize,
     );
-
     if (selectedSizeInfo) {
       setSelectedSizeInfo(selectedSizeInfo);
+    } else if (sizeToColorsMap.length === 1) {
+      setSelectedSizeInfo(sizeToColorsMap[0]);
     }
   }
 
   return (
     <>
-      {produto.attributes.variantes.length === 1 && (
+      {sizeToColorsMap.length === 1 && (
         <p>
-          Tamanho:{' '}
-          <strong>{produto.attributes.variantes[0].size.tamanho}</strong>
+          Tamanho: <strong>{sizeToColorsMap[0].tamanho}</strong>
         </p>
       )}
 
-      {sizeToColorsMap.length > 0 && (
+      {sizeToColorsMap.length === 1 &&
+        handleSizeChange(sizeToColorsMap[0].tamanho)}
+
+      {sizeToColorsMap.length > 1 && (
         <Form>
           <Form.Group controlId="productSize">
             <Form.Label>Tamanho:</Form.Label>
@@ -103,9 +104,9 @@ const ProductInfoSizes: React.FC<ProductInfoSizesProps> = ({
         </Form>
       )}
 
-      {sizeToColorsMap.length == 0 && (
+      {sizeToColorsMap.length === 0 && (
         <p>
-          <strong>Produto Indisponível!</strong>
+          <strong>PRODUTO SELECIONADO</strong>
         </p>
       )}
     </>

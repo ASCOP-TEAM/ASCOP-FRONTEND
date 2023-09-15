@@ -8,6 +8,10 @@ const BaseSection = styled.section`
   padding: 2rem 0;
   min-height: 100vh;
   overflow: hidden;
+
+  @media (min-width: 1248px) {
+    padding: 1rem 0;
+  }
 `;
 
 export const SectionAbout = styled(BaseSection)`
@@ -90,7 +94,7 @@ export const SectionValues = styled(BaseSection)`
 
 export const SectionBecause = styled(BaseSection)`
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-evenly;
 
   .img-because {
     height: 500px;

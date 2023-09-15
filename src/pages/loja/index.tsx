@@ -77,7 +77,7 @@ const Loja: NextPage<LojaProps> = ({ produtos, categorias, lojaData }) => {
   const hasValidVariations = (product: ProductData) => {
     const hasSizeVariation = product.attributes.variantes.length === 1;
     const hasColorVariation = product.attributes.colors_imgs.length === 1;
-    return hasSizeVariation && hasColorVariation;
+    return hasSizeVariation || hasColorVariation;
   };
 
   const handleAddToCart = (produtoData: ProductData) => {
@@ -93,8 +93,8 @@ const Loja: NextPage<LojaProps> = ({ produtos, categorias, lojaData }) => {
     } else if (isProductInCart) {
       context?.removeFromCart(isProductInCart);
     } else {
-      const size = produtoData.attributes.variantes[0].size.tamanho;
-      const color = produtoData.attributes.colors_imgs[0].color_name.cor;
+      const size = produtoData.attributes?.variantes[0]?.size.tamanho;
+      const color = produtoData.attributes?.colors_imgs[0]?.color_name.cor;
       context?.addToCart({
         id: uuidv4(),
         item: produtoData,
@@ -108,15 +108,14 @@ const Loja: NextPage<LojaProps> = ({ produtos, categorias, lojaData }) => {
 
   const topblocksection = lojaData?.data.attributes.topblocksection;
 
-  const backgroudBlockSection = topblocksection?.background.data.attributes.url;
+  const backgroudBlockSection =
+    topblocksection?.background?.data?.attributes?.url || '/backgroud.jpg';
 
   return (
     <>
       <Layout bgColor="white" txColor={'black'} title="Loja">
         {topblocksection && backgroudBlockSection && (
-          <TopBlockSection.Root
-            imageUrl={backgroudBlockSection || '/backgroud.jpg'}
-          >
+          <TopBlockSection.Root imageUrl={backgroudBlockSection}>
             <TopBlockSection.Title title={topblocksection.titulo} />
             <TopBlockSection.Paragrap paragrap={topblocksection.descricao} />
           </TopBlockSection.Root>
@@ -196,9 +195,15 @@ export const getServerSideProps: GetServerSideProps<LojaProps> = async (
 ) => {
   try {
     if (!BASEURL) {
-      throw new Error(
+      console.error(
         'A api não está definida corretamente nas variaveis de ambiente. - loja',
       );
+      return {
+        redirect: {
+          destination: '/505',
+          permanent: false,
+        },
+      };
     }
 
     const pageNumber = context.query.page || 1;
@@ -230,6 +235,17 @@ export const getServerSideProps: GetServerSideProps<LojaProps> = async (
       resCategorys.json(),
       reslojaData.json(),
     ]);
+
+    if (!lojaData || !lojaData.data || !lojaData.data.attributes) {
+      console.error('Dados da API estão ausentes ou vazios.');
+
+      return {
+        redirect: {
+          destination: '/505',
+          permanent: false,
+        },
+      };
+    }
 
     const produtos = repoProducts ? repoProducts : [];
     const categorias = repoCategorys ? repoCategorys : [];
