@@ -3,8 +3,14 @@ import styled from 'styled-components';
 
 export const Container = styled(Col)`
   height: 100%;
+
+  .offcanvas > .offcanvas-header > .btn-close {
+    width: 2em;
+    height: 2em;
+    font-size: 15px !important;
+  }
+
   .product-list {
-    max-height: 390px;
     overflow-y: auto;
     margin: auto 0.5rem;
     padding: 0;
