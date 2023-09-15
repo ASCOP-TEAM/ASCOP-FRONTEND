@@ -122,17 +122,19 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
         cartItem.color === product.color,
     );
 
-    if (isItemInCart && product.quantity === 1) {
-      setCartItems((prevCartItems) => {
-        const updatedCartItems = prevCartItems.filter(
-          (cartItem) =>
-            cartItem.id !== product.id ||
-            (cartItem.id === product.id &&
-              cartItem.size !== product.size &&
-              cartItem.color !== product.color),
-        );
-        return updatedCartItems;
-      });
+    if (product.quantity === 1) {
+      const updatedLocalStorageItems = cartItems.filter(
+        (cartItem) =>
+          cartItem.id !== product.id ||
+          (cartItem.id === product.id &&
+            cartItem.size !== product.size &&
+            cartItem.color !== product.color),
+      );
+      setCartItems(updatedLocalStorageItems);
+      localStorage.setItem(
+        'cartItems',
+        JSON.stringify(updatedLocalStorageItems),
+      );
     } else if (isItemInCart) {
       setCartItems(
         cartItems.map((cartItem) =>
@@ -150,6 +152,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
 
   const clearCart = () => {
     setCartItems([]);
+    localStorage.setItem('cartItems', JSON.stringify([]));
   };
 
   const getCartTotal = () => {
@@ -167,16 +170,26 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   };
 
   useEffect(() => {
-    localStorage.setItem('cartItems', JSON.stringify(cartItems));
-  }, [cartItems]);
+    if (cartItems.length > 0) {
+      localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    } else {
+      const storedCartItems: string | null = localStorage.getItem('cartItems');
 
-  useEffect(() => {
-    const storedCartItems: string | null = localStorage.getItem('cartItems');
+      if (storedCartItems) {
+        try {
+          const parsedCartItems = JSON.parse(storedCartItems);
 
-    if (storedCartItems) {
-      setCartItems(JSON.parse(storedCartItems));
+          if (Array.isArray(parsedCartItems)) {
+            setCartItems(parsedCartItems);
+          } else {
+            localStorage.removeItem('cartItems');
+          }
+        } catch (error) {
+          localStorage.removeItem('cartItems');
+        }
+      }
     }
-  }, []);
+  }, [cartItems]);
 
   return (
     <CartContext.Provider
