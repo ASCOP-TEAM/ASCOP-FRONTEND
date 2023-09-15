@@ -15,6 +15,8 @@ export const ProductView: React.FC<ProductViewProps> = ({ produto }) => {
     setCurrentImage(imageurl);
   };
 
+  console.log(produto);
+
   return (
     <>
       <Container className="d-none d-lg-flex flex-row-reverse" xs={'auto'}>
@@ -91,17 +93,29 @@ export const ProductView: React.FC<ProductViewProps> = ({ produto }) => {
         className="d-flex justify-content-center align-items-center d-lg-none"
       >
         <Carousel data-bs-theme="dark">
-          {produto.attributes.gallery.data &&
-            produto.attributes.gallery.data.map((image) => (
-              <Carousel.Item key={image.id}>
-                <Image
-                  width={350}
-                  height={350}
-                  src={image.attributes.url}
-                  alt={'foto:' + image.attributes.name}
-                />
-              </Carousel.Item>
-            ))}
+          {produto.attributes.gallery.data ? (
+            <>
+              {produto.attributes.gallery.data.map((image) => (
+                <Carousel.Item key={image.id}>
+                  <Image
+                    width={350}
+                    height={350}
+                    src={image.attributes.url}
+                    alt={'foto:' + image.attributes.name}
+                  />
+                </Carousel.Item>
+              ))}
+            </>
+          ) : (
+            <Carousel.Item key={produto.id}>
+              <Image
+                width={350}
+                height={350}
+                src={produto.attributes.thumbnail?.data.attributes?.url}
+                alt={'foto:' + produto.attributes.title}
+              />
+            </Carousel.Item>
+          )}
         </Carousel>
       </Col>
     </>
