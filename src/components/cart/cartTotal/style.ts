@@ -12,8 +12,7 @@ export const Container = styled.div`
 
   .items-info {
     background-color: #ffffff;
-    padding: 1rem;
-    box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.2);
+    padding: 10px;
     ul {
       list-style: none;
       padding: 0;
@@ -23,6 +22,7 @@ export const Container = styled.div`
       }
     }
   }
+
   .rodape {
     .total {
       color: black;
@@ -30,7 +30,12 @@ export const Container = styled.div`
   }
 
   @media (max-width: 974px) {
+    position: sticky;
+    bottom: 0px;
     padding: 0;
-    box-shadow: -2px -20px 20px 1px #49494954;
+    z-index: 10;
+    background-color: #ffffff;
+    border-radius: 25px 25px 0 0;
+    box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.2);
   }
 `;
