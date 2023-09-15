@@ -13,8 +13,6 @@ interface ContatoProps {
 }
 
 const Contato: NextPage<ContatoProps> = ({ contatoData }) => {
-  console.log(contatoData);
-
   const { bloco1, bloco2, topblocksection } =
     contatoData?.data.attributes || {};
 

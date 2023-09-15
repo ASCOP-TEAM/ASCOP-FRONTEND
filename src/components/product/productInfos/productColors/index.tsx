@@ -21,7 +21,6 @@ const ProductColors: React.FC<ProductColorsProps> = ({
 
   React.useEffect(() => {
     if (isColors.length === 1 && selectedSize != null) {
-      console.log('cor selecionada', isColors);
       setSelectedColor(isColors[0]);
     }
   }, [isColors, selectedSize, setSelectedColor]);
