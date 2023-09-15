@@ -39,7 +39,9 @@ MyApp.getInitialProps = async (context: AppContext) => {
       );
     }
 
-    const response = await fetch(`${BASEURL}/api/ong/?populate=*`);
+    const response = await fetch(
+      `${BASEURL}/api/ong/?populate[redesSociais][populate]=*&populate[dadosBancarios][populate]=*&populate[contato][populate]=*&populate[pixDados][populate]=*&populate[footer][on][ong.footer][populate]=*`,
+    );
 
     if (response.status != 200) {
       console.error(

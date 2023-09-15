@@ -1,23 +1,27 @@
+import { Meta } from '../meta';
+
 export interface ONG {
-  data: OngData;
+  data: ONGData;
+  meta: Meta;
 }
 
-export interface OngData {
+export interface ONGData {
   id: number;
-  attributes: PurpleAttributes;
+  attributes: Attributes;
 }
 
-export interface PurpleAttributes {
+export interface Attributes {
+  isActivated: boolean;
+  slug: string;
+  vakinha_url: string;
   createdAt: Date;
   updatedAt: Date;
   publishedAt: Date;
-  slug: string;
-  isActivated: boolean;
-  vakinha_url: string | null;
   redesSociais: RedesSociai[];
   dadosBancarios: DadosBancarios;
   contato: Contato;
   pixDados: PixDados;
+  footer: Footer[];
 }
 
 export interface Contato {
@@ -34,6 +38,26 @@ export interface DadosBancarios {
   conta: string;
 }
 
+export interface Footer {
+  id: number;
+  __component: string;
+  aboutproject: Aboutproject;
+  linksUteis: RedesSociai[];
+  importantLinks: RedesSociai[];
+}
+
+export interface Aboutproject {
+  id: number;
+  titulo: string;
+  descricao: string;
+}
+
+export interface RedesSociai {
+  id: number;
+  titulo: string;
+  url: string;
+}
+
 export interface PixDados {
   id: number;
   chave: string;
@@ -41,44 +65,4 @@ export interface PixDados {
   cidade: string;
   transactionId: string;
   message: string;
-}
-
-export interface RedesSociai {
-  id: number;
-  titulo: string;
-  url: string;
-  icon: Icon;
-}
-
-export interface Icon {
-  data: IconData;
-}
-
-export interface IconData {
-  id: number;
-  attributes: FluffyAttributes;
-}
-
-export interface FluffyAttributes {
-  name: string;
-  alternativeText: null;
-  caption: null;
-  width: number;
-  height: number;
-  formats: null;
-  hash: string;
-  ext: string;
-  mime: string;
-  size: number;
-  url: string;
-  previewUrl: null;
-  provider: string;
-  provider_metadata: ProviderMetadata;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-export interface ProviderMetadata {
-  public_id: string;
-  resource_type: string;
 }

@@ -27,61 +27,65 @@ export function FooterContent({ isMobileView = false }: FooterContentProps) {
             isMobileView && 'flex-column-reverse'
           }`}
         >
-          <Col xs={12} lg={'auto'} md={'auto'}>
-            <Col xs={'auto'}>
-              <TextBlockSection.Root>
-                <TextBlockSection.Title>
-                  <h2 style={{ color: 'white' }}>About The Hope Project</h2>
-                </TextBlockSection.Title>
-                <TextBlockSection.Paragrap
-                  content="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim minim veniam, nostrud exercitation ullamco laboris nisi ut
-              aliquip. Turpis egestas sed tempus urna et. Egestas diam in arcu
-              cursus euismod quis viverra nibh. Nec nam aliquam sem et tortor
-              consequat. Sed risus ultricies tristique nulla aliquet.  "
-                />
-              </TextBlockSection.Root>
-            </Col>
+          {ongData?.data &&
+            ongData?.data.attributes.footer &&
+            ongData?.data.attributes.footer.map((uteis) => (
+              <>
+                <Col xs={12} lg={'auto'} md={'auto'}>
+                  <Col xs={'auto'}>
+                    <TextBlockSection.Root>
+                      <TextBlockSection.Title>
+                        <h2 style={{ color: 'white' }}>
+                          {uteis.aboutproject.titulo}
+                        </h2>
+                      </TextBlockSection.Title>
+                      <TextBlockSection.Paragrap
+                        content={uteis.aboutproject.descricao}
+                      />
+                    </TextBlockSection.Root>
+                  </Col>
 
-            <TextBlockSection.Social />
-          </Col>
+                  <TextBlockSection.Social />
+                </Col>
 
-          <Col className="block-links mb-3" xs={12} lg={'auto'} md={'auto'}>
-            <Row
-              className={`${!isMobileView ? 'flex-column' : 'flex-arow mb-3'}`}
-            >
-              <Col xs={'auto'} className="mb-3">
-                <LinkBlockSection.Root>
-                  <LinkBlockSection.Title title="Important Links" />
-                  <LinkBlockSection.Link href="#" content="Privacy Policy" />
-                  <LinkBlockSection.Link href="#" content="Cookies Policy" />
-                  <LinkBlockSection.Link
-                    href="#"
-                    content="Terms & Conditions"
-                  />
-                </LinkBlockSection.Root>
-              </Col>
+                <Col
+                  className="block-links mb-3"
+                  xs={12}
+                  lg={'auto'}
+                  md={'auto'}
+                >
+                  <Row
+                    className={`${
+                      !isMobileView ? 'flex-column' : 'flex-arow mb-3'
+                    }`}
+                  >
+                    <Col xs={'auto'} className="mb-3">
+                      <LinkBlockSection.Root>
+                        <LinkBlockSection.Title title="Important Links" />
+                        {uteis.importantLinks.map((links) => (
+                          <LinkBlockSection.Link
+                            key={links.id}
+                            href={links.url}
+                            content={links.titulo}
+                          />
+                        ))}
+                      </LinkBlockSection.Root>
+                    </Col>
 
-              <Col xs={'auto'} className="links">
-                <LinkBlockSection.Root>
-                  <LinkBlockSection.Title title="Links Úteis" />
-                  <ActiveLink href="/contato">
-                    <p>Contato</p>
-                  </ActiveLink>
-                  <ActiveLink href="/loja">
-                    <p>Loja</p>
-                  </ActiveLink>
-                  <ActiveLink href="/doacao">
-                    <p>Doações</p>
-                  </ActiveLink>
-                  <ActiveLink href="/transparencia">
-                    <p>Transparência</p>
-                  </ActiveLink>
-                </LinkBlockSection.Root>
-              </Col>
-            </Row>
-          </Col>
+                    <Col xs={'auto'} className="links">
+                      <LinkBlockSection.Root>
+                        <LinkBlockSection.Title title="Links Úteis" />
+                        {uteis.linksUteis.map((links) => (
+                          <ActiveLink href={links.url} key={links.id}>
+                            <p>{links.titulo}</p>
+                          </ActiveLink>
+                        ))}
+                      </LinkBlockSection.Root>
+                    </Col>
+                  </Row>
+                </Col>
+              </>
+            ))}
 
           <Col className="block-contact d-none d-xl-flex" xs={3}>
             {ongData && ongData?.data.attributes.contato ? (
