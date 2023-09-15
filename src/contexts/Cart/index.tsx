@@ -131,10 +131,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
             cartItem.color !== product.color),
       );
       setCartItems(updatedLocalStorageItems);
-      localStorage.setItem(
-        'cartItems',
-        JSON.stringify(updatedLocalStorageItems),
-      );
+      localStorage.removeItem('cartItems');
     } else if (isItemInCart) {
       setCartItems(
         cartItems.map((cartItem) =>
