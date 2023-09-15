@@ -55,8 +55,8 @@ export const CartItems: React.FC<CartItemsProps> = ({ product }) => {
                 {product.color != null
                   ? product.color
                   : product.size &&
-                    product.item.attributes.colors_imgs.length === 1
-                  ? product.item.attributes.colors_imgs[0].color_name.cor
+                    product.item.attributes.variantes.length === 1
+                  ? product.item.attributes.variantes[0].color.cor
                   : null}
               </strong>
             </p>
