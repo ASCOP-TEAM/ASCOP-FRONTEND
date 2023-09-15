@@ -18,13 +18,13 @@ const Layout: React.FC<layoutProps> = (props) => {
       <Header>
         <Head>
           <title>
-            {!props.title ? 'Home' : props.title} {'- ASCOP'}
+            {!props.title ? 'ASCOP' : props.title + ' - ASCOP'} {}
           </title>
           <meta
             name={!props.metaName ? 'ASCOP' : props.metaName}
             content={
               !props.metaContent
-                ? 'ASSOCIAÇÃO DE SKATISTAS DA COSTEIRA DO PIRAJUBAÉ'
+                ? 'SKATISTAS DA COSTEIRA DO PIRAJUBAÉ'
                 : props.metaContent
             }
           />
