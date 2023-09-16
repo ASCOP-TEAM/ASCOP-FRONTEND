@@ -8,7 +8,7 @@ export type { Meta } from './meta';
 export type { IDadosCliente } from './cliente';
 export type { Item } from './Items';
 export type { Payer } from './payer';
-export type { ONG, PixDados } from './ong';
+export type { ONG, PixDados, Footer } from './ong';
 export {
   type IHome,
   type ILoja,

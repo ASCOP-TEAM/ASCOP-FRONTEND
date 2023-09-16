@@ -1,12 +1,14 @@
 import React from 'react';
 
-import { ActiveLink, LinkBlockSection, TextBlockSection } from '@components';
+import { LinkBlockSection, TextBlockSection } from '@components';
 import { Rodape, StyledFooter } from './styles';
 
 import { Mail, PhoneCall, MapPin } from 'lucide-react';
 import { Col, Row } from 'react-bootstrap';
 import { ONGContext } from '@contexts';
 import { formatPhoneNumber } from '@utils';
+import { Footer } from '@interfaces';
+import Link from 'next/link';
 
 interface FooterContentProps {
   isMobileView?: boolean;
@@ -16,6 +18,10 @@ export function FooterContent({ isMobileView = false }: FooterContentProps) {
   const ongData = React.useContext(ONGContext);
 
   const { email, endereco, telefone } = ongData?.data.attributes.contato || {};
+
+  const footerData = ongData?.data?.attributes?.footer[0] || [];
+
+  const { aboutproject, importantLinks, linksUteis } = footerData as Footer;
 
   return (
     <>
@@ -27,65 +33,57 @@ export function FooterContent({ isMobileView = false }: FooterContentProps) {
             isMobileView && 'flex-column-reverse'
           }`}
         >
-          {ongData?.data &&
-            ongData?.data.attributes.footer &&
-            ongData?.data.attributes.footer.map((uteis) => (
-              <>
-                <Col xs={12} lg={'auto'} md={'auto'}>
-                  <Col xs={'auto'}>
-                    <TextBlockSection.Root>
-                      <TextBlockSection.Title>
-                        <h2 style={{ color: 'white' }}>
-                          {uteis.aboutproject.titulo}
-                        </h2>
-                      </TextBlockSection.Title>
-                      <TextBlockSection.Paragrap
-                        content={uteis.aboutproject.descricao}
-                      />
-                    </TextBlockSection.Root>
-                  </Col>
-
-                  <TextBlockSection.Social />
+          {ongData?.data && footerData && (
+            <>
+              <Col xs={12} lg={'auto'} md={'auto'}>
+                <Col xs={'auto'}>
+                  <TextBlockSection.Root>
+                    <TextBlockSection.Title>
+                      <h2 style={{ color: 'white' }}>{aboutproject?.titulo}</h2>
+                    </TextBlockSection.Title>
+                    <TextBlockSection.Paragrap
+                      content={aboutproject?.descricao}
+                    />
+                  </TextBlockSection.Root>
                 </Col>
+                <TextBlockSection.Social />
+              </Col>
 
-                <Col
-                  className="block-links mb-3"
-                  xs={12}
-                  lg={'auto'}
-                  md={'auto'}
+              <Col className="block-links mb-3" xs={12} lg={'auto'} md={'auto'}>
+                <Row
+                  className={`${
+                    !isMobileView ? 'flex-column' : 'flex-arow mb-3'
+                  }`}
                 >
-                  <Row
-                    className={`${
-                      !isMobileView ? 'flex-column' : 'flex-arow mb-3'
-                    }`}
-                  >
-                    <Col xs={'auto'} className="mb-3">
-                      <LinkBlockSection.Root>
-                        <LinkBlockSection.Title title="Important Links" />
-                        {uteis.importantLinks.map((links) => (
+                  <Col xs={'auto'} className="mb-3">
+                    <LinkBlockSection.Root>
+                      <LinkBlockSection.Title title="Important Links" />
+                      {importantLinks &&
+                        importantLinks.map((links) => (
                           <LinkBlockSection.Link
                             key={links.id}
                             href={links.url}
                             content={links.titulo}
                           />
                         ))}
-                      </LinkBlockSection.Root>
-                    </Col>
+                    </LinkBlockSection.Root>
+                  </Col>
 
-                    <Col xs={'auto'} className="links">
-                      <LinkBlockSection.Root>
-                        <LinkBlockSection.Title title="Links Úteis" />
-                        {uteis.linksUteis.map((links) => (
-                          <ActiveLink href={links.url} key={links.id}>
+                  <Col xs={'auto'} className="links">
+                    <LinkBlockSection.Root>
+                      <LinkBlockSection.Title title="Links Úteis" />
+                      {linksUteis &&
+                        linksUteis.map((links) => (
+                          <Link href={links.url} key={links.id}>
                             <p>{links.titulo}</p>
-                          </ActiveLink>
+                          </Link>
                         ))}
-                      </LinkBlockSection.Root>
-                    </Col>
-                  </Row>
-                </Col>
-              </>
-            ))}
+                    </LinkBlockSection.Root>
+                  </Col>
+                </Row>
+              </Col>
+            </>
+          )}
 
           <Col className="block-contact d-none d-xl-flex" xs={3}>
             {ongData && ongData?.data.attributes.contato ? (

@@ -13,20 +13,18 @@ export const StyledFooter = styled.footer`
   }
 
   .links {
-    a {
-      display: inline;
-      color: #ffffff80 !important;
-      font-size: 17px;
-      font-weight: 500;
-      -webkit-text-decoration: none;
-      text-decoration: none;
-      max-width: 200px;
+    display: inline;
+    color: #ffffff80 !important;
+    font-size: 17px;
+    font-weight: 500;
+    -webkit-text-decoration: none;
+    text-decoration: none;
+    max-width: 200px;
 
-      p {
-        font-weight: 500;
-        font-size: 17px;
-        margin: 0;
-      }
+    p {
+      font-weight: 500;
+      font-size: 17px;
+      margin: 0;
     }
   }
 `;
