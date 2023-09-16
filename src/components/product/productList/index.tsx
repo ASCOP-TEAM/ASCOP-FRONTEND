@@ -33,8 +33,6 @@ export const ProductList = ({
     start += maxProductsPerList;
   }
 
-  console.log(productLists.length);
-
   const filteredProdutos = produtos.filter((item) =>
     highlight ? item.attributes.highlight : true,
   );
