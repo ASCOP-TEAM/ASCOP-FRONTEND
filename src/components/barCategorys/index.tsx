@@ -1,21 +1,36 @@
-import { Category } from '@interfaces';
+import { Category, Product, ProductData } from '@interfaces';
 import React from 'react';
 import { Container } from './styles';
+import { filterProductsByPriceAndCategory } from '@utils';
 
 interface BarCategorysProps {
   categorias: Category;
+  produtos: Product;
+  rageFilter: number;
   setCatgory: (idcatgory: number) => void;
+  handleFilteredProducts: (filterProduct: ProductData[]) => void;
 }
 
 const BarCategorys: React.FC<BarCategorysProps> = ({
   categorias,
+  produtos,
+  rageFilter,
   setCatgory,
+  handleFilteredProducts,
 }) => {
   const [selectedCategor, setSelectedCategor] = React.useState<number>(0);
 
   const handleCategory = (id: number) => {
     setSelectedCategor(id);
     setCatgory(id);
+
+    const filteredByCategoryAndPrice = filterProductsByPriceAndCategory(
+      produtos,
+      rageFilter,
+      id,
+    );
+
+    handleFilteredProducts(filteredByCategoryAndPrice || []);
   };
 
   return (

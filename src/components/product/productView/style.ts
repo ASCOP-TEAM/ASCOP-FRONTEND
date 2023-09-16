@@ -2,11 +2,9 @@ import { Col } from 'react-bootstrap';
 import styled from 'styled-components';
 
 export const Container = styled(Col)`
-  padding: 1rem;
-  background: white;
   border-radius: 7px;
-  box-shadow: 0px 2px 3px #cccccc, -5px -1px 10px 0px #f4f4f4;
   width: 100%;
+  justify-content: space-around;
 
   .galery-list-container {
     max-height: 437px;
@@ -31,6 +29,7 @@ export const Container = styled(Col)`
         padding: 0.2rem;
         border-radius: 10px;
         border: 1px solid black;
+        background-color: white;
         &:hover {
           border: 2px solid black;
         }
@@ -40,16 +39,15 @@ export const Container = styled(Col)`
 
   .thumbnail-container {
     width: 100%;
-    max-width: 366px;
-    height: auto;
+    background-color: white;
+    box-shadow: 1px 1px 8px #d0d0d0, -5px -5px 8px #f0f0f0;
+
+    max-width: 400px;
+    height: 500px;
     img {
       object-fit: contain;
       width: 100%;
       height: 100%;
-    }
-
-    @media (min-width: 1499px) {
-      max-width: 432px;
     }
   }
 `;

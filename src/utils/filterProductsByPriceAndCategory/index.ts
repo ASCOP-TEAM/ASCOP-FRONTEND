@@ -9,7 +9,11 @@ export function filterProductsByPriceAndCategory(
     return null;
   }
 
-  return products.data.filter((produto) => {
+  const FilterProducts = products.data.filter((produto) =>
+    produto.attributes.variantes.some((item) => item.disponivel),
+  );
+
+  return FilterProducts.filter((produto) => {
     const isCategoryMatch =
       categoryId === 0 ||
       (produto.attributes.categoria != null &&

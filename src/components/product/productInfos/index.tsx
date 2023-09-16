@@ -19,11 +19,12 @@ export const ProducInfo: React.FC<ProducInfoProps> = ({ produto }) => {
   const router = useRouter();
 
   const [isColors, setColors] = React.useState<string[]>([]);
+  const [isDisableButtons, setDisableButtons] = React.useState<boolean>(false);
 
   const [isSize, setSize] = React.useState<string | null>(null);
   const [isColor, setColor] = React.useState<string | null>(null);
-
   const [quantity, setQuantity] = React.useState<number>(1);
+
   const [isError, setError] = React.useState<boolean>(false);
   const [isErrorMessage, setErrorMessage] = React.useState<string>('');
   const [isSuccess, setSuccess] = React.useState<boolean>(false);
@@ -72,9 +73,11 @@ export const ProducInfo: React.FC<ProducInfoProps> = ({ produto }) => {
     }
   };
 
+  console.log(isDisableButtons);
+
   return (
     <Container>
-      <div className="category">
+      <div className="categorys">
         {produto.attributes.categoria && (
           <ul className="d-flex">
             <li>
@@ -89,34 +92,42 @@ export const ProducInfo: React.FC<ProducInfoProps> = ({ produto }) => {
           </ul>
         )}
       </div>
+
       <div className="title d-flex align-items-center justify-content-between my-2">
-        <h1>{produto.attributes.title}</h1>
+        <h2>{produto.attributes.title}</h2>
       </div>
+
       <div className="price">
-        <h2>R${produto.attributes.price}</h2>
+        <h3>R${produto.attributes.price}</h3>
       </div>
+
       <div className="description">
-        <p className="title">Descrição do produto:</p>
+        <p className="title">
+          <strong>Descrição:</strong>
+        </p>
         <p className="description-content">{produto.attributes.description}</p>
       </div>
 
-      <Col xs={'auto'} className="sizes mb-3">
+      <Col xs={'auto'} className="sizes">
         <ProductInfoSizes
           isError={isError}
           selectedSize={isSize}
+          setDisableButtons={setDisableButtons}
           setSelectedSizeInfo={handleSetColorsTosize}
           {...{ produto }}
         />
       </Col>
-      <div className="colors m3-b">
-        <ProductColors
-          isError={isError}
-          selectedSize={isSize}
-          selectedColor={isColor}
-          setSelectedColor={setColor}
-          {...{ isColors }}
-        />
-      </div>
+      {!isDisableButtons && (
+        <Col xs={'auto'} className="colors ">
+          <ProductColors
+            isError={isError}
+            selectedSize={isSize}
+            selectedColor={isColor}
+            setSelectedColor={setColor}
+            {...{ isColors }}
+          />
+        </Col>
+      )}
 
       <div className="quatity my-3 d-flex flex-column">
         <div>
@@ -134,13 +145,14 @@ export const ProducInfo: React.FC<ProducInfoProps> = ({ produto }) => {
           </button>
         </div>
       </div>
-      <Row className="buttons justify-content-around">
+
+      <Row className="buttons">
         <Col xs={12} lg={'auto'} md={12} ls={12}>
           <Button
-            className="mb-3 w-100"
+            className="w-100"
             text="COMPRAR"
             onClick={handleRedirect}
-            disabled={isError}
+            disabled={isError || isDisableButtons}
           />
         </Col>
         <Col xs={12} lg={'auto'} md={12}>
@@ -148,8 +160,8 @@ export const ProducInfo: React.FC<ProducInfoProps> = ({ produto }) => {
             className="d-flex w-100 justify-content-center align-items-center gap-2 pb-2"
             text="ADICIONAR "
             onClick={handleAddToCart}
-            disabled={isError}
             icon={ShoppingCart}
+            disabled={isError || isDisableButtons}
           />
         </Col>
       </Row>

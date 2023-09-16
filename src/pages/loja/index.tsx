@@ -1,10 +1,9 @@
 import React, { useContext } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import { v4 as uuidv4 } from 'uuid';
+import { useRouter } from 'next/router';
 
 import type { GetServerSideProps, NextPage } from 'next';
-
-import { Category, ILoja, Product, ProductData } from '@interfaces';
 
 import {
   BarCategorys,
@@ -19,9 +18,8 @@ import {
 
 import Layout from '@layout';
 import { CartContext } from '@contexts';
-
-import { BASEURL, filterProductsByPriceAndCategory } from '@utils';
-import { useRouter } from 'next/router';
+import { BASEURL, hasUniqueVariations } from '@utils';
+import { Category, ILoja, Product, ProductData, Variante } from '@interfaces';
 
 interface LojaProps {
   produtos: Product;
@@ -31,12 +29,11 @@ interface LojaProps {
 
 const Loja: NextPage<LojaProps> = ({ produtos, categorias, lojaData }) => {
   const router = useRouter();
+  const context = useContext(CartContext);
 
   const [category, setCategory] = React.useState<number>(0);
   const [upperValue, setUpperValue] = React.useState<number>(100);
   const [currentPage, setCurrentPage] = React.useState(1);
-
-  const context = useContext(CartContext);
 
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
@@ -49,49 +46,40 @@ const Loja: NextPage<LojaProps> = ({ produtos, categorias, lojaData }) => {
     );
   };
 
-  const [FilteredProducts, setFilteredProducts] = React.useState<ProductData[]>(
-    produtos?.data || null,
-  );
-
-  const handleFilterChange = (upperValue: number) => {
-    setUpperValue(upperValue);
-
-    const filteredProducts = filterProductsByPriceAndCategory(
-      produtos,
-      upperValue,
-      category,
-    );
-    setFilteredProducts(filteredProducts || []);
-  };
-
-  function filterProductByCategory(categoryId: number) {
-    setCategory(categoryId);
-    const filteredByCategoryAndPrice = filterProductsByPriceAndCategory(
-      produtos,
-      upperValue,
-      categoryId,
-    );
-    setFilteredProducts(filteredByCategoryAndPrice || []);
+  function filterVariantsByAvailability(variantes: Variante[]) {
+    return variantes.filter((item) => item.disponivel === true);
   }
 
-  const hasValidVariations = (product: ProductData) => {
-    const hasSizeVariation = product.attributes.variantes.length === 1;
-    const hasColorVariation = product.attributes.colors_imgs.length === 1;
-    return hasSizeVariation || hasColorVariation;
-  };
+  const [FilteredProducts, setFilteredProducts] = React.useState<ProductData[]>(
+    produtos?.data
+      ? produtos.data.map((produto) => ({
+          ...produto,
+          attributes: {
+            ...produto.attributes,
+            variantes: filterVariantsByAvailability(
+              produto.attributes.variantes,
+            ),
+          },
+        }))
+      : [],
+  );
 
   const handleAddToCart = (produtoData: ProductData) => {
     const isProductInCart = context?.cartItems.find(
       (item) => item.item.id === produtoData.id,
     );
 
-    const isValidProduct = hasValidVariations(produtoData);
+    const isValidProduct = hasUniqueVariations(produtoData);
 
     if (!isValidProduct) {
       const param = encodeURIComponent(JSON.stringify(produtoData));
       router.push(`/loja/product/${produtoData.id}?produto=${param}`);
-    } else if (isProductInCart) {
+      return;
+    }
+
+    if (isProductInCart) {
       context?.removeFromCart(isProductInCart);
+      return;
     } else {
       const size = produtoData.attributes?.variantes[0]?.size.tamanho;
       const color = produtoData.attributes?.colors_imgs[0]?.color_name.cor;
@@ -103,6 +91,7 @@ const Loja: NextPage<LojaProps> = ({ produtos, categorias, lojaData }) => {
         size: size,
         color: color,
       });
+      return;
     }
   };
 
@@ -127,13 +116,18 @@ const Loja: NextPage<LojaProps> = ({ produtos, categorias, lojaData }) => {
               <Row className="align-items-center justify-content-between">
                 <BarCategorys
                   {...{ categorias }}
-                  setCatgory={filterProductByCategory}
+                  {...{ produtos }}
+                  rageFilter={upperValue}
+                  setCatgory={setCategory}
+                  handleFilteredProducts={setFilteredProducts}
                 />
                 <Row className="col-auto align-items-center">
                   <Col xs={'auto'} className="d-none d-lg-block">
                     <ProductFilter
                       {...{ produtos }}
-                      onFilterChange={handleFilterChange}
+                      categoryid={category}
+                      onFilterChange={setUpperValue}
+                      handleFilteredProducts={setFilteredProducts}
                     />
                   </Col>
 
@@ -142,7 +136,9 @@ const Loja: NextPage<LojaProps> = ({ produtos, categorias, lojaData }) => {
                 <Col xs={12} className="d-lg-none">
                   <ProductFilter
                     {...{ produtos }}
-                    onFilterChange={handleFilterChange}
+                    categoryid={category}
+                    onFilterChange={setUpperValue}
+                    handleFilteredProducts={setFilteredProducts}
                   />
                 </Col>
               </Row>
@@ -151,29 +147,26 @@ const Loja: NextPage<LojaProps> = ({ produtos, categorias, lojaData }) => {
             {FilteredProducts !== null &&
               (FilteredProducts.length > 0 ? (
                 <>
-                  <div>
-                    {category === 0 && (
-                      <ProductList
-                        produtos={FilteredProducts}
-                        handleAddToCart={handleAddToCart}
-                        title="Produtos em Destaque"
-                        highlight
-                      />
-                    )}
+                  {category === 0 && (
                     <ProductList
                       produtos={FilteredProducts}
                       handleAddToCart={handleAddToCart}
-                      title="Todos os Produtos"
+                      title="Produtos em Destaque"
+                      highlight
                     />
-                  </div>
-                  <div>
-                    <div className="my-4">
-                      <PaginationPage
-                        currentPage={currentPage}
-                        dataPage={produtos}
-                        handlePageChange={handlePageChange}
-                      />
-                    </div>
+                  )}
+                  <ProductList
+                    produtos={FilteredProducts}
+                    handleAddToCart={handleAddToCart}
+                    title="Todos os Produtos"
+                  />
+
+                  <div className="my-4">
+                    <PaginationPage
+                      currentPage={currentPage}
+                      dataPage={produtos}
+                      handlePageChange={handlePageChange}
+                    />
                   </div>
                 </>
               ) : (

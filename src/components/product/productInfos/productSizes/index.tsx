@@ -7,6 +7,7 @@ interface ProductInfoSizesProps {
   produto: ProductData;
   isError: boolean;
   selectedSize: string | null;
+  setDisableButtons: (disable: boolean) => void;
   setSelectedSizeInfo: (selectedSizeInfo: ISizeToColors) => void;
 }
 
@@ -14,6 +15,7 @@ const ProductInfoSizes: React.FC<ProductInfoSizesProps> = ({
   produto,
   isError,
   selectedSize,
+  setDisableButtons,
   setSelectedSizeInfo,
 }) => {
   const context = React.useContext(CartContext);
@@ -31,21 +33,24 @@ const ProductInfoSizes: React.FC<ProductInfoSizesProps> = ({
       product.attributes.variantes.forEach((variante) => {
         const { color } = variante;
         const { tamanho } = variante.size;
+        const isAvailable = variante.disponivel;
 
-        const isSizeColorInCart = context?.cartItems.some(
-          (item) => item.size === tamanho && item.color === color.cor,
-        );
-
-        if (!isSizeColorInCart) {
-          const existingSizeObject = newMap.find(
-            (item) => item.tamanho === tamanho,
+        if (isAvailable) {
+          const isSizeColorInCart = context?.cartItems.some(
+            (item) => item.size === tamanho && item.color === color.cor,
           );
 
-          if (!existingSizeObject) {
-            newMap.push({ tamanho, cores: [color.cor] });
-          } else {
-            if (!existingSizeObject.cores.includes(color.cor)) {
-              existingSizeObject.cores.push(color.cor);
+          if (!isSizeColorInCart) {
+            const existingSizeObject = newMap.find(
+              (item) => item.tamanho === tamanho,
+            );
+
+            if (!existingSizeObject) {
+              newMap.push({ tamanho, cores: [color.cor] });
+            } else {
+              if (!existingSizeObject.cores.includes(color.cor)) {
+                existingSizeObject.cores.push(color.cor);
+              }
             }
           }
         }
@@ -56,15 +61,25 @@ const ProductInfoSizes: React.FC<ProductInfoSizesProps> = ({
   }, [produto, context?.cartItems]);
 
   function handleSizeChange(selectedSize: string) {
+    console.log('select size >', selectedSize);
     const selectedSizeInfo = sizeToColorsMap.find(
       (item) => item.tamanho === selectedSize,
     );
+
     if (selectedSizeInfo) {
       setSelectedSizeInfo(selectedSizeInfo);
     } else if (sizeToColorsMap.length === 1) {
       setSelectedSizeInfo(sizeToColorsMap[0]);
     }
   }
+
+  React.useEffect(() => {
+    if (sizeToColorsMap.length === 0) {
+      setDisableButtons(true);
+    } else {
+      setDisableButtons(false);
+    }
+  }, [sizeToColorsMap, setDisableButtons, produto]);
 
   return (
     <>
@@ -109,6 +124,8 @@ const ProductInfoSizes: React.FC<ProductInfoSizesProps> = ({
           <strong>PRODUTO SELECIONADO</strong>
         </p>
       )}
+
+      {sizeToColorsMap.length === 0 && setDisableButtons(true)}
     </>
   );
 };

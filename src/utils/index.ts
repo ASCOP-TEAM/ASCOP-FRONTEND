@@ -9,3 +9,4 @@ export { stringToHexColor } from './stringToHexColor';
 export { filterUniqueSizesAndColors } from './filterUniqueSizesAndColors';
 export { filterProductsByPriceAndCategory } from './filterProductsByPriceAndCategory';
 export { generateOrderMessage } from './generateOrderMessage';
+export { hasUniqueVariations } from './hasUnique';

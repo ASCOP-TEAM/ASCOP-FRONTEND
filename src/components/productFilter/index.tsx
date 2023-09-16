@@ -1,16 +1,21 @@
-import { Product } from '@interfaces';
+import { Product, ProductData } from '@interfaces';
 import React from 'react';
 import { Form } from 'react-bootstrap';
 import { Container } from './styles';
+import { filterProductsByPriceAndCategory } from '@utils';
 
 interface RageValueProps {
   produtos: Product;
+  categoryid: number;
   onFilterChange: (upperValue: number) => void;
+  handleFilteredProducts: (filterProduct: ProductData[]) => void;
 }
 
 const ProductFilter: React.FC<RageValueProps> = ({
   produtos,
+  categoryid,
   onFilterChange,
+  handleFilteredProducts,
 }) => {
   const [upperValue, setUpperValue] = React.useState<number>(100);
   const [maxPrice, setMaxPrice] = React.useState<number>(100);
@@ -21,6 +26,13 @@ const ProductFilter: React.FC<RageValueProps> = ({
       const value = Math.min(100, Math.max(1, +event.target.value));
       setUpperValue(value);
       onFilterChange(value);
+
+      const filteredProducts = filterProductsByPriceAndCategory(
+        produtos,
+        value,
+        categoryid,
+      );
+      handleFilteredProducts(filteredProducts || []);
     }
   };
 

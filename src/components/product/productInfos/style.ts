@@ -1,7 +1,12 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  .category {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+
+  .categorys {
     ul {
       list-style: none;
       padding: 0;
@@ -17,13 +22,20 @@ export const Container = styled.div`
   }
 
   .title {
-    h1 {
+    h2 {
       margin: 0;
     }
     .icon {
       background: #8b8b8b;
       padding: 0.5rem;
       border-radius: 30px;
+    }
+  }
+
+  .price {
+    h3 {
+      font-weight: 200 !important;
+      color: #000000cc;
     }
   }
 
@@ -38,6 +50,18 @@ export const Container = styled.div`
       p {
         font-weight: bold !important;
       }
+    }
+  }
+
+  .colors,
+  .sizes {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    p {
+      margin: 0;
     }
   }
 
@@ -59,5 +83,10 @@ export const Container = styled.div`
   }
 
   .buttons {
+    @media (max-width: 1141px) {
+      button {
+        margin-bottom: 0.5rem;
+      }
+    }
   }
 `;
