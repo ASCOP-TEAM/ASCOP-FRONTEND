@@ -73,8 +73,6 @@ export const ProducInfo: React.FC<ProducInfoProps> = ({ produto }) => {
     }
   };
 
-  console.log(isDisableButtons);
-
   return (
     <Container>
       <div className="categorys">

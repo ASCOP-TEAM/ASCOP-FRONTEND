@@ -61,7 +61,6 @@ const ProductInfoSizes: React.FC<ProductInfoSizesProps> = ({
   }, [produto, context?.cartItems]);
 
   function handleSizeChange(selectedSize: string) {
-    console.log('select size >', selectedSize);
     const selectedSizeInfo = sizeToColorsMap.find(
       (item) => item.tamanho === selectedSize,
     );
