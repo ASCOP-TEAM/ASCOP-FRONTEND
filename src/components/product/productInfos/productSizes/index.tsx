@@ -24,42 +24,6 @@ const ProductInfoSizes: React.FC<ProductInfoSizesProps> = ({
     [],
   );
 
-  React.useEffect(() => {
-    if (!produto) return;
-
-    const newMap: ISizeToColors[] = [];
-
-    [produto].forEach((product: ProductData) => {
-      product.attributes.variantes.forEach((variante) => {
-        const { color } = variante;
-        const { tamanho } = variante.size;
-        const isAvailable = variante.disponivel;
-
-        if (isAvailable) {
-          const isSizeColorInCart = context?.cartItems.some(
-            (item) => item.size === tamanho && item.color === color.cor,
-          );
-
-          if (!isSizeColorInCart) {
-            const existingSizeObject = newMap.find(
-              (item) => item.tamanho === tamanho,
-            );
-
-            if (!existingSizeObject) {
-              newMap.push({ tamanho, cores: [color.cor] });
-            } else {
-              if (!existingSizeObject.cores.includes(color.cor)) {
-                existingSizeObject.cores.push(color.cor);
-              }
-            }
-          }
-        }
-      });
-    });
-
-    setSizeToColorsMap(newMap);
-  }, [produto, context?.cartItems]);
-
   function handleSizeChange(selectedSize: string) {
     const selectedSizeInfo = sizeToColorsMap.find(
       (item) => item.tamanho === selectedSize,
@@ -73,12 +37,53 @@ const ProductInfoSizes: React.FC<ProductInfoSizesProps> = ({
   }
 
   React.useEffect(() => {
+    if (!produto) return;
+
+    const newMap: ISizeToColors[] = [];
+
+    [produto].forEach((product: ProductData) => {
+      product.attributes.variantes.forEach((variante) => {
+        const tamanho = variante.tamanhos.data.attributes.tamanho || null;
+        const color = variante.cores.data.attributes || null;
+
+        if (tamanho && color.cor) {
+          const isAvailable = variante.disponivel;
+          if (isAvailable) {
+            const isSizeColorInCart = context?.cartItems.some(
+              (cart) =>
+                cart.size === tamanho &&
+                cart.color === color.cor &&
+                cart.item.id === product.id,
+            );
+
+            if (!isSizeColorInCart) {
+              const existingSizeObject = newMap.find(
+                (item) => item.tamanho === tamanho,
+              );
+
+              if (!existingSizeObject) {
+                newMap.push({ tamanho, cores: [color.cor] });
+              } else {
+                if (!existingSizeObject.cores.includes(color.cor)) {
+                  existingSizeObject.cores.push(color.cor);
+                }
+              }
+            }
+          }
+        }
+      });
+    });
+
+    setSizeToColorsMap(newMap);
+  }, [produto, context?.cartItems]);
+
+  React.useEffect(() => {
     if (sizeToColorsMap.length === 0) {
       setDisableButtons(true);
     } else {
       setDisableButtons(false);
     }
-  }, [sizeToColorsMap, setDisableButtons, produto]);
+  }, [sizeToColorsMap, setDisableButtons]);
 
   return (
     <>
@@ -123,8 +128,6 @@ const ProductInfoSizes: React.FC<ProductInfoSizesProps> = ({
           <strong>PRODUTO SELECIONADO</strong>
         </p>
       )}
-
-      {sizeToColorsMap.length === 0 && setDisableButtons(true)}
     </>
   );
 };

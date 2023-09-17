@@ -1,9 +1,11 @@
-import { Meta } from '@interfaces';
+import { CategoryAttributes, Meta } from '@interfaces';
 
 export interface ISizeToColors {
   tamanho: string;
   cores: string[];
 }
+
+// PRODUTOS
 
 export interface Product {
   data: ProductData[];
@@ -28,47 +30,27 @@ export interface ProductAttributes {
   gallery: Gallery;
   variantes: Variante[];
   colors_imgs: ColorsImg[];
-  categoria: Categoria;
+  categoria: { data: Category };
 }
 
-export interface CategoriaData {
+// PRODUTOS
+export interface Category {
   id: number;
-  attributes: FluffyAttributes;
-}
-
-export interface FluffyAttributes {
-  name: string;
-  slug: string;
-  createdAt: Date;
-  updatedAt: Date;
-  publishedAt: Date;
-}
-
-export interface Variante {
-  id: number;
-  quantidade: number;
-  disponivel: boolean;
-  size: Size;
-  color: Color;
-}
-
-export interface Size {
-  id: number;
-  tamanho: string;
+  attributes: CategoryAttributes;
 }
 
 export interface ColorsImg {
   id: number;
   color_code: string;
-  color_name: Color;
+  color_name: Cores;
   img_color: ImgColor;
 }
 
-export interface Color {
+/* export interface Color {
   id: number;
   cor: string;
 }
-
+ */
 export interface ImgColor {
   data: ImgColorData;
 }
@@ -78,23 +60,33 @@ export interface ImgColorData {
   attributes: TentacledAttributes;
 }
 
+export interface Gallery {
+  data: DAT[] | null;
+}
+
+export interface DAT {
+  id: number;
+  attributes: TentacledAttributes;
+}
+
 export interface TentacledAttributes {
   name: string;
-  alternativeText: null;
-  caption: null;
+  alternativeText: string;
+  caption: string;
   width: number;
   height: number;
-  formats: PurpleFormats;
+  formats: Formats;
   hash: string;
   ext: EXT;
   mime: MIME;
   size: number;
   url: string;
   previewUrl: null;
-  provider: Provider;
+  provider: string;
   provider_metadata: ProviderMetadata;
   createdAt: Date;
   updatedAt: Date;
+  related: Related;
 }
 
 export enum EXT {
@@ -102,21 +94,23 @@ export enum EXT {
   PNG = '.png',
 }
 
-export interface PurpleFormats {
-  thumbnail: Large;
+export interface Formats {
+  large?: Large;
   small: Large;
+  medium?: Large;
+  thumbnail: Large;
 }
 
 export interface Large {
-  name: string;
-  hash: string;
   ext: EXT;
+  url: string;
+  hash: string;
   mime: MIME;
+  name: string;
   path: null;
+  size: number;
   width: number;
   height: number;
-  size: number;
-  url: string;
   provider_metadata: ProviderMetadata;
 }
 
@@ -134,57 +128,16 @@ export enum ResourceType {
   Image = 'image',
 }
 
-export enum Provider {
-  Cloudinary = 'cloudinary',
-}
-
-export interface Gallery {
-  data: DAT[];
-}
-
-export interface DAT {
-  id: number;
-  attributes: StickyAttributes;
-}
-
-export interface StickyAttributes {
-  name: string;
-  alternativeText: null;
-  caption: null;
-  width: number;
-  height: number;
-  formats: FluffyFormats;
-  hash: string;
-  ext: EXT;
-  mime: MIME;
-  size: number;
-  url: string;
-  previewUrl: null;
-  provider: Provider;
-  provider_metadata: ProviderMetadata;
-  createdAt: Date;
-  updatedAt: Date;
-  related: Related;
-}
-
-export interface FluffyFormats {
-  thumbnail: Large;
-  small: Large;
-  medium?: Large;
-  large?: Large;
-}
-
 export interface Related {
   data: RelatedDatum[];
 }
 
 export interface RelatedDatum {
   id: number;
-  attributes: IndigoAttributes;
+  attributes: StickyAttributes;
 }
 
-export interface IndigoAttributes {
-  __type: string;
+export interface StickyAttributes {
   title: string;
   description: string;
   price: number;
@@ -199,21 +152,61 @@ export interface Thumbnail {
   data: DAT;
 }
 
-export interface Categoria {
-  data: CategoriaData;
-}
+// Variaçoes
 
-export interface CategoriaData {
+export interface Variante {
   id: number;
-  attributes: FluffyAttributes;
+  quantidade: number;
+  disponivel: boolean;
+  /*   size: Size; */
+  /*   color: Color; */
+  tamanhos: Tamanhos;
+  cores: Cores;
 }
 
-export interface FluffyAttributes {
-  name: string;
+// Cores
+
+interface Cores {
+  data: CoresData;
+}
+
+export interface CoresData {
+  id: number;
+  attributes: CoresAttributes;
+}
+
+export interface CoresAttributes {
+  cor: string;
   slug: string;
   createdAt: Date;
   updatedAt: Date;
   publishedAt: Date;
 }
 
-// new  data
+// fim Cores
+
+// tamnhos
+
+interface Tamanhos {
+  data: TamanhosData;
+}
+
+export interface TamanhosData {
+  id: number;
+  attributes: TamanhosAttributes;
+}
+
+export interface TamanhosAttributes {
+  tamanho: string;
+  slug: string;
+  createdAt: Date;
+  updatedAt: Date;
+  publishedAt: Date;
+}
+
+// fim tamnhos
+
+export interface Size {
+  id: number;
+  tamanho: string;
+}

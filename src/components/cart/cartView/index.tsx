@@ -88,9 +88,8 @@ export const CartView: React.FC = () => {
                               {product.size != null
                                 ? product.size
                                 : product.item.attributes.variantes.length === 1
-                                ? product.item.attributes.variantes.map(
-                                    (size) => size.size.tamanho,
-                                  )
+                                ? product.item.attributes.variantes[0].tamanhos
+                                    .data.attributes.tamanho
                                 : 'Não Selecionado'}
                             </strong>
                           </p>

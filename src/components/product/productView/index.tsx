@@ -32,10 +32,10 @@ export const ProductView: React.FC<ProductViewProps> = ({ produto }) => {
           />
         </Col>
 
-        {produto.attributes.gallery.data && (
-          <div className="galery-list-container">
-            <ul className="d-flex flex-column align-items-center">
-              {produto.attributes.gallery.data.map((image) => (
+        <div className="galery-list-container">
+          <ul className="d-flex flex-column align-items-center">
+            {produto.attributes.gallery.data &&
+              produto.attributes.gallery.data.map((image) => (
                 <li
                   key={image.id}
                   onMouseEnter={() =>
@@ -58,34 +58,33 @@ export const ProductView: React.FC<ProductViewProps> = ({ produto }) => {
                 </li>
               ))}
 
-              {produto.attributes.colors_imgs &&
-                produto.attributes.colors_imgs.map((image) => (
-                  <li
-                    key={image.id}
-                    onMouseEnter={() =>
-                      handleThumbnailHover(image.img_color.data.attributes.url)
-                    }
-                    onClick={() =>
-                      handleThumbnailHover(image.img_color.data.attributes.url)
-                    }
-                    onMouseLeave={() =>
-                      setCurrentImage(
-                        produto.attributes.thumbnail.data.attributes.url,
-                      )
-                    }
-                    className="galery"
-                  >
-                    <Image
-                      width={60}
-                      height={60}
-                      src={image.img_color.data.attributes.formats.small.url}
-                      alt={'foto:' + image.color_name}
-                    />
-                  </li>
-                ))}
-            </ul>
-          </div>
-        )}
+            {produto.attributes.colors_imgs &&
+              produto.attributes.colors_imgs.map((image) => (
+                <li
+                  key={image.id}
+                  onMouseEnter={() =>
+                    handleThumbnailHover(image.img_color.data.attributes.url)
+                  }
+                  onClick={() =>
+                    handleThumbnailHover(image.img_color.data.attributes.url)
+                  }
+                  onMouseLeave={() =>
+                    setCurrentImage(
+                      produto.attributes.thumbnail.data.attributes.url,
+                    )
+                  }
+                  className="galery"
+                >
+                  <Image
+                    width={60}
+                    height={60}
+                    src={image.img_color.data.attributes.formats.small.url}
+                    alt={'foto:' + image.color_name}
+                  />
+                </li>
+              ))}
+          </ul>
+        </div>
       </Container>
 
       {/*  mobile view */}

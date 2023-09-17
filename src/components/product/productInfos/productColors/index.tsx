@@ -3,6 +3,7 @@ import React from 'react';
 import { Form } from 'react-bootstrap';
 
 interface ProductColorsProps {
+  productId: number;
   isColors: string[];
   isError: boolean;
   selectedSize: string | null;
@@ -15,34 +16,37 @@ const ProductColors: React.FC<ProductColorsProps> = ({
   isError,
   selectedSize,
   selectedColor,
+  productId,
   setSelectedColor,
 }) => {
   const context = React.useContext(CartContext);
 
-  React.useEffect(() => {
-    if (isColors.length === 1 && selectedSize != null) {
-      setSelectedColor(isColors[0]);
-    }
-  }, [isColors, selectedSize, setSelectedColor]);
-
-  const availableColors = isColors.filter((color) => {
+  const availableColors: string[] = isColors.filter((color) => {
     const isColorInCart = context?.cartItems.some(
-      (item) => item.size === selectedSize && item.color === color,
+      (cart) =>
+        cart.item.id === productId &&
+        cart.size === selectedSize &&
+        cart.color === color,
     );
+
     return !isColorInCart;
   });
 
+  React.useEffect(() => {
+    if (availableColors.length === 1) {
+      setSelectedColor(availableColors[0]);
+    }
+  }, [setSelectedColor, availableColors]);
+
   return (
     <>
-      {availableColors.length === 1 && (
+      {availableColors.length === 1 && selectedSize != null && (
         <p>
           Cor: <strong>{isColors[0]}</strong>
         </p>
       )}
 
-      {isColors.length === 1 && setSelectedColor(isColors[0])}
-
-      {isColors.length > 1 && selectedSize != null && (
+      {availableColors.length > 1 && selectedSize != null ? (
         <Form>
           <Form.Group controlId="productSize">
             <Form.Label>Cor:</Form.Label>
@@ -54,7 +58,7 @@ const ProductColors: React.FC<ProductColorsProps> = ({
                 value={selectedColor || ''}
               >
                 <option value="">Selecione uma cor</option>
-                {isColors.map((color, i) => (
+                {availableColors.map((color, i) => (
                   <option
                     key={i}
                     value={color}
@@ -67,7 +71,7 @@ const ProductColors: React.FC<ProductColorsProps> = ({
             </div>
           </Form.Group>
         </Form>
-      )}
+      ) : null}
     </>
   );
 };

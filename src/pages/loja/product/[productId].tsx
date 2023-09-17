@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import type { NextPage } from 'next';
 
 import { ProductData } from '@interfaces';
-import { CartView, ProducInfo, ProductView } from '@components';
+import { CartView, DataNotLoaded, ProducInfo, ProductView } from '@components';
 import Layout from '@layout';
 import { Section } from '@styles/pages/loja/product';
 
@@ -34,7 +34,6 @@ const Producto: NextPage = () => {
       <Layout bgColor="white" txColor="black" staticmenu title="Produto">
         <Container>
           <Section>
-            {/*  barra superior  */}
             <Row className="bar">
               <Col className="voltar">
                 <button onClick={() => router.push('/loja')}>Voltar</button>
@@ -42,32 +41,18 @@ const Producto: NextPage = () => {
               <CartView />
             </Row>
 
-            <Row className="my-4 justify-content-around">
-              {produtos &&
-                produtos.map((produto, index) => (
-                  <>
-                    <Col
-                      className="product-imgens d-flex"
-                      xs={12}
-                      lg={5}
-                      md={6}
-                    >
-                      <ProductView key={index} {...{ produto }} />
-                    </Col>
+            {produtos.length === 1 && (
+              <Row className="my-4 justify-content-around">
+                <Col className="product-imgens" xs={12} lg={5} md={6}>
+                  <ProductView {...{ produto: produtos[0] }} />
+                </Col>
+                <Col className="prodoct-infos" xs={12} lg={5} md={6}>
+                  <ProducInfo {...{ produto: produtos[0] }} />
+                </Col>
+              </Row>
+            )}
 
-                    <Col
-                      className="prodoct-infos d-flex flex-column"
-                      xs={12}
-                      lg={5}
-                      md={6}
-                    >
-                      <ProducInfo key={index} {...{ produto }} />
-                    </Col>
-                  </>
-                ))}
-            </Row>
-
-            {!produtos.length && <p>produto não encontrado</p>}
+            {!produtos.length && <DataNotLoaded />}
           </Section>
         </Container>
       </Layout>

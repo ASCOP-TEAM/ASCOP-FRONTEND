@@ -10,7 +10,7 @@ export interface CategoryData {
   attributes: CategoryAttributes;
 }
 
-interface CategoryAttributes {
+export interface CategoryAttributes {
   name: string;
   slug: string;
   createdAt: string;

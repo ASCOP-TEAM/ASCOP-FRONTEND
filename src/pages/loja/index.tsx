@@ -81,8 +81,10 @@ const Loja: NextPage<LojaProps> = ({ produtos, categorias, lojaData }) => {
       context?.removeFromCart(isProductInCart);
       return;
     } else {
-      const size = produtoData.attributes?.variantes[0]?.size.tamanho;
-      const color = produtoData.attributes?.colors_imgs[0]?.color_name.cor;
+      const size =
+        produtoData.attributes?.variantes[0]?.tamanhos.data.attributes.tamanho;
+      const color =
+        produtoData.attributes?.colors_imgs[0]?.color_name.data.attributes.cor;
       context?.addToCart({
         id: uuidv4(),
         item: produtoData,

@@ -45,11 +45,14 @@ const Carrinho: NextPage = () => {
   };
 
   React.useEffect(() => {
-    if (context?.cartItems.length == 0) {
-      setShowAlert(true);
-      setTimeout(() => {
-        router.push('/loja');
-      }, 2000);
+    const storedCartItems: string | null = localStorage.getItem('cartItems');
+    if (!storedCartItems) {
+      if (context?.cartItems.length === 0) {
+        setShowAlert(true);
+        setTimeout(() => {
+          router.push('/loja');
+        }, 2000);
+      }
     }
   }, [context?.cartItems, router]);
 

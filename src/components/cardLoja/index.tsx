@@ -7,7 +7,12 @@ import { useRouter } from 'next/router';
 import { ProductData } from '@interfaces';
 import { Button, HeartCardShop, ColorIcon } from '@components';
 import { Container } from './styles';
-import { filterUniqueSizesAndColors, stringToHexColor } from '@utils';
+import {
+  filterUniqueSizesAndColors,
+  hasUniqueVariations,
+  stringToHexColor,
+} from '@utils';
+import { CartContext } from '@contexts';
 
 interface CardLojaProps {
   produto: ProductData;
@@ -17,16 +22,31 @@ interface CardLojaProps {
 const CardLoja: React.FC<CardLojaProps> = ({ produto, onAddToCart }) => {
   const [uniqueSizes, setUniqueSizes] = React.useState<string[]>([]);
   const [uniqueColors, setUniqueColors] = React.useState<string[]>([]);
+
+  const context = React.useContext(CartContext);
+
   const router = useRouter();
 
   const handleBuyClick = () => {
+    const isUniqueProduct = hasUniqueVariations(produto);
     const param = encodeURIComponent(JSON.stringify(produto));
-    router.push(`/loja/product/${produto.id}?produto=${param}`);
+
+    const productIsCart = context?.cartItems.some(
+      (cart) => cart.item.id === produto.id,
+    );
+
+    const redirectTo = isUniqueProduct
+      ? productIsCart
+        ? '/loja/cliente/carrinho'
+        : `/loja/product/${produto.id}?produto=${param}`
+      : `/loja/product/${produto.id}?produto=${param}`;
+
+    return router.push(redirectTo);
   };
 
   function lookForTheColor(colorName: string): string {
     const colorImg = produto.attributes.colors_imgs.find(
-      (color) => color.color_name.cor === colorName,
+      (color) => color.color_name.data.attributes.cor === colorName,
     );
 
     if (colorImg) {
@@ -41,9 +61,10 @@ const CardLoja: React.FC<CardLojaProps> = ({ produto, onAddToCart }) => {
 
     const { uniqueSizes, uniqueColors } = filterUniqueSizesAndColors(
       produto.attributes.variantes,
-      (variant) => variant.size.tamanho,
-      (variant) => variant.color.cor,
+      (variant) => variant.tamanhos.data.attributes.tamanho,
+      (variant) => variant.cores.data.attributes.cor,
     );
+
     setUniqueSizes(uniqueSizes);
     setUniqueColors(uniqueColors);
   }, [produto]);

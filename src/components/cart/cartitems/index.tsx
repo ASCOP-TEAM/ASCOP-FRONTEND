@@ -43,7 +43,8 @@ export const CartItems: React.FC<CartItemsProps> = ({ product }) => {
                 {product.size != null
                   ? product.size
                   : product.item.attributes.variantes.length === 1
-                  ? product.item.attributes.variantes[0].size.tamanho
+                  ? product.item.attributes.variantes[0].tamanhos.data
+                      .attributes.tamanho
                   : null}
               </strong>
             </p>
@@ -56,7 +57,8 @@ export const CartItems: React.FC<CartItemsProps> = ({ product }) => {
                   ? product.color
                   : product.size &&
                     product.item.attributes.variantes.length === 1
-                  ? product.item.attributes.variantes[0].color.cor
+                  ? product.item.attributes.variantes[0].cores.data.attributes
+                      .cor
                   : null}
               </strong>
             </p>

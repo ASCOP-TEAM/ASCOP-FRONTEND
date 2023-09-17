@@ -65,6 +65,7 @@ export const ProducInfo: React.FC<ProducInfoProps> = ({ produto }) => {
     setSize(null);
     setSize(setSizeInfo.tamanho);
     setColors(setSizeInfo.cores);
+    setColor(null);
   };
 
   const handleRedirect = () => {
@@ -118,6 +119,7 @@ export const ProducInfo: React.FC<ProducInfoProps> = ({ produto }) => {
       {!isDisableButtons && (
         <Col xs={'auto'} className="colors ">
           <ProductColors
+            productId={produto.id}
             isError={isError}
             selectedSize={isSize}
             selectedColor={isColor}
