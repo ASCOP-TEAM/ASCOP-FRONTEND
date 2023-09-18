@@ -1,21 +1,34 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { IRouters } from '@interfaces';
 import { ContainerMenuLinks } from './styles';
 import { Offcanvas } from 'react-bootstrap';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import React from 'react';
 
 type MenuLinksProps = {
-  routers: IRouters[];
+  routeMappingsMenu: IRouters[];
   isMenuOpen: boolean;
   bgColor?: string;
   txColor?: string;
+  handleMenuToggle: () => void;
 };
 
 export function MenuLinks({
-  routers,
+  routeMappingsMenu,
   isMenuOpen,
   bgColor,
   txColor,
+  handleMenuToggle,
 }: MenuLinksProps) {
+  const router = useRouter();
+
+  React.useEffect(() => {
+    if (isMenuOpen) {
+      handleMenuToggle();
+    }
+  }, [router.pathname]);
+
   return (
     <>
       <ContainerMenuLinks
@@ -29,7 +42,7 @@ export function MenuLinks({
       >
         <Offcanvas.Body>
           <ul className={isMenuOpen ? 'is-Active' : ''}>
-            {routers.map((route) => (
+            {routeMappingsMenu.map((route) => (
               <li key={route.id}>
                 <Link href={route.path}>{route.name}</Link>
               </li>

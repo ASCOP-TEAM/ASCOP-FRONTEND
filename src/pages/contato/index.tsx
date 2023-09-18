@@ -2,7 +2,6 @@ import React from 'react';
 import { Col, Container } from 'react-bootstrap';
 import { GetServerSideProps, NextPage } from 'next';
 
-import Layout from '@layout';
 import { SectionContent } from '@styles/pages/contato';
 import { TopBlockSection, ContactForm } from '@components';
 import { IContato } from '@interfaces';
@@ -20,7 +19,7 @@ const Contato: NextPage<ContatoProps> = ({ contatoData }) => {
     topblocksection?.background?.data?.attributes?.url || '/backgroud.jpg';
 
   return (
-    <Layout bgColor={'white'} txColor="black" title="Contato">
+    <>
       {topblocksection && backgroudBlockSection && (
         <TopBlockSection.Root imageUrl={backgroudBlockSection}>
           <TopBlockSection.Title title={topblocksection.titulo} />
@@ -60,7 +59,7 @@ const Contato: NextPage<ContatoProps> = ({ contatoData }) => {
           </Col>
         </SectionContent>
       </Container>
-    </Layout>
+    </>
   );
 };
 

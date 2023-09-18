@@ -1,6 +1,5 @@
 import React from 'react';
 import type { GetServerSideProps, NextPage } from 'next';
-import Layout from '@layout';
 import {
   SectionAbout,
   SectionBecause,
@@ -47,7 +46,7 @@ const Home: NextPage<HomePros> = ({ homeData }) => {
   const imageBecause = bloco4?.photo?.data.attributes?.url;
 
   return (
-    <Layout bgColor="black" txColor="white">
+    <>
       {bloco1 && (
         <BackgroundCarousel images={carouselImages}>
           <div className="main">
@@ -220,7 +219,7 @@ const Home: NextPage<HomePros> = ({ homeData }) => {
           </SectionFind>
         )}
       </Container>
-    </Layout>
+    </>
   );
 };
 

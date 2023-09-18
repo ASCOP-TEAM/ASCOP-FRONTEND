@@ -16,7 +16,6 @@ import {
   PaginationPage,
 } from '@components';
 
-import Layout from '@layout';
 import { CartContext } from '@contexts';
 import { BASEURL, hasUniqueVariations } from '@utils';
 import { Category, ILoja, Product, ProductData, Variante } from '@interfaces';
@@ -104,7 +103,7 @@ const Loja: NextPage<LojaProps> = ({ produtos, categorias, lojaData }) => {
 
   return (
     <>
-      <Layout bgColor="white" txColor={'black'} title="Loja">
+      <>
         {topblocksection && backgroudBlockSection && (
           <TopBlockSection.Root imageUrl={backgroudBlockSection}>
             <TopBlockSection.Title title={topblocksection.titulo} />
@@ -184,7 +183,7 @@ const Loja: NextPage<LojaProps> = ({ produtos, categorias, lojaData }) => {
             {!FilteredProducts && <DataNotLoaded />}
           </section>
         </Container>
-      </Layout>
+      </>
     </>
   );
 };

@@ -2,6 +2,7 @@ import React from 'react';
 import { Container } from './style';
 import { MenuMobile } from './menuMobile';
 import Link from 'next/link';
+import { routeMappingsMenu } from '@utils';
 
 interface MenuProps {
   bgColor?: string;
@@ -10,39 +11,6 @@ interface MenuProps {
 }
 
 export function Menu({ bgColor, txColor, staticmenu = false }: MenuProps) {
-  const routers = [
-    {
-      id: 1,
-      path: '/',
-      name: 'HOME',
-    },
-    {
-      id: 2,
-      path: '/loja/',
-      name: 'LOJA',
-    },
-    {
-      id: 3,
-      path: '/cadastros',
-      name: 'CADASTROS',
-    },
-    {
-      id: 4,
-      path: '/doacao',
-      name: 'DOAÇÃO',
-    },
-    {
-      id: 5,
-      path: '/transparencia',
-      name: 'TRANSPARÊNCIA',
-    },
-    {
-      id: 6,
-      path: '/contato',
-      name: 'CONTATO',
-    },
-  ];
-
   const [isMenuOpen, setMenuOpen] = React.useState(false);
 
   const handleMenuToggle = () => {
@@ -82,7 +50,7 @@ export function Menu({ bgColor, txColor, staticmenu = false }: MenuProps) {
       <div className="navbar__right ">
         <div className="d-none d-md-block">
           <ul>
-            {routers.map((route) => (
+            {routeMappingsMenu.map((route) => (
               <li key={route.id}>
                 <Link href={route.path}>{route.name}</Link>
               </li>
@@ -97,9 +65,10 @@ export function Menu({ bgColor, txColor, staticmenu = false }: MenuProps) {
             txColor={txColor}
           />
           <MenuMobile.Links
-            {...{ routers, isMenuOpen }}
+            {...{ routeMappingsMenu, isMenuOpen }}
             bgColor={bgColor}
             txColor={txColor}
+            handleMenuToggle={handleMenuToggle}
           />
         </div>
       </div>

@@ -6,21 +6,59 @@ import { GlobalStyle, ResetStyles, theme } from '@styles';
 
 import { CartProvider, ONGProvider } from '@contexts';
 
-import { BASEURL } from '@utils';
+import { BASEURL, routeMappings } from '@utils';
 import { ONG } from '@interfaces';
+import Layout from '@layout';
+import { useRouter } from 'next/router';
+
+import Transition from 'src/components/Transition';
 
 interface AppOwnProps extends AppProps {
   ongData: ONG | undefined;
 }
 
 const MyApp = ({ Component, pageProps, ongData }: AppContext & AppOwnProps) => {
+  const router = useRouter();
+
+  const [bgColor, setBgColor] = React.useState('white');
+  const [txColor, setTxColor] = React.useState('black');
+  const [titlePage, setTitlePage] = React.useState('');
+  const [staticMenu, setStaticMenu] = React.useState(false);
+
+  const defaultRoute = routeMappings['/'];
+
+  React.useEffect(() => {
+    const routeConfig = routeMappings[router.pathname] || defaultRoute;
+
+    if (router.pathname.startsWith('/loja/product/')) {
+      setTitlePage('LOJA');
+      setBgColor('white');
+      setTxColor('black');
+      setStaticMenu(true);
+    } else {
+      setTitlePage(routeConfig.name);
+      setBgColor(routeConfig.bgColor);
+      setTxColor(routeConfig.txColor);
+      setStaticMenu(routeConfig.static);
+    }
+  }, [router.pathname, defaultRoute]);
+
   return (
     <ThemeProvider theme={theme}>
       <ResetStyles />
       <GlobalStyle />
       <ONGProvider initialData={ongData}>
         <CartProvider>
-          <Component {...pageProps} />
+          <Layout
+            bgColor={bgColor}
+            txColor={txColor}
+            staticmenu={staticMenu}
+            title={titlePage}
+          >
+            <Transition>
+              <Component {...pageProps} />
+            </Transition>
+          </Layout>
         </CartProvider>
       </ONGProvider>
     </ThemeProvider>

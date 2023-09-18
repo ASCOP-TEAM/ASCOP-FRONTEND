@@ -1,5 +1,4 @@
 import React from 'react';
-import Layout from '@layout';
 import { GetServerSideProps, NextPage } from 'next';
 import { Col, Container } from 'react-bootstrap';
 import { ImageContainer, SectionContent } from '@styles/pages/cadastros';
@@ -20,61 +19,59 @@ const Cadastros: NextPage<CadastrosProps> = ({ cadastrosData }) => {
 
   return (
     <>
-      <Layout bgColor={'white'} txColor="black" title="Cadastros">
-        <Container>
-          <SectionContent>
-            {bloco1 && (
-              <Col xs={12} lg={5} md={7} className="box dark">
+      <Container>
+        <SectionContent>
+          {bloco1 && (
+            <Col xs={12} lg={5} md={7} className="box dark">
+              <div>
+                <h1>{bloco1.blockSumary?.titulo}</h1>
+              </div>
+              <div>
+                <p>{bloco1.blockSumary?.descricao}</p>
+              </div>
+              <div>
+                {bloco1.botao && (
+                  <ActiveLink href={bloco1.botao.url}>
+                    <Button text={bloco1.botao.titulo} theme={'secundary'} />
+                  </ActiveLink>
+                )}
+              </div>
+            </Col>
+          )}
+
+          {bloco2 && (
+            <>
+              <Col xs={12} lg={5} md={7} className="box light">
                 <div>
-                  <h1>{bloco1.blockSumary?.titulo}</h1>
+                  <h1>{bloco2.blockSumary?.titulo}</h1>
                 </div>
                 <div>
-                  <p>{bloco1.blockSumary?.descricao}</p>
+                  <p>{bloco2.blockSumary?.descricao}</p>
                 </div>
                 <div>
-                  {bloco1.botao && (
-                    <ActiveLink href={bloco1.botao.url}>
-                      <Button text={bloco1.botao.titulo} theme={'secundary'} />
+                  {bloco2.botao && (
+                    <ActiveLink href={bloco2.botao.url}>
+                      <Button text={bloco2.botao.titulo} />
                     </ActiveLink>
                   )}
                 </div>
               </Col>
-            )}
 
-            {bloco2 && (
-              <>
-                <Col xs={12} lg={5} md={7} className="box light">
-                  <div>
-                    <h1>{bloco2.blockSumary?.titulo}</h1>
-                  </div>
-                  <div>
-                    <p>{bloco2.blockSumary?.descricao}</p>
-                  </div>
-                  <div>
-                    {bloco2.botao && (
-                      <ActiveLink href={bloco2.botao.url}>
-                        <Button text={bloco2.botao.titulo} />
-                      </ActiveLink>
-                    )}
-                  </div>
-                </Col>
-
-                {backgroudImage && (
-                  <ImageContainer>
-                    <div className="gradient-overlay"></div>
-                    <Image
-                      src={backgroudImage}
-                      alt="Imagem de fundo"
-                      layout="fill"
-                      objectFit="cover"
-                    />
-                  </ImageContainer>
-                )}
-              </>
-            )}
-          </SectionContent>
-        </Container>
-      </Layout>
+              {backgroudImage && (
+                <ImageContainer>
+                  <div className="gradient-overlay"></div>
+                  <Image
+                    src={backgroudImage}
+                    alt="Imagem de fundo"
+                    layout="fill"
+                    objectFit="cover"
+                  />
+                </ImageContainer>
+              )}
+            </>
+          )}
+        </SectionContent>
+      </Container>
     </>
   );
 };

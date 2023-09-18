@@ -2,7 +2,6 @@ import React from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import { GetServerSideProps, NextPage } from 'next';
 
-import Layout from '@layout';
 import { SectionContent } from '@styles/pages/transparencia';
 import {
   CardReport,
@@ -45,68 +44,66 @@ const Transparencia: NextPage<TransparenciaProps> = ({
 
   return (
     <>
-      <Layout bgColor={'white'} txColor="black">
-        {topblocksection && backgroudBlockSection && (
-          <TopBlockSection.Root
-            imageUrl={backgroudBlockSection || './backgroud.jpg'}
-          >
-            <TopBlockSection.Title title={topblocksection.titulo} />
-            <TopBlockSection.Paragrap paragrap={topblocksection.descricao} />
-          </TopBlockSection.Root>
-        )}
+      {topblocksection && backgroudBlockSection && (
+        <TopBlockSection.Root
+          imageUrl={backgroudBlockSection || './backgroud.jpg'}
+        >
+          <TopBlockSection.Title title={topblocksection.titulo} />
+          <TopBlockSection.Paragrap paragrap={topblocksection.descricao} />
+        </TopBlockSection.Root>
+      )}
 
-        <Container>
-          <SectionContent>
-            <Row>
-              <Col xs={12} className="box light">
-                {bloco1 && (
+      <Container>
+        <SectionContent>
+          <Row>
+            <Col xs={12} className="box light">
+              {bloco1 && (
+                <div className="my-2">
                   <div className="my-2">
-                    <div className="my-2">
-                      <h2>{bloco1.titulo}</h2>
-                    </div>
-                    <Col lg={6} xs={12}>
-                      <p>{bloco1.descricao}</p>
-                    </Col>
+                    <h2>{bloco1.titulo}</h2>
                   </div>
-                )}
+                  <Col lg={6} xs={12}>
+                    <p>{bloco1.descricao}</p>
+                  </Col>
+                </div>
+              )}
 
-                <Row>
-                  <>
-                    {reportData && reportData.data ? (
-                      <>
-                        {reportData.data.map((dataValues) => {
-                          return (
-                            <Col key={dataValues.id} xs={12} md={6} lg={4}>
-                              <CardReport
-                                key={dataValues.id}
-                                {...dataValues.attributes}
-                              />
-                            </Col>
-                          );
-                        })}
-
-                        {reportData.meta.pagination.pageCount > 1 && (
-                          <div className="my-5">
-                            <PaginationPage
-                              currentPage={currentPage}
-                              dataPage={reportData}
-                              handlePageChange={handlePageChange}
+              <Row>
+                <>
+                  {reportData && reportData.data ? (
+                    <>
+                      {reportData.data.map((dataValues) => {
+                        return (
+                          <Col key={dataValues.id} xs={12} md={6} lg={4}>
+                            <CardReport
+                              key={dataValues.id}
+                              {...dataValues.attributes}
                             />
-                          </div>
-                        )}
-                      </>
-                    ) : (
-                      <DataNotLoaded />
-                    )}
-                  </>
+                          </Col>
+                        );
+                      })}
 
-                  {!reportData && <DataNotLoaded />}
-                </Row>
-              </Col>
-            </Row>
-          </SectionContent>
-        </Container>
-      </Layout>
+                      {reportData.meta.pagination.pageCount > 1 && (
+                        <div className="my-5">
+                          <PaginationPage
+                            currentPage={currentPage}
+                            dataPage={reportData}
+                            handlePageChange={handlePageChange}
+                          />
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <DataNotLoaded />
+                  )}
+                </>
+
+                {!reportData && <DataNotLoaded />}
+              </Row>
+            </Col>
+          </Row>
+        </SectionContent>
+      </Container>
     </>
   );
 };
