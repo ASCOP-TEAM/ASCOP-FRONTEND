@@ -128,10 +128,11 @@ export const getServerSideProps: GetServerSideProps<
 
     const pageNumber = context.query.page || 1;
 
-    const [resTransparencyData, resReportData] = await Promise.all([
-      fetch(
-        `${BASEURL}/api/transparencia/?populate[topblocksection][populate]=*&populate[bloco1][populate]=*`,
-      ),
+    const resTransparencyData = await fetch(
+      `${BASEURL}/api/transparencia/?populate[topblocksection][populate]=*&populate[bloco1][populate]=*`,
+    );
+
+    const [resReportData] = await Promise.all([
       fetch(`${BASEURL}/api/relatorios?pagination[page]=${pageNumber}`),
     ]);
 
