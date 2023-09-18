@@ -85,13 +85,15 @@ const Transparencia: NextPage<TransparenciaProps> = ({
                           );
                         })}
 
-                        <div className="my-5">
-                          <PaginationPage
-                            currentPage={currentPage}
-                            dataPage={reportData}
-                            handlePageChange={handlePageChange}
-                          />
-                        </div>
+                        {reportData.meta.pagination.pageCount > 1 && (
+                          <div className="my-5">
+                            <PaginationPage
+                              currentPage={currentPage}
+                              dataPage={reportData}
+                              handlePageChange={handlePageChange}
+                            />
+                          </div>
+                        )}
                       </>
                     ) : (
                       <DataNotLoaded />

@@ -71,7 +71,7 @@ const CardLoja: React.FC<CardLojaProps> = ({ produto, onAddToCart }) => {
 
   return (
     <Container>
-      <Row>
+      <Row className="h-100">
         <div className="cart">
           <button onClick={() => onAddToCart(produto)}>
             <HeartCardShop productId={produto.id} />
@@ -82,7 +82,9 @@ const CardLoja: React.FC<CardLojaProps> = ({ produto, onAddToCart }) => {
             <Image
               width={100}
               height={100}
-              src={produto.attributes.thumbnail.data.attributes.url}
+              src={
+                produto.attributes.thumbnail.data.attributes.formats.small.url
+              }
               alt={'foto:' + produto.attributes.title}
             />
           }
@@ -109,8 +111,8 @@ const CardLoja: React.FC<CardLojaProps> = ({ produto, onAddToCart }) => {
           )}
         </div>
 
-        <div className="colors my-1">
-          {uniqueColors.length > 1 && (
+        {uniqueColors.length > 1 && (
+          <div className="colors my-1">
             <ul>
               {uniqueColors.slice(0, 4).map((color) => (
                 <li key={color}>
@@ -128,10 +130,10 @@ const CardLoja: React.FC<CardLojaProps> = ({ produto, onAddToCart }) => {
                 </li>
               )}
             </ul>
-          )}
-        </div>
-        <div className="price ">
-          <h5>R${produto.attributes.price}</h5>
+          </div>
+        )}
+        <div className="price my-2">
+          <h5 className="m-0">R${context?.getUnitaryPrice(produto)}</h5>
         </div>
         <div className="submit">
           <Button

@@ -33,7 +33,7 @@ export const CartItems: React.FC<CartItemsProps> = ({ product }) => {
           </div>
           <div className="price">
             <h4>
-              R$ <strong>{product.item.attributes.price} </strong>
+              R$ <strong>{context?.getUnitaryPrice(product.item)} </strong>
             </h4>
           </div>
           <div className="sizes mb-3">

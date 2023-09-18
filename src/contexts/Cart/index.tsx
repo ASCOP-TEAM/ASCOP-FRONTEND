@@ -1,10 +1,11 @@
 import { ProductData } from '@interfaces';
 import React, { createContext, useState, useEffect, ReactNode } from 'react';
+import Big from 'big.js';
 
 export interface CartItem {
   id: string;
   item: ProductData;
-  price: number;
+  price: string | number;
   quantity: number;
   size: string | null;
   color: string | null;
@@ -13,11 +14,12 @@ export interface CartItem {
 interface CartContextProps {
   cartItems: CartItem[];
   addToCart: (product: CartItem) => void;
-  updateToCart: (product: CartItem) => void;
   removeFromCart: (item: CartItem) => void;
   clearCart: () => void;
-  getCartTotal: () => number;
+  getCartTotal: () => string;
   getCartTotalQuantity: () => number;
+  getCartItemTotal: (productCart: CartItem) => string;
+  getUnitaryPrice: (productData: ProductData) => string;
 }
 
 export const CartContext = createContext<CartContextProps | undefined>(
@@ -58,10 +60,17 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
         ) {
           updated = true;
           // Atualiza a quantidade, o preço e outros detalhes do item no carrinho
+
+          const newQuantity = cartItem.quantity + 1;
+          // Calcula o novo preço com precisão usando Big.js
+          const newPrice = Big(isItemInCart.item.attributes.price)
+            .times(newQuantity)
+            .toFixed(2);
+
           return {
             ...cartItem,
             quantity: cartItem.quantity + 1,
-            price: isItemInCart.item.attributes.price * (cartItem.quantity + 1),
+            price: newPrice,
           };
         }
         // Mantém o item inalterado se não corresponder ao produto
@@ -74,7 +83,9 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
           id: product.id,
           item: isItemInCart.item,
           quantity: product.quantity,
-          price: isItemInCart.item.attributes.price * product.quantity,
+          price: Big(isItemInCart.item.attributes.price)
+            .times(product.quantity)
+            .toFixed(2),
           size: product.size,
           color: product.color,
         });
@@ -84,62 +95,46 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       setCartItems(newState);
     } else {
       // Se o produto não estava no carrinho, simplesmente adiciona-o
-      setCartItems([...cartItems, product]);
+      setCartItems([
+        ...cartItems,
+        {
+          ...product,
+          price: Big(product.item.attributes.price)
+            .times(product.quantity)
+            .toFixed(2),
+        },
+      ]);
     }
   };
 
-  const updateToCart = (product: CartItem) => {
-    const isItemInCart = getProductById(product.item.id);
-
-    if (isItemInCart) {
-      const updatedCartItems = cartItems.map((c) => {
-        // Verifique se o produto atual tem o mesmo ID e tamanho nulo
-        if (c.item.id === product.item.id && c.size === null) {
-          return {
-            ...c,
-            size: product.size,
-          };
-        }
-        // Verifique se o produto tem o mesmo ID e tamanho não nulo
-        else if (c.item.id === product.item.id && c.size !== null) {
-          return {
-            ...c,
-            quantity: product.quantity,
-          };
-        }
-        return c;
-      });
-
-      setCartItems(updatedCartItems);
-    }
-  };
-
-  const removeFromCart = (product: CartItem) => {
+  const removeFromCart = (productCart: CartItem) => {
     const isItemInCart = cartItems.find(
       (cartItem) =>
-        cartItem.item.id === product.item.id &&
-        cartItem.size === product.size &&
-        cartItem.color === product.color,
+        cartItem.item.id === productCart.item.id &&
+        cartItem.size === productCart.size &&
+        cartItem.color === productCart.color,
     );
 
-    if (product.quantity === 1) {
+    if (productCart.quantity === 1) {
       const updatedLocalStorageItems = cartItems.filter(
         (cartItem) =>
-          cartItem.id !== product.id ||
-          (cartItem.id === product.id &&
-            cartItem.size !== product.size &&
-            cartItem.color !== product.color),
+          cartItem.id !== productCart.id ||
+          (cartItem.id === productCart.id &&
+            cartItem.size !== productCart.size &&
+            cartItem.color !== productCart.color),
       );
       setCartItems(updatedLocalStorageItems);
       localStorage.removeItem('cartItems');
     } else if (isItemInCart) {
       setCartItems(
         cartItems.map((cartItem) =>
-          cartItem.id === product.id && cartItem.size === product.size
+          cartItem.id === productCart.id && cartItem.size === productCart.size
             ? {
                 ...cartItem,
                 quantity: cartItem.quantity - 1,
-                price: cartItem.price - cartItem.item.attributes.price,
+                price: Big(cartItem.price)
+                  .minus(cartItem.item.attributes.price)
+                  .toFixed(2),
               }
             : cartItem,
         ),
@@ -153,10 +148,25 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   };
 
   const getCartTotal = () => {
-    return cartItems.reduce(
-      (total, item) => total + item.item.attributes.price * item.quantity,
-      0,
-    );
+    return cartItems
+      .reduce((total, item) => {
+        const itemPrice = Big(item.item.attributes.price);
+        const itemQuantity = Big(item.quantity);
+        const itemTotal = itemPrice.times(itemQuantity);
+        return total.plus(itemTotal);
+      }, Big(0))
+      .toFixed(2)
+      .replace('.', ',');
+  };
+
+  const getCartItemTotal = (productCart: CartItem): string => {
+    const totalItemPrice = Big(productCart.price);
+    return totalItemPrice.toFixed(2).replace('.', ',');
+  };
+
+  const getUnitaryPrice = (productData: ProductData): string => {
+    const price = Big(productData.attributes.price);
+    return price.toFixed(2).replace('.', ',');
   };
 
   const getCartTotalQuantity = () => {
@@ -195,11 +205,12 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       value={{
         cartItems,
         addToCart,
-        updateToCart,
         removeFromCart,
         clearCart,
         getCartTotal,
         getCartTotalQuantity,
+        getCartItemTotal,
+        getUnitaryPrice,
       }}
     >
       {children}

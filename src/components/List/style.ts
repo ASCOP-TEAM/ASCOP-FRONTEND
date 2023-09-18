@@ -12,6 +12,11 @@ const Container = styled.div`
 
   position: relative;
 
+  .swiper {
+    height: 100%;
+    width: 100%;
+  }
+
   & > h2 {
     font-weight: 700;
     font-size: 30px;

@@ -41,7 +41,9 @@ const Carrinho: NextPage = () => {
               <Col xs={12} lg={6}>
                 <Col xs={12}>
                   <h2>Carrinho:</h2>
-                  <p>confirme os produtos e tamanhos para finalizar a compra</p>
+                  <p>
+                    Confirme os produtos e tamanhos para finalizar a compra.
+                  </p>
                 </Col>
                 <ul className="list-products ">
                   {context?.cartItems.map((product) => (

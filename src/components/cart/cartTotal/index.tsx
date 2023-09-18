@@ -23,7 +23,7 @@ export const CartTotal: React.FC = () => {
     <>
       <Container>
         <div className="items-info">
-          <h3>Items selecionados</h3>
+          <h3>Itens selecionados</h3>
           <div
             className="total d-flex justify-content-between
                my-2"

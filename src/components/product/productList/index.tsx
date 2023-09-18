@@ -49,6 +49,7 @@ export const ProductList = ({
               .filter((item) => (highlight ? item.attributes.highlight : item))
               .map((produto) => (
                 <SwiperSlide
+                  style={{ minHeight: '371px', height: '100%' }}
                   key={produto.id}
                   className="justify-content-center"
                 >

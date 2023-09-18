@@ -163,13 +163,15 @@ const Loja: NextPage<LojaProps> = ({ produtos, categorias, lojaData }) => {
                     title="Todos os Produtos"
                   />
 
-                  <div className="my-4">
-                    <PaginationPage
-                      currentPage={currentPage}
-                      dataPage={produtos}
-                      handlePageChange={handlePageChange}
-                    />
-                  </div>
+                  {produtos.meta.pagination.pageCount > 1 && (
+                    <div className="my-4">
+                      <PaginationPage
+                        currentPage={currentPage}
+                        dataPage={produtos}
+                        handlePageChange={handlePageChange}
+                      />
+                    </div>
+                  )}
                 </>
               ) : (
                 <ProductDefault

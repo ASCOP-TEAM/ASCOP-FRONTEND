@@ -97,7 +97,7 @@ export const ProducInfo: React.FC<ProducInfoProps> = ({ produto }) => {
       </div>
 
       <div className="price">
-        <h3>R${produto.attributes.price}</h3>
+        <h3>R${context?.getUnitaryPrice(produto)}</h3>
       </div>
 
       <div className="description">

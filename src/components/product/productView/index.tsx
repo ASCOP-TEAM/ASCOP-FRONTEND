@@ -93,7 +93,18 @@ export const ProductView: React.FC<ProductViewProps> = ({ produto }) => {
         className="d-flex justify-content-center align-items-center d-lg-none"
       >
         <Carousel data-bs-theme="dark">
-          {produto.attributes.gallery.data ? (
+          {produto.attributes.thumbnail.data && (
+            <Carousel.Item key={produto.id}>
+              <Image
+                width={350}
+                height={350}
+                src={produto.attributes.thumbnail.data.attributes.url}
+                alt={`foto: ${produto.attributes.title}`}
+              />
+            </Carousel.Item>
+          )}
+
+          {produto.attributes.gallery.data &&
             produto.attributes.gallery.data.map((image) => (
               <Carousel.Item key={image.id}>
                 <Image
@@ -103,24 +114,30 @@ export const ProductView: React.FC<ProductViewProps> = ({ produto }) => {
                   alt={`foto: ${image.attributes.name}`}
                 />
               </Carousel.Item>
-            ))
-          ) : produto.attributes.thumbnail.data ? (
-            <Carousel.Item key={produto.id}>
-              <Image
-                width={350}
-                height={350}
-                src={
-                  produto.attributes.thumbnail?.data.attributes?.url ||
-                  'URL_DA_IMAGEM_PADRÃO_AQUI'
-                }
-                alt={`foto: ${produto.attributes.title}`}
-              />
-            </Carousel.Item>
-          ) : (
-            <Carousel.Item>
-              <p>Nenhuma imagem disponível</p>
-            </Carousel.Item>
-          )}
+            ))}
+
+          {produto.attributes.colors_imgs &&
+            produto.attributes.colors_imgs.map((image) => (
+              <Carousel.Item key={image.id}>
+                <Image
+                  width={350}
+                  height={350}
+                  src={
+                    image.img_color.data.attributes.url ||
+                    'URL_DA_IMAGEM_PADRÃO_AQUI'
+                  }
+                  alt={`foto: ${image.color_name}`}
+                />
+              </Carousel.Item>
+            ))}
+
+          {!produto.attributes.thumbnail.data &&
+            !produto.attributes.gallery.data &&
+            !produto.attributes.colors_imgs && (
+              <Carousel.Item>
+                <p>Nenhuma imagem disponível</p>
+              </Carousel.Item>
+            )}
         </Carousel>
       </Col>
     </>
