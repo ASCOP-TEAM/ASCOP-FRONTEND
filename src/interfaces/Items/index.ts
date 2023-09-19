@@ -8,7 +8,7 @@ export interface Item {
   unit_price: number;
   quantity: number;
   variation?: {
-    size?: string;
-    color?: string;
+    size?: string | null;
+    color?: string | null;
   };
 }

@@ -70,8 +70,8 @@ const PaymentMethod: React.FC<PaymentMethodProps> = ({
         unit_price: Number(cart.item.attributes.price),
         quantity: Number(cart.quantity),
         variation: {
-          size: cart.size || '',
-          color: cart.color || '',
+          size: cart.size || null,
+          color: cart.color || null,
         },
       };
     });

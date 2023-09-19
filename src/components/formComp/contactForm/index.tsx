@@ -151,10 +151,6 @@ export function ContactForm() {
               required
               {...register('message', {
                 required: 'Por favor, escreva sua mensagem!',
-                pattern: {
-                  value: /^[A-Za-z ,.'-]*$/,
-                  message: 'Digite uma mensagem válida',
-                },
               })}
               placeholder="Digite sua mensagem!"
               isInvalid={!!errors.message}

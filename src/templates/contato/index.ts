@@ -8,8 +8,8 @@ export function ContactMailOptions(
 ): nodemailer.SendMailOptions {
   return {
     from: process.env.GMAIL_ID,
-    to: process.env.GMAIL_TO, // E-mail de destino para o contato (pode ser diferente do e-mail do remetente)
-    subject: `${name} - contato ASCOP`,
+    to: process.env.GMAIL_TO, 
+    subject: `${name} - Contato ASCOP`,
     text: message,
     html: `<!DOCTYPE html>
     <html lang="en">
