@@ -24,6 +24,10 @@ function LoadingIndicator() {
     };
   }, [router]);
 
+  if (!loading) {
+    return null;
+  }
+
   return (
     loading && (
       <Container
