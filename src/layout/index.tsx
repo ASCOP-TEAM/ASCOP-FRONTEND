@@ -1,33 +1,55 @@
 import React from 'react';
 import { Menu, Footer, Header } from '@components';
 import Head from 'next/head';
+import { routeMappings } from '@utils';
+import { useRouter } from 'next/router';
+import styled from 'styled-components';
 
 interface layoutProps {
-  title?: string;
-  metaName?: string;
-  metaContent?: string;
-  bgColor?: string;
-  txColor?: string;
-  staticmenu?: boolean;
   children: React.ReactNode;
 }
 
-const Layout: React.FC<layoutProps> = (props) => {
+export const Placeholder = styled.div`
+  height: calc(var(--navbar-height) + 1px);
+`;
+
+const Layout: React.FC<layoutProps> = ({ children }) => {
+  const router = useRouter();
+
+  const [bgColor, setBgColor] = React.useState('white');
+  const [txColor, setTxColor] = React.useState('black');
+  const [titlePage, setTitlePage] = React.useState('');
+  const [staticMenu, setStaticMenu] = React.useState(true);
+
+  const defaultRoute = routeMappings['/'];
+
+  React.useEffect(() => {
+    const routeConfig = routeMappings[router.pathname] || defaultRoute;
+
+    if (router.pathname.startsWith('/loja/product/')) {
+      setTitlePage('LOJA');
+      setBgColor('white');
+      setTxColor('black');
+      setStaticMenu(true);
+    } else {
+      setTitlePage(routeConfig.name);
+      setBgColor(routeConfig.bgColor);
+      setTxColor(routeConfig.txColor);
+      setStaticMenu(routeConfig.static);
+    }
+  }, [router.pathname, defaultRoute]);
+
+  const isErrorPage =
+    router.asPath.startsWith('/404') || router.asPath.startsWith('/505');
+
   return (
     <>
       <Header>
         <Head>
           <title>
-            {!props.title ? 'ASCOP' : props.title + ' - ASCOP'} {}
+            {!titlePage ? 'ASCOP' : titlePage + ' - ASCOP'} {}
           </title>
-          <meta
-            name={!props.metaName ? 'ASCOP' : props.metaName}
-            content={
-              !props.metaContent
-                ? 'SKATISTAS DA COSTEIRA DO PIRAJUBAÉ'
-                : props.metaContent
-            }
-          />
+          <meta name={'ASCOP'} content={'SKATISTAS DA COSTEIRA DO PIRAJUBAÉ'} />
 
           <meta property="og:title" content="ASCOP" />
           <meta
@@ -36,16 +58,17 @@ const Layout: React.FC<layoutProps> = (props) => {
           />
           <meta property="og:image" content="/logowhite.png" />
         </Head>
-        <Menu
-          bgColor={props.bgColor}
-          txColor={props.txColor}
-          staticmenu={props.staticmenu}
-        />
+        {!isErrorPage && (
+          <Menu bgColor={bgColor} txColor={txColor} staticmenu={staticMenu} />
+        )}
       </Header>
-      <>{props.children}</>
+      {!isErrorPage && <Placeholder />}
+
+      <>{children}</>
+
       <Footer.Root>
-        <Footer.Content isMobileView />
-        <Footer.Content />
+        {!isErrorPage && <Footer.Content />}
+        {!isErrorPage && <Footer.Content isMobileView />}
       </Footer.Root>
     </>
   );

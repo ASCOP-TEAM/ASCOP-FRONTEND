@@ -36,42 +36,44 @@ export function Menu({ bgColor, txColor, staticmenu = false }: MenuProps) {
   }, [staticmenu]);
 
   return (
-    <Container
-      bgColor={bgColor}
-      txColor={txColor}
-      scrolled={scrolled || isMenuOpen || staticmenu}
-    >
-      <div className="navbar__left label">
-        <Link href={'/'}>
-          <div className="text-wrapper-logo"> ASCOP</div>
-        </Link>
-      </div>
-
-      <div className="navbar__right ">
-        <div className="d-none d-md-block">
-          <ul>
-            {routeMappingsMenu.map((route) => (
-              <li key={route.id}>
-                <Link href={route.path}>{route.name}</Link>
-              </li>
-            ))}
-          </ul>
+    <>
+      <Container
+        bgColor={bgColor}
+        txColor={txColor}
+        scrolled={scrolled || isMenuOpen || staticmenu}
+      >
+        <div className="navbar__left label">
+          <Link href={'/'}>
+            <div className="text-wrapper-logo"> ASCOP</div>
+          </Link>
         </div>
 
-        <div className="d-md-none">
-          <MenuMobile.Whapper
-            isOpen={isMenuOpen}
-            onClick={handleMenuToggle}
-            txColor={txColor}
-          />
-          <MenuMobile.Links
-            {...{ routeMappingsMenu, isMenuOpen }}
-            bgColor={bgColor}
-            txColor={txColor}
-            handleMenuToggle={handleMenuToggle}
-          />
+        <div className="navbar__right ">
+          <div className="d-none d-md-block">
+            <ul>
+              {routeMappingsMenu.map((route) => (
+                <li key={route.id}>
+                  <Link href={route.path}>{route.name}</Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="d-md-none">
+            <MenuMobile.Whapper
+              isOpen={isMenuOpen}
+              onClick={handleMenuToggle}
+              txColor={txColor}
+            />
+            <MenuMobile.Links
+              {...{ routeMappingsMenu, isMenuOpen }}
+              bgColor={bgColor}
+              txColor={txColor}
+              handleMenuToggle={handleMenuToggle}
+            />
+          </div>
         </div>
-      </div>
-    </Container>
+      </Container>
+    </>
   );
 }
