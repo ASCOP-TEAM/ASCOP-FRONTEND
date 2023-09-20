@@ -31,3 +31,4 @@ export {
   ProductDefault,
 } from './product';
 export { ColorIcon } from './color';
+export { default as LoadingIndicator } from './LoadingIndicator';

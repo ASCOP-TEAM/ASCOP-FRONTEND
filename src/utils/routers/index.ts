@@ -41,8 +41,18 @@ interface RouteConfig {
 }
 
 export const routeMappings: RouteConfig = {
-  '/': { name: '', bgColor: 'black', txColor: 'white', static: false },
-  '/loja': { name: 'LOJA', bgColor: 'white', txColor: 'black', static: false },
+  '/': {
+    name: '',
+    bgColor: 'black',
+    txColor: 'white',
+    static: false,
+  },
+  '/loja': {
+    name: 'LOJA',
+    bgColor: 'white',
+    txColor: 'black',
+    static: false,
+  },
   '/loja/product': {
     name: 'LOJA',
     bgColor: 'white',
@@ -81,6 +91,19 @@ export const routeMappings: RouteConfig = {
   },
   '/contato': {
     name: 'CONTATO',
+    bgColor: 'white',
+    txColor: 'black',
+    static: false,
+  },
+
+  '/505': {
+    name: '505 ERROR',
+    bgColor: 'white',
+    txColor: 'black',
+    static: false,
+  },
+  '/404': {
+    name: '404 ERROR',
     bgColor: 'white',
     txColor: 'black',
     static: false,
