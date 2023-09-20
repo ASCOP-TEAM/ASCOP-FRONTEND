@@ -11,7 +11,7 @@ import { ONG } from '@interfaces';
 import Layout from '@layout';
 import { useRouter } from 'next/router';
 
-import Transition from 'src/components/Transition';
+import { LoadingIndicator } from '@components';
 
 interface AppOwnProps extends AppProps {
   ongData: ONG | undefined;
@@ -23,7 +23,7 @@ const MyApp = ({ Component, pageProps, ongData }: AppContext & AppOwnProps) => {
   const [bgColor, setBgColor] = React.useState('white');
   const [txColor, setTxColor] = React.useState('black');
   const [titlePage, setTitlePage] = React.useState('');
-  const [staticMenu, setStaticMenu] = React.useState(false);
+  const [staticMenu, setStaticMenu] = React.useState(true);
 
   const defaultRoute = routeMappings['/'];
 
@@ -47,6 +47,7 @@ const MyApp = ({ Component, pageProps, ongData }: AppContext & AppOwnProps) => {
     <ThemeProvider theme={theme}>
       <ResetStyles />
       <GlobalStyle />
+      <LoadingIndicator />
       <ONGProvider initialData={ongData}>
         <CartProvider>
           <Layout
@@ -55,9 +56,7 @@ const MyApp = ({ Component, pageProps, ongData }: AppContext & AppOwnProps) => {
             staticmenu={staticMenu}
             title={titlePage}
           >
-            <Transition>
-              <Component {...pageProps} />
-            </Transition>
+            <Component {...pageProps} />
           </Layout>
         </CartProvider>
       </ONGProvider>
