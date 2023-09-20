@@ -9,7 +9,3 @@ export const Container = styled.header`
   white-space: nowrap;
   border-bottom-width: 1px;
 `;
-
-export const Placeholder = styled.div`
-  height: calc(var(--navbar-height) + 1px);
-`;
