@@ -30,6 +30,7 @@ Este guia descreve como configurar e administrar o sistema Strapi, incluindo a l
 1. Assista ao vídeo instrucional sobre como fazer login como administrador.
 
 
+
 ## Gerenciamento de Acessos {#acessos}
 
 2. Assista ao vídeo instrucional sobre como configurar as permissões de acesso para diferentes usuários ou grupos.
