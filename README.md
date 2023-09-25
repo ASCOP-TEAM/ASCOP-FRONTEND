@@ -26,37 +26,25 @@ Este guia descreve como configurar e administrar o sistema Strapi, incluindo a l
 - [Segurança e Backup](#backup)
 
 ## Login de Administrador {#login}
-
 1. Assista ao vídeo instrucional sobre como fazer login como administrador.
 
-
-
 ## Gerenciamento de Acessos {#acessos}
-
 2. Assista ao vídeo instrucional sobre como configurar as permissões de acesso para diferentes usuários ou grupos.
 
-
 ## Cadastro de Produtos {#produtos}
-
 3. Assista ao vídeo instrucional sobre como cadastrar produtos na plataforma Strapi.
 
-
 ## Cadastro de Relatórios {#relatorios}
-
 4. Assista ao vídeo instrucional sobre como criar relatórios usando a API do Strapi.
 
-
 ## Dados das Páginas {#paginas}
-
 5. Assista ao vídeo instrucional sobre como gerenciar os dados das páginas dentro da plataforma Strapi.
 
 ## Segurança e Backup {#backup}
-
 6. Assista ao vídeo instrucional sobre como implementar medidas de segurança e configurar rotinas de backup para proteger seus dados e seu painel de administração.
 
 
-
-##  Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
 O site da ASCOP é desenvolvido usando as seguintes tecnologias:
 
