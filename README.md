@@ -63,11 +63,11 @@ Este guia descreve como configurar e administrar o sistema Strapi, incluindo a l
 [![Video do YouTube](https://img.youtube.com/vi/NQJA_MgLDIY/0.jpg)](https://www.youtube.com/watch?v=NQJA_MgLDIY)
 
 ## Segurança e Backup {#backup}
-<a name="backup"></a>
 6. Assista ao vídeo instrucional sobre como implementar medidas de segurança e configurar rotinas de backup para proteger seus dados e seu painel de administração.
 [Ir para a Introdução](#introducao)
 
 [![Video do YouTube](https://img.youtube.com/vi/LaBtSe7V4mQ/0.jpg)](https://www.youtube.com/watch?v=LaBtSe7V4mQ)
+<a name="backup"></a>
 
 
 ## Tecnologias Utilizadas
