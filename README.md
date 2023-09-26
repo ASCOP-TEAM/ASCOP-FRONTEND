@@ -26,48 +26,50 @@ Este guia descreve como configurar e administrar o sistema Strapi, incluindo a l
 - [Dados das Páginas](#paginas)
 - [Segurança e Backup](#backup)
 
-## Login de Administrador {#login}
 <a name="login"></a>
+## Login de Administrador {#login}
 1. Assista ao vídeo instrucional sobre como fazer login como administrador.
 [Ir para a Introdução](#introducao)
    
 [![Video do YouTube](https://img.youtube.com/vi/b4SwIDswEBc/0.jpg)](https://www.youtube.com/watch?v=b4SwIDswEBc)
 
 
-## Gerenciamento de Acessos {#acessos}
 <a name="acessos"></a>
+## Gerenciamento de Acessos {#acessos}
 2. Assista ao vídeo instrucional sobre como configurar as permissões de acesso para diferentes usuários ou grupos.
 [Ir para a Introdução](#introducao)
 
 [![Video do YouTube](https://img.youtube.com/vi/MCtmnZ0u_74/0.jpg)](https://www.youtube.com/watch?v=MCtmnZ0u_74)
 
-## Cadastro de Produtos {#produtos}
 <a name="produtos"></a>
+## Cadastro de Produtos {#produtos}
 3. Assista ao vídeo instrucional sobre como cadastrar produtos na plataforma Strapi.
 [Ir para a Introdução](#introducao)
 
 [![Video do YouTube](https://img.youtube.com/vi/-LtHOUe3QUI/0.jpg)](https://www.youtube.com/watch?v=-LtHOUe3QUI)
 
-## Cadastro de Relatórios {#relatorios}
 <a name="relatorios"></a>
+## Cadastro de Relatórios {#relatorios}
 4. Assista ao vídeo instrucional sobre como criar relatórios usando a API do Strapi.
 [Ir para a Introdução](#introducao)
 
 [![Video do YouTube](https://img.youtube.com/vi/mNqIOtTZYes/0.jpg)](https://www.youtube.com/watch?v=mNqIOtTZYes)
 
-## Cadastro de Paginas {#paginas}
 <a name="paginas"></a>
+## Cadastro de Paginas {#paginas}
 5. Assista ao vídeo instrucional sobre como gerenciar os dados das páginas dentro da plataforma Strapi.
 [Ir para a Introdução](#introducao)
 
 [![Video do YouTube](https://img.youtube.com/vi/NQJA_MgLDIY/0.jpg)](https://www.youtube.com/watch?v=NQJA_MgLDIY)
 
+
+<a name="backup"></a>
 ## Segurança e Backup {#backup}
 6. Assista ao vídeo instrucional sobre como implementar medidas de segurança e configurar rotinas de backup para proteger seus dados e seu painel de administração.
 [Ir para a Introdução](#introducao)
 
 [![Video do YouTube](https://img.youtube.com/vi/LaBtSe7V4mQ/0.jpg)](https://www.youtube.com/watch?v=LaBtSe7V4mQ)
-<a name="backup"></a>
+
 
 
 ## Tecnologias Utilizadas
