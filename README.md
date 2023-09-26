@@ -12,6 +12,7 @@ Esta documentação tem como objetivo principal auxiliar na manutenção do site
  - [Inicialização em modo de desenvolvimento](#inicializacao)
 
 
+<a name="introducao"></a>
 ## Introdução
 
 O site da ASCOP é uma plataforma web que fornece informações sobre a organização e seus serviços. Ele conta com um portal de transparência, onde as contas e levantamento de gastos são apresentados ao público. Além disso, o site possui uma loja para venda de itens da organização. Esta documentação é destinada a desenvolvedores que precisam manter ou atualizar o site.
@@ -27,21 +28,34 @@ Este guia descreve como configurar e administrar o sistema Strapi, incluindo a l
 
 ## Login de Administrador {#login}
 1. Assista ao vídeo instrucional sobre como fazer login como administrador.
+   
+[![Video do YouTube](https://img.youtube.com/vi/b4SwIDswEBc/0.jpg)](https://www.youtube.com/watch?v=b4SwIDswEBc)
+[Ir para a Introdução](#introducao)
 
 ## Gerenciamento de Acessos {#acessos}
 2. Assista ao vídeo instrucional sobre como configurar as permissões de acesso para diferentes usuários ou grupos.
 
+[![Video do YouTube](https://img.youtube.com/vi/MCtmnZ0u_74/0.jpg)](https://www.youtube.com/watch?v=MCtmnZ0u_74)
+
 ## Cadastro de Produtos {#produtos}
 3. Assista ao vídeo instrucional sobre como cadastrar produtos na plataforma Strapi.
+
+[![Video do YouTube](https://img.youtube.com/vi/-LtHOUe3QUI/0.jpg)](https://www.youtube.com/watch?v=-LtHOUe3QUI)
 
 ## Cadastro de Relatórios {#relatorios}
 4. Assista ao vídeo instrucional sobre como criar relatórios usando a API do Strapi.
 
-## Dados das Páginas {#paginas}
+[![Video do YouTube](https://img.youtube.com/vi/mNqIOtTZYes/0.jpg)](https://www.youtube.com/watch?v=mNqIOtTZYes)
+
+## Cadastro de Paginas {#paginas}
 5. Assista ao vídeo instrucional sobre como gerenciar os dados das páginas dentro da plataforma Strapi.
+
+[![Video do YouTube](https://img.youtube.com/vi/NQJA_MgLDIY/0.jpg)](https://www.youtube.com/watch?v=NQJA_MgLDIY)
 
 ## Segurança e Backup {#backup}
 6. Assista ao vídeo instrucional sobre como implementar medidas de segurança e configurar rotinas de backup para proteger seus dados e seu painel de administração.
+
+[![Video do YouTube](https://img.youtube.com/vi/LaBtSe7V4mQ/0.jpg)](https://www.youtube.com/watch?v=LaBtSe7V4mQ)
 
 
 ## Tecnologias Utilizadas
@@ -69,6 +83,13 @@ A plataforma foi integrada da seguinte forma: primeiramente, o backend foi hospe
 Conforme o esquema apresentado mostra, o Render hospeda o Strapi na plataforma, e por sua vez, o Strapi se comunica com o banco de dados PostgreSQL que está hospedado no serviço da Vercel. Isso torna necessário ter as variáveis de ambiente da Vercel para seu banco de dados.
 
 O painel do Strapi fica hospedado dentro do Render, em um subdomínio com o nome 'painel.ascopskt.com'. Dentro da plataforma, podemos gerenciar o conteúdo que a API do Strapi envia para a Vercel, e, por sua vez, o serviço pode se comunicar com o website. Abaixo, seguem imagens do esquema. 
+
+
+![esquema1](https://github.com/ASCOP-TEAM/ASCOP-FRONTEND/assets/47224472/db595727-3337-48ff-bd7a-a32ab147469b)
+
+
+![esquema2](https://github.com/ASCOP-TEAM/ASCOP-FRONTEND/assets/47224472/16e34ccf-9ffb-4825-99e2-236640f84e34)
+
 
 ### Implantação (Frontend)
 
