@@ -63,15 +63,15 @@ Este guia descreve como configurar e administrar o sistema Strapi, incluindo a l
 [![Video do YouTube](https://img.youtube.com/vi/NQJA_MgLDIY/0.jpg)](https://www.youtube.com/watch?v=NQJA_MgLDIY)
 
 
-<a name="backup"></a>
 ## Segurança e Backup {#backup}
+<a name="backup"></a>
 6. Assista ao vídeo instrucional sobre como implementar medidas de segurança e configurar rotinas de backup para proteger seus dados e seu painel de administração.
 [Ir para a Introdução](#introducao)
 
 [![Video do YouTube](https://img.youtube.com/vi/LaBtSe7V4mQ/0.jpg)](https://www.youtube.com/watch?v=LaBtSe7V4mQ)
 
 
-
+<a name="tecnologias"></a>
 ## Tecnologias Utilizadas
 
 O site da ASCOP é desenvolvido usando as seguintes tecnologias:
@@ -90,6 +90,9 @@ O site da ASCOP é desenvolvido usando as seguintes tecnologias:
 
 - **Banco de dados**: 
   - PostgreSQL: um banco de dados relacional. Documentação: https://www.postgresql.org/docs/
+
+[Ir para a Introdução](#introducao)
+<a name="integracao"></a>
 ## Integração da plataforma
 
 A plataforma foi integrada da seguinte forma: primeiramente, o backend foi hospedado na plataforma Render, onde ele tem comunicação com o GitHub da organização. Assim, quando fazemos modificações nas entidades do Strapi e fazemos commit para a plataforma, as mudanças são salvas e ocorre um novo deploy na plataforma.
@@ -104,6 +107,10 @@ O painel do Strapi fica hospedado dentro do Render, em um subdomínio com o nome
 
 ![esquema2](https://github.com/ASCOP-TEAM/ASCOP-FRONTEND/assets/47224472/16e34ccf-9ffb-4825-99e2-236640f84e34)
 
+[Ir para a Introdução](#introducao)
+
+<a name="inicializacao"></a>
+## Inicialização em modo de desenvolvimento
 
 ### Implantação (Frontend)
 
@@ -143,6 +150,7 @@ para fazer o dowload das dependencias
 ```bash
   yarn 
 ```
+[Ir para a Introdução](#introducao)
 
 e finalmente para rodar a aplicação em modo desenvolvedor: 
 ```bash
