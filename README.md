@@ -27,33 +27,45 @@ Este guia descreve como configurar e administrar o sistema Strapi, incluindo a l
 - [Segurança e Backup](#backup)
 
 ## Login de Administrador {#login}
+<a name="login"></a>
 1. Assista ao vídeo instrucional sobre como fazer login como administrador.
+[Ir para a Introdução](#introducao)
    
 [![Video do YouTube](https://img.youtube.com/vi/b4SwIDswEBc/0.jpg)](https://www.youtube.com/watch?v=b4SwIDswEBc)
-[Ir para a Introdução](#introducao)
+
 
 ## Gerenciamento de Acessos {#acessos}
+<a name="acessos"></a>
 2. Assista ao vídeo instrucional sobre como configurar as permissões de acesso para diferentes usuários ou grupos.
+[Ir para a Introdução](#introducao)
 
 [![Video do YouTube](https://img.youtube.com/vi/MCtmnZ0u_74/0.jpg)](https://www.youtube.com/watch?v=MCtmnZ0u_74)
 
 ## Cadastro de Produtos {#produtos}
+<a name="produtos"></a>
 3. Assista ao vídeo instrucional sobre como cadastrar produtos na plataforma Strapi.
+[Ir para a Introdução](#introducao)
 
 [![Video do YouTube](https://img.youtube.com/vi/-LtHOUe3QUI/0.jpg)](https://www.youtube.com/watch?v=-LtHOUe3QUI)
 
 ## Cadastro de Relatórios {#relatorios}
+<a name="relatorios"></a>
 4. Assista ao vídeo instrucional sobre como criar relatórios usando a API do Strapi.
+[Ir para a Introdução](#introducao)
 
 [![Video do YouTube](https://img.youtube.com/vi/mNqIOtTZYes/0.jpg)](https://www.youtube.com/watch?v=mNqIOtTZYes)
 
 ## Cadastro de Paginas {#paginas}
+<a name="paginas"></a>
 5. Assista ao vídeo instrucional sobre como gerenciar os dados das páginas dentro da plataforma Strapi.
+[Ir para a Introdução](#introducao)
 
 [![Video do YouTube](https://img.youtube.com/vi/NQJA_MgLDIY/0.jpg)](https://www.youtube.com/watch?v=NQJA_MgLDIY)
 
 ## Segurança e Backup {#backup}
+<a name="backup"></a>
 6. Assista ao vídeo instrucional sobre como implementar medidas de segurança e configurar rotinas de backup para proteger seus dados e seu painel de administração.
+[Ir para a Introdução](#introducao)
 
 [![Video do YouTube](https://img.youtube.com/vi/LaBtSe7V4mQ/0.jpg)](https://www.youtube.com/watch?v=LaBtSe7V4mQ)
 
