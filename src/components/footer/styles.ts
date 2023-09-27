@@ -37,8 +37,15 @@ export const Rodape = styled.div`
   text-align: center;
   position: relative;
 
-  p {
+  p,
+  a {
     color: ${(props) => props.theme.colors.text.secondary};
+
+    a {
+      color: #1cfbad;
+
+      text-decoration: none;
+    }
   }
   &::before,
   &::after {

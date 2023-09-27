@@ -132,10 +132,16 @@ export function FooterContent({ isMobileView = false }: FooterContentProps) {
           </Col>
         </Row>
         <Rodape>
-          <p className="mb-1">
-            Construindo Possibilidades, Transformando Vidas.
+          <p className="mb-1">Desenvolvido com ☕ e ❤️ por</p>
+          <p>
+            <a
+              href="https://linkme.bio/maicongabrielalves99"
+              target="_blank"
+              rel="noreferrer"
+            >
+              © 2023 Maicon Gabriel Alves.
+            </a>
           </p>
-          <p>© 2023 Maicon Gabriel Alves.</p>
         </Rodape>
       </StyledFooter>
     </>
