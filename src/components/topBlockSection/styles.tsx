@@ -52,7 +52,7 @@ export const ContainerParagrap = styled.div`
   p {
     color: #ffffff;
     font-family: 'Inter-Regular', Helvetica;
-    font-size: 19px;
+    /*  font-size: 19px; */
     font-weight: 400;
 
     max-width: 700px;
