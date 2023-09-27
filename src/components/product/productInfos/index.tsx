@@ -62,7 +62,7 @@ export const ProducInfo: React.FC<ProducInfoProps> = ({ produto }) => {
   };
 
   const handleSetColorsTosize = (setSizeInfo: ISizeToColors) => {
-    setSize(null);
+    /*   setSize(null); */
     setSize(setSizeInfo.tamanho);
     setColors(setSizeInfo.cores);
     setColor(null);

@@ -34,7 +34,7 @@ const Producto: NextPage = () => {
             <CartView />
           </Row>
 
-          {produtos.length === 1 && (
+          {produtos.length > 0 && produtos[0]?.attributes && produtos && (
             <Row className="my-4 justify-content-around">
               <Col className="product-imgens" xs={12} lg={5} md={6}>
                 <ProductView {...{ produto: produtos[0] }} />
@@ -45,7 +45,9 @@ const Producto: NextPage = () => {
             </Row>
           )}
 
-          {!produtos.length && <DataNotLoaded />}
+          {!produtos.length && !produtos[0]?.attributes && !produtos && (
+            <DataNotLoaded />
+          )}
         </Section>
       </Container>
     </>
